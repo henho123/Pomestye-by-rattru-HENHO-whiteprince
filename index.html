@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поместье</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== ПАСТЕЛЬНАЯ ПАЛИТРА С УЛУЧШЕННОЙ ТЁМНОЙ ТЕМОЙ ===== */
+        :root {
+            --bg: #f5edff;
+            --surface: #eadcff;
+            --surface-hover: #dfccff;
+            --text-primary: #3a2e4a;
+            --text-secondary: #5f4e77;
+            --accent: #b49ae8;
+            --accent-light: #d9c7ff;
+            --accent-dark: #8f72c4;
+            --border: #d1bee6;
+            --shadow: rgba(120, 80, 160, 0.2);
+            --card-bg: #faf4ff;
+            --footer-bg: #e0d0f0;
+            --glow: rgba(180, 154, 232, 0.4);
+            --secondary-accent: #a3b8e8;
+            --secondary-light: #c5d4ff;
+            --secondary-dark: #7a92c4;
+        }
+
+        /* Улучшенная тёмная тема — более контрастная */
+        [data-theme="dark"] {
+            --bg: #1a1527;
+            --surface: #2e2342;
+            --surface-hover: #3f3157;
+            --text-primary: #f2e9ff;
+            --text-secondary: #cbb7f0;
+            --accent: #b28aff;
+            --accent-light: #6b4f9e;
+            --accent-dark: #8f6ad3;
+            --border: #5b4a78;
+            --shadow: rgba(0, 0, 0, 0.7);
+            --card-bg: #2f2443;
+            --footer-bg: #1e1730;
+            --glow: rgba(178, 138, 255, 0.5);
+            --secondary-accent: #7b6bb3;
+            --secondary-light: #4a3f6b;
+            --secondary-dark: #3a2f57;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 20% 30%, var(--accent-light) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, var(--secondary-light) 0%, transparent 35%),
+                        var(--bg);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: background-color 0.4s ease, color 0.3s ease;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            font-size: 14px;
+        }
+
+        /* ===== ЧАСТИЦЫ ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(4px);
+            animation: float 20s infinite linear;
+            opacity: 0.6;
+        }
+
+        .particle.purple {
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .particle.lavender {
+            background: var(--secondary-accent);
+            box-shadow: 0 0 15px var(--secondary-accent);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% { opacity: 0.7; }
+            50% { opacity: 0.4; }
+            75% { opacity: 0.7; }
+            100% {
+                transform: translateY(-100vh) translateX(20vw) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        .particle:nth-child(1) { left: 2%; top: 5%; width: 16px; height: 16px; animation-duration: 28s; }
+        .particle:nth-child(2) { left: 12%; top: 60%; width: 12px; height: 12px; animation-duration: 32s; }
+        .particle:nth-child(3) { left: 22%; top: 30%; width: 14px; height: 14px; animation-duration: 24s; }
+        .particle:nth-child(4) { left: 32%; top: 75%; width: 10px; height: 10px; animation-duration: 30s; }
+        .particle:nth-child(5) { left: 42%; top: 15%; width: 18px; height: 18px; animation-duration: 26s; }
+        .particle:nth-child(6) { left: 52%; top: 50%; width: 14px; height: 14px; animation-duration: 34s; }
+        .particle:nth-child(7) { left: 62%; top: 25%; width: 16px; height: 16px; animation-duration: 22s; }
+        .particle:nth-child(8) { left: 72%; top: 85%; width: 12px; height: 12px; animation-duration: 36s; }
+        .particle:nth-child(9) { left: 82%; top: 10%; width: 14px; height: 14px; animation-duration: 30s; }
+        .particle:nth-child(10) { left: 92%; top: 40%; width: 12px; height: 12px; animation-duration: 28s; }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ===== ЛЕВОЕ МЕНЮ (выезжает при наведении) ===== */
+        .sidebar {
+            width: 60px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(234, 220, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-right: 2px solid var(--accent-light);
+            box-shadow: 2px 0 20px var(--shadow);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            transition: width 0.3s ease, background-color 0.3s;
+            overflow-x: hidden;
+            white-space: nowrap;
+        }
+
+        [data-theme="dark"] .sidebar {
+            background: rgba(46, 35, 66, 0.9);
+        }
+
+        .sidebar:hover {
+            width: 200px;
+        }
+
+        .sidebar .logo-side {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 10px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: font-size 0.3s;
+        }
+
+        .sidebar:not(:hover) .logo-side {
+            font-size: 0;
+        }
+        .sidebar:not(:hover) .logo-side::first-letter {
+            font-size: 1.5rem;
+            display: block;
+        }
+
+        .nav-links {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 0 5px;
+        }
+
+        .nav-item {
+            list-style: none;
+        }
+
+        .nav-item > a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-radius: 25px;
+            transition: 0.2s;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .sidebar:not(:hover) .nav-item > a {
+            justify-content: center;
+            padding: 10px 0;
+        }
+        .sidebar:not(:hover) .nav-item > a span {
+            display: none;
+        }
+
+        .nav-item > a:hover,
+        .nav-item > a.active {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .theme-toggle {
+            background: linear-gradient(145deg, var(--surface), var(--surface-hover));
+            border: none;
+            border-radius: 30px;
+            padding: 8px 12px;
+            margin: 15px 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 10px var(--shadow);
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .sidebar:not(:hover) .theme-toggle span:not(#themeIcon) {
+            display: none;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--glow);
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+        .main-content {
+            margin-left: 60px;
+            width: calc(100% - 60px);
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        .sidebar:hover + .main-content {
+            margin-left: 200px;
+            width: calc(100% - 200px);
+        }
+
+        main {
+            flex: 1;
+            padding: 20px 25px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--secondary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary-accent));
+            border-radius: 4px;
+            box-shadow: 0 2px 10px var(--glow);
+        }
+
+        /* ===== ГЛАВНАЯ: ФОТО ИЕРАРХИИ ===== */
+        .hierarchy-photo {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .hierarchy-photo img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 30px;
+            box-shadow: 0 20px 30px var(--shadow);
+            border: 4px solid var(--accent-light);
+            transition: transform 0.3s;
+        }
+
+        .hierarchy-photo img:hover {
+            transform: scale(1.01);
+        }
+
+        /* ===== ПОДРАЗДЕЛЫ ===== */
+        .subpage-layout {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .subpage-menu {
+            width: 200px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border-radius: 25px;
+            padding: 15px 0;
+            box-shadow: 0 8px 20px var(--shadow);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(4px);
+        }
+
+        .subpage-menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .subpage-menu-item:hover,
+        .subpage-menu-item.active {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            border-left-color: var(--accent);
+        }
+
+        .subpage-content {
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 1px solid var(--border);
+            min-height: 300px;
+        }
+
+        .subpage-content h4 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--accent-dark);
+        }
+
+        .subpage-content h5 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+            color: var(--accent);
+            border-left: 5px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .subpage-content ul {
+            list-style: disc;
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .subpage-content li {
+            margin-bottom: 8px;
+        }
+
+        /* Стили для рецептов */
+        .recipe-block {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--accent-light);
+        }
+        .recipe-block:last-child {
+            border-bottom: none;
+        }
+        .recipe-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-dark);
+            margin-bottom: 5px;
+        }
+        .recipe-sub {
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        .recipe-list {
+            list-style-type: decimal;
+            padding-left: 20px;
+            color: var(--text-secondary);
+        }
+        .recipe-list li {
+            margin-bottom: 6px;
+        }
+        .note {
+            font-style: italic;
+            color: var(--accent-dark);
+            margin-top: 10px;
+        }
+
+        /* ===== ФУТЕР ===== */
+        footer {
+            background: linear-gradient(145deg, var(--footer-bg), var(--surface));
+            color: var(--text-primary);
+            text-align: center;
+            padding: 15px 0;
+            border-top: 2px solid var(--border);
+            box-shadow: 0 -5px 15px var(--shadow);
+        }
+
+        .footer-line {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--secondary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-sub {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            color: var(--text-secondary);
+        }
+
+        /* ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР ===== */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--surface);
+            border-radius: 60px;
+            padding: 12px 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--accent);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            min-width: 200px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .music-player button {
+            background: var(--accent);
+            border: none;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            color: white;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        .music-player button:hover {
+            transform: scale(1.1);
+            background: var(--accent-dark);
+        }
+        .music-player button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .track-info {
+            font-weight: 600;
+            color: var(--accent-dark);
+            text-shadow: 0 0 5px var(--glow);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+        .volume-control span {
+            font-size: 1.2rem;
+        }
+        .volume-control input[type=range] {
+            flex: 1;
+            height: 5px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, var(--accent), var(--secondary-accent));
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+        .volume-control input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid var(--accent-dark);
+            box-shadow: 0 2px 6px var(--shadow);
+        }
+
+        .music-player audio {
+            display: none;
+        }
+
+        /* ===== АДАПТАЦИЯ ===== */
+        @media (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: relative;
+                width: 100% !important;
+                height: auto;
+                border-right: none;
+                border-bottom: 2px solid var(--accent-light);
+                padding: 10px 0;
+            }
+            .sidebar:hover {
+                width: 100% !important;
+            }
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            .sidebar:hover + .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+                padding: 5px;
+            }
+            .sidebar:not(:hover) .nav-item > a span {
+                display: inline;
+            }
+            .sidebar:not(:hover) .nav-item > a {
+                justify-content: flex-start;
+                padding: 10px 12px;
+            }
+            .sidebar:not(:hover) .logo-side {
+                font-size: 1.5rem;
+            }
+            .sidebar:not(:hover) .logo-side::first-letter {
+                display: inline;
+            }
+            .sidebar:not(:hover) .theme-toggle span:not(#themeIcon) {
+                display: inline;
+            }
+            main {
+                padding: 15px;
+            }
+            .subpage-layout {
+                flex-direction: column;
+            }
+            .subpage-menu {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                padding: 10px;
+            }
+            .subpage-menu-item {
+                padding: 8px 15px;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+            }
+            .subpage-menu-item:hover,
+            .subpage-menu-item.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--accent);
+            }
+            .music-player {
+                right: 10px;
+                left: 10px;
+                bottom: 10px;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="particles">
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+    </div>
+
+    <!-- Левое меню -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-side">Поместье</div>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="#" data-page="home" class="nav-link"><span>Главная</span></a></li>
+            <li class="nav-item"><a href="#" data-page="treatment" class="nav-link"><span>Лечение</span></a></li>
+            <li class="nav-item"><a href="#" data-page="lectures" class="nav-link"><span>Лекции</span></a></li>
+            <li class="nav-item"><a href="#" data-page="cooking" class="nav-link"><span>Готовка</span></a></li>
+            <li class="nav-item"><a href="#" data-page="medicine" class="nav-link"><span>Лекарства</span></a></li>
+            <li class="nav-item"><a href="#" data-page="kakushi" class="nav-link"><span>Какуши</span></a></li>
+        </ul>
+        <button id="themeToggle" class="theme-toggle">
+            <span id="themeIcon">🌙</span>
+            <span id="themeText">Тёмная</span>
+        </button>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="main-content" id="mainContent">
+        <main>
+            <!-- Главная страница с фото иерархии -->
+            <div id="home-page" class="page active">
+                <div class="container">
+                    <h2 class="section-title">Иерархия поместья</h2>
+                    <div class="hierarchy-photo">
+                        <img src="https://storage.yandexcloud.net/fotora.ru/8c267b8baeb227bd.png" alt="Иерархия поместья">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лечение -->
+            <div id="treatment-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Лечение</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="treatment-menu">
+                            <div class="subpage-menu-item active" data-sub="burns">Ожоги</div>
+                            <div class="subpage-menu-item" data-sub="fractures">Переломы</div>
+                            <div class="subpage-menu-item" data-sub="wounds">Раны</div>
+                            <div class="subpage-menu-item" data-sub="poisoning">Отравление</div>
+                            <div class="subpage-menu-item" data-sub="frostbite">Обморожение</div>
+                            <div class="subpage-menu-item" data-sub="instruments">Мед. инструменты</div>
+                        </div>
+                        <div class="subpage-content" id="treatment-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лекции -->
+            <div id="lectures-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Лекции</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="lectures-menu">
+                            <div class="subpage-menu-item active" data-sub="firstaid">Первая мед. помощь</div>
+                            <div class="subpage-menu-item" data-sub="cpr">Сердечно-легочная реанимация</div>
+                        </div>
+                        <div class="subpage-content" id="lectures-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Готовка -->
+            <div id="cooking-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Готовка</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="cooking-menu">
+                            <div class="subpage-menu-item active" data-sub="fav">Любимые блюда столпов</div>
+                            <div class="subpage-menu-item" data-sub="snacks">Закуски и легкие блюда</div>
+                            <div class="subpage-menu-item" data-sub="soups">Супы и похлебки</div>
+                            <div class="subpage-menu-item" data-sub="sweets">Сладости</div>
+                            <div class="subpage-menu-item" data-sub="drinks">Напитки</div>
+                        </div>
+                        <div class="subpage-content" id="cooking-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лекарства -->
+            <div id="medicine-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Лекарства</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="medicine-menu">
+                            <div class="subpage-menu-item active" data-sub="ointments">Мази</div>
+                            <div class="subpage-menu-item" data-sub="tinctures">Настойки</div>
+                            <div class="subpage-menu-item" data-sub="decoctions">Отвары</div>
+                            <div class="subpage-menu-item" data-sub="poisons">Яды</div>
+                        </div>
+                        <div class="subpage-content" id="medicine-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Какуши -->
+            <div id="kakushi-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Какуши</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="kakushi-menu">
+                            <div class="subpage-menu-item active" data-sub="dresscode">Дресс-код</div>
+                            <div class="subpage-menu-item" data-sub="promotion">Система повышения</div>
+                            <div class="subpage-menu-item" data-sub="atarashi">Атараши</div>
+                        </div>
+                        <div class="subpage-content" id="kakushi-content"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="footer-line">rattru • HENHO • whiteprince</div>
+                <div class="footer-sub">s5.yufu.su:27017 • 2026</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Музыкальный плеер -->
+    <div class="music-player">
+        <div class="player-controls">
+            <button id="prevBtn" title="Предыдущий трек">⏮</button>
+            <button id="playPauseBtn">▶</button>
+            <button id="nextBtn" title="Следующий трек">⏭</button>
+        </div>
+        <div class="track-info" id="trackName">Трек 1 из 2</div>
+        <div class="volume-control">
+            <span>🔊</span>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+        </div>
+        <audio id="bgMusic" preload="none"></audio>
+    </div>
+
+    <script>
+        // Переключение основных страниц
+        const pages = {
+            home: document.getElementById('home-page'),
+            treatment: document.getElementById('treatment-page'),
+            lectures: document.getElementById('lectures-page'),
+            cooking: document.getElementById('cooking-page'),
+            medicine: document.getElementById('medicine-page'),
+            kakushi: document.getElementById('kakushi-page')
+        };
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function switchPage(pageId) {
+            Object.values(pages).forEach(p => p.classList.remove('active'));
+            if (pages[pageId]) {
+                pages[pageId].classList.add('active');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.page === pageId) link.classList.add('active');
+                });
+                history.pushState({page: pageId}, '', `#${pageId}`);
+                
+                // Активируем первый подраздел
+                if (pageId === 'treatment') {
+                    const firstItem = document.querySelector('#treatment-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#treatment-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('treatment', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'lectures') {
+                    const firstItem = document.querySelector('#lectures-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#lectures-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('lectures', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'cooking') {
+                    const firstItem = document.querySelector('#cooking-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#cooking-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('cooking', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'medicine') {
+                    const firstItem = document.querySelector('#medicine-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#medicine-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('medicine', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'kakushi') {
+                    const firstItem = document.querySelector('#kakushi-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#kakushi-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('kakushi', firstItem.dataset.sub);
+                    }
+                }
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.dataset.page;
+                switchPage(pageId);
+            });
+        });
+
+        // Конфигурация подстраниц
+        const subpageConfigs = [
+            {
+                page: 'treatment',
+                menuId: 'treatment-menu',
+                contentId: 'treatment-content',
+                subpages: {
+                    burns: 'Ожоги',
+                    fractures: 'Переломы',
+                    wounds: 'Раны',
+                    poisoning: 'Отравление',
+                    frostbite: 'Обморожение',
+                    instruments: 'Медицинские инструменты'
+                }
+            },
+            {
+                page: 'lectures',
+                menuId: 'lectures-menu',
+                contentId: 'lectures-content',
+                subpages: {
+                    firstaid: 'Первая мед. помощь',
+                    cpr: 'Сердечно-легочная реанимация'
+                }
+            },
+            {
+                page: 'cooking',
+                menuId: 'cooking-menu',
+                contentId: 'cooking-content',
+                subpages: {
+                    fav: 'Любимые блюда столпов',
+                    snacks: 'Закуски и легкие блюда',
+                    soups: 'Супы и похлебки',
+                    sweets: 'Сладости',
+                    drinks: 'Напитки'
+                }
+            },
+            {
+                page: 'medicine',
+                menuId: 'medicine-menu',
+                contentId: 'medicine-content',
+                subpages: {
+                    ointments: 'Мази',
+                    tinctures: 'Настойки',
+                    decoctions: 'Отвары',
+                    poisons: 'Яды'
+                }
+            },
+            {
+                page: 'kakushi',
+                menuId: 'kakushi-menu',
+                contentId: 'kakushi-content',
+                subpages: {
+                    dresscode: 'Дресс-код',
+                    promotion: 'Система повышения',
+                    atarashi: 'Атараши'
+                }
+            }
+        ];
+
+        function updateSubpageContent(pageId, subKey) {
+            const config = subpageConfigs.find(c => c.page === pageId);
+            if (!config) return;
+            const contentDiv = document.getElementById(config.contentId);
+            const subName = config.subpages[subKey] || subKey;
+            
+            let html = `<h4>${subName}</h4>`;
+            
+            // Обработка специальных случаев
+            if (pageId === 'treatment' && subKey === 'instruments') {
+                html = `
+                    <h4>Медицинские инструменты</h4>
+                    
+                    <h5>Хирургические инструменты</h5>
+                    <ul>
+                        <li><strong>Скальпель</strong> – Основной инструмент для разрезов при операциях и вскрытии абсцессов.</li>
+                        <li><strong>Хирургические ножницы</strong> – Используются для рассечения тканей, бинтов, нитей.</li>
+                        <li><strong>Щипцы и пинцеты</strong> – Применяются для удержания тканей, удаления инородных тел и осколков.</li>
+                        <li><strong>Иглы и держатели игл</strong> – Используются для наложения швов после операций и ранений.</li>
+                    </ul>
+                    
+                    <h5>Диагностические инструменты</h5>
+                    <ul>
+                        <li><strong>Стетоскоп</strong> – Используется для выслушивания сердца и лёгких.</li>
+                        <li><strong>Ртутный термометр</strong> – Применяется для измерения температуры тела при лихорадках, инфекциях и воспалениях.</li>
+                        <li><strong>Тонометр</strong> – Используется для измерения артериального давления.</li>
+                        <li><strong>Перкуссионный молоточек</strong> – Применяется для простукивания грудной клетки и проверки рефлексов.</li>
+                    </ul>
+                    
+                    <h5>Перевязочные и вспомогательные инструменты</h5>
+                    <ul>
+                        <li><strong>Бинты и марля</strong> – Применяются для перевязки ран, остановки кровотечений и фиксации повязок.</li>
+                        <li><strong>Стеклянные шприцы</strong> – Используются для инъекций лекарств, вакцин и обезболивающих средств.</li>
+                        <li><strong>Металлические лотки и ёмкости</strong> – Служат для хранения и стерилизации инструментов.</li>
+                        <li><strong>Антисептические растворы</strong> – Используются для обработки ран и инструментов (спирт, карболовая кислота).</li>
+                    </ul>
+                `;
+            }
+            else if (pageId === 'cooking' && subKey === 'fav') {
+                // Подробные рецепты для любимых блюд столпов
+                html = `
+                    <h4>Любимые блюда столпов</h4>
+                    
+                    <div class="recipe-block">
+                        <div class="recipe-title">Кеджуро Ренгоку</div>
+                        <div class="recipe-sub">Сладкий картофельный мисо-суп</div>
+                        <ol class="recipe-list">
+                            <li>В кастрюле с толстым дном разогрейте масло. Добавьте мелко нарезанный лук и обжаривайте до мягкости. Затем добавьте измельченный чеснок и тертый имбирь, готовьте еще минуту.</li>
+                            <li>Добавьте в кастрюлю очищенный и нарезанный кубиками батат. Залейте овощным бульоном так, чтобы он полностью покрывал овощи. Доведите до кипения, затем убавьте огонь и варите 15-20 минут, пока батат не станет мягким.</li>
+                            <li>В отдельной маленькой миске смешайте пару ложек теплого бульона из кастрюли с пастой мисо до полного растворения комочков. Затем вылейте эту смесь обратно в суп.</li>
+                            <li>С помощью венчика превратите суп в однородную кремовую массу.</li>
+                            <li>Разлейте суп по тарелкам, украсьте зеленью.</li>
+                        </ol>
+                    </div>
+
+                    <div class="recipe-block">
+                        <div class="recipe-title">Обанай Игуро</div>
+                        <div class="recipe-sub">Тороро комбу</div>
+                        <p class="note">Тороро комбу — это не основное блюдо, а добавка или приправа. Её можно добавить к готовому рису, лапше и т.д.</p>
+                    </div>
+
+                    <div class="recipe-block">
+                        <div class="recipe-title">Гемей Химеджима</div>
+                        <div class="recipe-sub">Такикоми-гохан</div>
+                        <ol class="recipe-list">
+                            <li>Тщательно промойте рис в холодной воде, меняя воду несколько раз, пока она не станет прозрачной. Откиньте рис на сито и оставьте на 15–30 минут для просушки.</li>
+                            <li>Нарежьте овощи и грибы мелкими кусочками примерно одного размера.</li>
+                            <li>Обжарьте тофу абураагэ и промокните бумажным полотенцем, чтобы удалить лишнее масло, затем нарежьте соломкой. Так же обжарьте курицу.</li>
+                            <li>Водоросль комбу и стружку тунца сварите в воде несколько минут и процедите бульон.</li>
+                            <li>В мерном стакане смешайте готовый бульон, соевый соус, мирин, сакэ и соль.</li>
+                            <li>В кастрюлю выложите рис и залейте его смесью бульона. Сверху на рис аккуратно выложите все остальные ингредиенты: овощи, грибы, тофу абураагэ, курицу. <strong>Важно: НЕ ПЕРЕМЕШИВАЙТЕ</strong>. Ингредиенты должны лежать слоем на рисе.</li>
+                            <li>Накройте крышкой и включите средний огонь. Рис слегка подрумянивается снизу, образуя хрустящую корочку "окогэ".</li>
+                            <li>Когда рис сварится, не открывайте крышку сразу. Дайте ему настояться под крышкой еще 10–15 минут.</li>
+                            <li>Откройте крышку и аккуратно перемешайте содержимое лопаткой заворачивающими движениями. Подавайте горячим, украсив зеленым луком, кунжутом или свежим горошком.</li>
+                        </ol>
+                    </div>
+
+                    <div class="recipe-block">
+                        <div class="recipe-title">Шинобу Кочо</div>
+                        <div class="recipe-sub">Цукудани с имбирем</div>
+                        <ol class="recipe-list">
+                            <li>Пластинки нори нарежьте тонкой соломкой. Имбирь очистите и натрите на мелкой терке (или очень тонко нарежьте соломкой).</li>
+                            <li>В эмалированную кастрюлю влейте сакэ и соевый соус, добавьте сахар. Отправьте туда же нарезанные нори и имбирь. Хорошо перемешайте.</li>
+                            <li>Поставьте кастрюлю на средний огонь. Когда смесь начнет закипать, увеличьте огонь до сильного. После закипания снова убавьте огонь до минимума и варите, периодически помешивая, до тех пор, пока водоросли не станут мягкими, а жидкость практически полностью не выпарится.</li>
+                            <li>Готовую закуску переложите в небольшие пиалы. Традиционно цукудани подают как приправу к простому отварному рису.</li>
+                        </ol>
+                    </div>
+
+                    <div class="recipe-block">
+                        <div class="recipe-title">Мицури Канроджи</div>
+                        <div class="recipe-sub">Сакура моти и данго</div>
+                        <p><strong>Сакура моти:</strong></p>
+                        <ol class="recipe-list">
+                            <li>Маринованные листья сакуры аккуратно промойте от излишков соли и обсушите бумажным полотенцем.</li>
+                            <li>В сотейнике вскипятите воду. Снимите с огня, сразу всыпьте рисовую муку и быстро перемешайте до однородности. Накройте крышкой и дайте постоять 5 минут.</li>
+                            <li>Переложите тесто в миску или дуршлаг, застеленный влажной тканью, и установите над кастрюлей с кипящей водой. Готовьте на пару 20 минут.</li>
+                            <li>Горячее тесто переложите в миску. Добавьте сахар и разведенный краситель. Тщательно вымешивайте деревянной лопаткой, пока сахар не растворится, а масса не станет эластичной и блестящей. Дайте тесту немного остыть.</li>
+                            <li>Влажными руками сформируйте из пасты анко 8 шариков. Из рисового теста также сделайте 8 шариков, затем каждый расплющите в лепешку. В центр лепешки положите шарик анко и защипните края, формируя моти.</li>
+                            <li>Каждый моти заверните в подготовленный лист сакуры (лицевой стороной листа наружу). Сакура моти готовы.</li>
+                        </ol>
+                        <p><strong>Данго:</strong></p>
+                        <ol class="recipe-list">
+                            <li>В миске смешайте рисовую муку с сахаром. Постепенно вливайте воду, замешивая мягкое, эластичное тесто, не липнущее к рукам.</li>
+                            <li>Скатайте тесто в шарики. Приготовьте шарики на пару 10-15 минут.</li>
+                            <li>Когда шарики немного остынут, нанижите их на деревянные шпажки по 4-5 штук.</li>
+                            <li>Смешайте в маленькой кастрюльке воду, соевый соус, сахар и крахмал. Тщательно размешайте. Поставьте на медленный огонь и, постоянно помешивая, варите до загустения. Соус должен стать прозрачным и густым.</li>
+                            <li>Полейте готовые данго соусом и подавайте теплыми.</li>
+                        </ol>
+                    </div>
+
+                    <div class="recipe-block">
+                        <div class="recipe-title">Муичиро Токито</div>
+                        <div class="recipe-sub">Отварной редис с соусом</div>
+                        <ol class="recipe-list">
+                            <li>Тщательно вымойте редис.</li>
+                            <li>Налейте в кастрюлю немного воды (примерно на 1-2 пальца), добавьте соль и чайную ложку сахара. Доведите до кипения. Положите редис (целиком или крупные экземпляры можно разрезать пополам) и варите на среднем огне 7-8 минут.</li>
+                            <li>Откиньте готовый редис на дуршлаг, дайте воде стечь. Переложите в блюдо, полейте растопленным сливочным маслом и обильно посыпьте мелко рубленым укропом.</li>
+                        </ol>
+                    </div>
+
+                    <div class="recipe-block">
+                        <div class="recipe-title">Гию Томиока</div>
+                        <div class="recipe-sub">Тушеный лосось с редисом</div>
+                        <ol class="recipe-list">
+                            <li>Лук нарежьте мелким кубиком. Чеснок измельчите. Редис тщательно вымойте, обрежьте хвостики и нарежьте кружочками. Филе лосося нарежьте порционными кусками, посолите и поперчите.</li>
+                            <li>В глубокой сковороде или сотейнике растопите сливочное масло на среднем огне. Обжарьте лук до мягкости. Добавьте чеснок и готовьте еще минуту.</li>
+                            <li>Выложите в сковороду нарезанный редис. Готовьте, помешивая. Редис начнет светлеть и слегка карамелизоваться.</li>
+                            <li>Влейте в сковороду сливки, доведите до слабого кипения. Аккуратно выложите кусочки лосося в сливочный соус. Убавьте огонь до минимума, накройте крышкой и тушите 10-15 минут.</li>
+                            <li>Рыба должна стать непрозрачной и легко разделяться на волокна. Выключите огонь, при желании сбрызните лимонным соком. Дайте постоять под крышкой пару минут. Подавайте, щедро посыпав рубленой зеленью.</li>
+                        </ol>
+                    </div>
+                `;
+            }
+            else {
+                // Стандартные описания для других подразделов
+                let description = '';
+                if (pageId === 'treatment') {
+                    if (subKey === 'burns') description = 'Первая помощь при ожогах: охладить поражённое место проточной водой, наложить стерильную повязку. При тяжёлых ожогах немедленно обратиться к шиноби с медицинскими навыками.';
+                    else if (subKey === 'fractures') description = 'При переломах необходимо обездвижить конечность с помощью шины, дать обезболивающее, транспортировать в поместье.';
+                    else if (subKey === 'wounds') description = 'Раны промыть, обработать антисептиком, наложить давящую повязку при кровотечении.';
+                    else if (subKey === 'poisoning') description = 'При отравлении — промыть желудок, дать абсорбенты, обратиться к медику.';
+                    else if (subKey === 'frostbite') description = 'Обмороженные участки согревать постепенно, не растирать, наложить теплоизолирующую повязку.';
+                } else if (pageId === 'lectures') {
+                    if (subKey === 'firstaid') description = 'Основные принципы: остановка кровотечения, иммобилизация, транспортировка пострадавшего. Важно сохранять спокойствие и действовать быстро.';
+                    else if (subKey === 'cpr') description = 'Сердечно-лёгочная реанимация: 30 надавливаний на грудину, затем 2 вдоха. Проводить до восстановления дыхания или прибытия помощи.';
+                } else if (pageId === 'cooking') {
+                    if (subKey === 'snacks') description = 'Лёгкие закуски: рисовые шарики, овощные темпура, маринованный имбирь.';
+                    else if (subKey === 'soups') description = 'Мисо-суп, суп с тофу и водорослями, лапша удон в бульоне.';
+                    else if (subKey === 'sweets') description = 'Сакурамоти, данго, тайяки — традиционные японские сладости.';
+                    else if (subKey === 'drinks') description = 'Зелёный чай, сливовое вино, настойки из ягод.';
+                } else if (pageId === 'medicine') {
+                    if (subKey === 'ointments') description = 'Заживляющие мази на основе трав и масел. Ускоряют регенерацию тканей.';
+                    else if (subKey === 'tinctures') description = 'Настойки на спирту: валериана, пустырник, женьшень — для восстановления сил.';
+                    else if (subKey === 'decoctions') description = 'Отвары из кореньев и трав: противовоспалительные, жаропонижающие.';
+                    else if (subKey === 'poisons') description = 'Яды растительного и животного происхождения: используются только с разрешения столпа.';
+                } else if (pageId === 'kakushi') {
+                    if (subKey === 'dresscode') description = 'Свободная форма одежды, но с уважением к окружающим — не пересекай рамки приличия.';
+                    else if (subKey === 'promotion') description = 'Система повышения разрабатывается...';
+                    else if (subKey === 'atarashi') description = 'Атараши — новые члены отряда какуши, проходят обучение.';
+                }
+                html += `<p>${description}</p>`;
+            }
+            
+            contentDiv.innerHTML = html;
+        }
+
+        // Обработчики подменю
+        subpageConfigs.forEach(config => {
+            const menu = document.getElementById(config.menuId);
+            if (!menu) return;
+            const items = menu.querySelectorAll('.subpage-menu-item');
+            items.forEach(item => {
+                item.addEventListener('click', function() {
+                    items.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    const subKey = this.dataset.sub;
+                    updateSubpageContent(config.page, subKey);
+                });
+            });
+        });
+
+        // Загрузка по хэшу
+        window.addEventListener('load', function() {
+            const hash = location.hash.substring(1);
+            if (hash && pages[hash]) {
+                switchPage(hash);
+            } else {
+                switchPage('home');
+            }
+        });
+
+        window.addEventListener('popstate', function(e) {
+            if (e.state && e.state.page) {
+                switchPage(e.state.page);
+            } else {
+                switchPage('home');
+            }
+        });
+
+        // Тёмная тема
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const body = document.body;
+        function setTheme(theme) {
+            body.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            themeText.textContent = theme === 'dark' ? 'Светлая' : 'Тёмная';
+            localStorage.setItem('loveTheme', theme);
+        }
+        themeToggle.addEventListener('click', () => {
+            const current = body.getAttribute('data-theme');
+            setTheme(current === 'light' ? 'dark' : 'light');
+        });
+        const saved = localStorage.getItem('loveTheme') || 'light';
+        setTheme(saved);
+
+        // ========== ПЛЕЕР С ПЛЕЙЛИСТОМ ==========
+        const playlist = [
+            {
+                title: "Ado - Odo",
+                src: "https://download2272.mediafire.com/j41nzkx6r4ygmxwzjDvyRhSZlDzcF7VCOQQH8yBWizDciHA_NyXcbgEBe7MV5-DQwBRoZIuCqucAr3GCzbNvcKGKcvf8hbNM7Z7wyDsz5UiVrQoMs3eW7v4cfXTVpVxz0Yt5vluyrjDNtn61XGgYjOO2rgwRKw_dz47wSmOm2qMdycE/xxs9kh58wl38bhr/Ado_-_Odo_72942702.mp3"
+            },
+            {
+                title: "Cherry Blossoms",
+                src: "https://download1339.mediafire.com/2cur5xd1dr7gVoqt8as7vpw01PWRZ6bLVFuOeZCNyNZrK4_n6_McjlDCFVJjlK5yd0laSlqWqg3jHjxf7GO9HkOXwhwU6HPijMjwn8zM_GybKTKFQy0rfDzYqdpshvV7WbkG_0RcAilap78EZc78FSVXJXdKD_bxz50UEjazLVY7wG8/4xstss5yadmglfv/Cherry+Blossoms.mp3"
+            }
+        ];
+
+        let currentTrackIndex = 1; // второй трек (Cherry Blossoms)
+        const audio = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const trackNameSpan = document.getElementById('trackName');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        function loadTrack(index) {
+            if (index < 0) index = playlist.length - 1;
+            if (index >= playlist.length) index = 0;
+            currentTrackIndex = index;
+            audio.src = playlist[currentTrackIndex].src;
+            trackNameSpan.textContent = `${playlist[currentTrackIndex].title} (${currentTrackIndex+1}/${playlist.length})`;
+            audio.load();
+            if (playBtn.textContent === '⏸') {
+                audio.play().catch(() => {
+                    playBtn.textContent = '▶';
+                });
+            }
+        }
+
+        loadTrack(1); // Cherry Blossoms по умолчанию
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(() => {
+                    alert('Не удалось воспроизвести. Возможно, ссылка устарела.');
+                });
+                playBtn.textContent = '⏸';
+            } else {
+                audio.pause();
+                playBtn.textContent = '▶';
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            loadTrack(currentTrackIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            loadTrack(currentTrackIndex + 1);
+        });
+
+        audio.addEventListener('ended', () => {
+            nextBtn.click();
+        });
+
+        audio.volume = volumeSlider.value;
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+
+        audio.addEventListener('error', () => {
+            playBtn.textContent = '▶';
+            trackNameSpan.textContent += ' (ошибка)';
+        });
+    </script>
+</body>
+</html>
