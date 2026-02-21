@@ -467,6 +467,56 @@
             margin-top: 10px;
         }
 
+        /* ===== ГАЛЕРЕЯ ДЛЯ ПОМЕЩЕНИЙ ===== */
+        .rooms-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .room-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px var(--shadow);
+            border: 2px solid var(--accent-light);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--glow);
+        }
+
+        .room-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 2px solid var(--accent-light);
+        }
+
+        .room-card .room-name {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--accent-dark);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 900px) {
+            .rooms-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .rooms-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* ===== ФУТЕР ===== */
         footer {
             background: linear-gradient(145deg, var(--footer-bg), var(--surface));
@@ -853,11 +903,72 @@
                 </div>
             </div>
 
-            <!-- Помещения поместья бабочки -->
+            <!-- Помещения поместья бабочки (галерея с обновлёнными ссылками) -->
             <div id="rooms-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Помещения поместья бабочки</h2>
-                    <!-- Здесь можно добавить контент позже -->
+                    <div class="rooms-gallery">
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/964f421c97450113.jpeg" alt="Поместье">
+                            <div class="room-name">Поместье</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/54fb15952da81367.jpeg" alt="Зона ожидания">
+                            <div class="room-name">Зона ожидания</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/74564551395427ad.jpeg" alt="Комната Канао">
+                            <div class="room-name">Комната Канао</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/53e5f62a918163b1.jpeg" alt="Комната сестричек и Аой">
+                            <div class="room-name">Комната сестричек и Аой</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/d5e663867875ac74.jpeg" alt="Склад">
+                            <div class="room-name">Склад</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/ce39321ece78c644.jpeg" alt="Зона отдыха">
+                            <div class="room-name">Зона отдыха</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/b78e1363e8334149.jpeg" alt="Пасека Мицури и сад Шинобу">
+                            <div class="room-name">Пасека Мицури и сад Шинобу</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/2fbb47f07a2707cc.jpeg" alt="Могила Канаэ Кочо">
+                            <div class="room-name">Могила Канаэ Кочо</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/d90db68c4cd61172.jpeg" alt="Зона для игр/тренировок">
+                            <div class="room-name">Зона для игр/тренировок</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/f371c4932c48af6d.jpeg" alt="Лестница на 2 этаж">
+                            <div class="room-name">Лестница на 2 этаж</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/2923c42e41b2ae81.jpeg" alt="Подвал">
+                            <div class="room-name">Подвал</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/60a9836cd3408297.jpeg" alt="Лабораторная">
+                            <div class="room-name">Лабораторная</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/34b5861ca0565495.jpeg" alt="Операционная">
+                            <div class="room-name">Операционная</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/469592910ecb6a04.jpeg" alt="Лазарет">
+                            <div class="room-name">Лазарет</div>
+                        </div>
+                        <div class="room-card">
+                            <img src="https://storage.yandexcloud.net/new.fotora.ru/b4a91e8247ced854.jpeg" alt="Кухня">
+                            <div class="room-name">Кухня</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -1087,7 +1198,7 @@
                     <h5>Перевязочные и вспомогательные инструменты</h5><ul><li><strong>Бинты и марля</strong> – Применяются для перевязки ран, остановки кровотечений и фиксации повязок.</li><li><strong>Стеклянные шприцы</strong> – Используются для инъекций лекарств, вакцин и обезболивающих средств.</li><li><strong>Металлические лотки и ёмкости</strong> – Служат для хранения и стерилизации инструментов.</li><li><strong>Антисептические растворы</strong> – Используются для обработки ран и инструментов (спирт, карболовая кислота).</li></ul>
                 `;
             }
-            // Лекции - первая помощь (обновлено)
+            // Лекции - первая помощь
             else if (pageId === 'lectures' && subKey === 'firstaid') {
                 html = `
                     <h4>Первая медицинская помощь (ПМП)</h4>
@@ -1126,7 +1237,7 @@
                     <p class="note">От ваших действий зависят минуты, а иногда и вся жизнь человека.</p>
                 `;
             }
-            // Лекции - СЛР (обновлено)
+            // Лекции - СЛР
             else if (pageId === 'lectures' && subKey === 'cpr') {
                 html = `
                     <h4>Сердечно-лёгочная реанимация</h4>
