@@ -68,6 +68,7 @@
             position: relative;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             font-size: 14px;
         }
 
@@ -134,61 +135,37 @@
             list-style: none;
         }
 
-        /* ===== ЛЕВОЕ МЕНЮ (выезжает при наведении) ===== */
-        .sidebar {
-            width: 60px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            background: rgba(234, 220, 255, 0.85);
+        /* ===== ВЕРХНЕЕ МЕНЮ (ВСЕГДА ВИДИМОЕ) ===== */
+        .top-bar {
+            background: var(--surface);
             backdrop-filter: blur(10px);
-            border-right: 2px solid var(--accent-light);
-            box-shadow: 2px 0 20px var(--shadow);
+            border-bottom: 2px solid var(--accent-light);
+            box-shadow: 0 2px 20px var(--shadow);
             z-index: 100;
             display: flex;
-            flex-direction: column;
-            padding: 20px 0;
-            transition: width 0.3s ease, background-color 0.3s;
-            overflow-x: hidden;
-            white-space: nowrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        [data-theme="dark"] .sidebar {
-            background: rgba(46, 35, 66, 0.9);
-        }
-
-        .sidebar:hover {
-            width: 200px;
-        }
-
-        .sidebar .logo-side {
+        .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 0 10px;
             background: linear-gradient(135deg, var(--accent), var(--secondary-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            transition: font-size 0.3s;
-        }
-
-        .sidebar:not(:hover) .logo-side {
-            font-size: 0;
-        }
-        .sidebar:not(:hover) .logo-side::first-letter {
-            font-size: 1.5rem;
-            display: block;
+            white-space: nowrap;
         }
 
         .nav-links {
-            flex: 1;
             display: flex;
-            flex-direction: column;
             gap: 5px;
-            padding: 0 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex: 1;
         }
 
         .nav-item {
@@ -196,26 +173,14 @@
         }
 
         .nav-item > a {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 10px;
-            padding: 10px 12px;
+            display: inline-block;
+            padding: 8px 15px;
             font-weight: 600;
             color: var(--text-secondary);
             border-radius: 25px;
             transition: 0.2s;
             font-size: 0.95rem;
             white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .sidebar:not(:hover) .nav-item > a {
-            justify-content: center;
-            padding: 10px 0;
-        }
-        .sidebar:not(:hover) .nav-item > a span {
-            display: none;
         }
 
         .nav-item > a:hover,
@@ -229,25 +194,17 @@
             background: linear-gradient(145deg, var(--surface), var(--surface-hover));
             border: none;
             border-radius: 30px;
-            padding: 8px 12px;
-            margin: 15px 10px 20px;
+            padding: 8px 15px;
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-primary);
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
             cursor: pointer;
-            transition: 0.2s;
             border: 1px solid var(--border);
             box-shadow: 0 4px 10px var(--shadow);
             white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .sidebar:not(:hover) .theme-toggle span:not(#themeIcon) {
-            display: none;
         }
 
         .theme-toggle:hover {
@@ -257,19 +214,11 @@
 
         /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .main-content {
-            margin-left: 60px;
-            width: calc(100% - 60px);
-            min-height: 100vh;
+            flex: 1;
             position: relative;
             z-index: 2;
             display: flex;
             flex-direction: column;
-            transition: margin-left 0.3s ease, width 0.3s ease;
-        }
-
-        .sidebar:hover + .main-content {
-            margin-left: 200px;
-            width: calc(100% - 200px);
         }
 
         main {
@@ -677,53 +626,14 @@
 
         /* ===== АДАПТАЦИЯ ===== */
         @media (max-width: 800px) {
-            body {
+            .top-bar {
                 flex-direction: column;
-            }
-            .sidebar {
-                position: relative;
-                width: 100% !important;
-                height: auto;
-                border-right: none;
-                border-bottom: 2px solid var(--accent-light);
-                padding: 10px 0;
-            }
-            .sidebar:hover {
-                width: 100% !important;
-            }
-            .main-content {
-                margin-left: 0 !important;
-                width: 100% !important;
-            }
-            .sidebar:hover + .main-content {
-                margin-left: 0 !important;
-                width: 100% !important;
+                align-items: stretch;
             }
             .nav-links {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 5px;
-                padding: 5px;
-            }
-            .sidebar:not(:hover) .nav-item > a span {
-                display: inline;
-            }
-            .sidebar:not(:hover) .nav-item > a {
                 justify-content: flex-start;
-                padding: 10px 12px;
-            }
-            .sidebar:not(:hover) .logo-side {
-                font-size: 1.5rem;
-            }
-            .sidebar:not(:hover) .logo-side::first-letter {
-                display: inline;
-            }
-            .sidebar:not(:hover) .theme-toggle span:not(#themeIcon) {
-                display: inline;
-            }
-            main {
-                padding: 15px;
+                overflow-x: auto;
+                padding-bottom: 5px;
             }
             .subpage-layout {
                 flex-direction: column;
@@ -766,9 +676,9 @@
         <div class="particle purple"></div><div class="particle lavender"></div>
     </div>
 
-    <!-- Левое меню -->
-    <div class="sidebar" id="sidebar">
-        <div class="logo-side">Поместье</div>
+    <!-- Верхняя панель навигации -->
+    <div class="top-bar">
+        <div class="logo">Поместье</div>
         <ul class="nav-links">
             <li class="nav-item"><a href="#" data-page="home" class="nav-link"><span>Главная</span></a></li>
             <li class="nav-item"><a href="#" data-page="treatment" class="nav-link"><span>Лечение</span></a></li>
@@ -776,7 +686,8 @@
             <li class="nav-item"><a href="#" data-page="cooking" class="nav-link"><span>Готовка</span></a></li>
             <li class="nav-item"><a href="#" data-page="medicine" class="nav-link"><span>Лекарства</span></a></li>
             <li class="nav-item"><a href="#" data-page="kakushi" class="nav-link"><span>Какуши</span></a></li>
-            <li class="nav-item"><a href="#" data-page="rooms" class="nav-link"><span>Помещения поместья бабочки</span></a></li>
+            <li class="nav-item"><a href="#" data-page="rooms" class="nav-link"><span>Помещения</span></a></li>
+            <li class="nav-item"><a href="#" data-page="gunshinrib" class="nav-link"><span>Гуншинрибу</span></a></li>
         </ul>
         <button id="themeToggle" class="theme-toggle">
             <span id="themeIcon">🌙</span>
@@ -817,7 +728,7 @@
                             <div class="tree-node">Атараши</div>
                         </div>
                         <div class="tree-connector">↓</div>
-                        <div class="tree-row"><div class="tree-node">Чистильщики <span class="sub"></span></div></div>
+                        <div class="tree-row"><div class="tree-node">Чистильщики <span class="sub">(изменено)</span></div></div>
                     </div>
                 </div>
             </div>
@@ -840,7 +751,7 @@
                 </div>
             </div>
 
-            <!-- Лекции (с новой подстраницей "Переломы") -->
+            <!-- Лекции -->
             <div id="lectures-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Лекции</h2>
@@ -904,71 +815,46 @@
                 </div>
             </div>
 
-            <!-- Помещения поместья бабочки (галерея) -->
+            <!-- Помещения поместья бабочки -->
             <div id="rooms-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Помещения поместья бабочки</h2>
                     <div class="rooms-gallery">
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/964f421c97450113.jpeg" alt="Поместье">
-                            <div class="room-name">Поместье</div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/964f421c97450113.jpeg" alt="Поместье"><div class="room-name">Поместье</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/54fb15952da81367.jpeg" alt="Зона ожидания"><div class="room-name">Зона ожидания</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/74564551395427ad.jpeg" alt="Комната Канао"><div class="room-name">Комната Канао</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/53e5f62a918163b1.jpeg" alt="Комната сестричек и Аой"><div class="room-name">Комната сестричек и Аой</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/d5e663867875ac74.jpeg" alt="Склад"><div class="room-name">Склад</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/ce39321ece78c644.jpeg" alt="Зона отдыха"><div class="room-name">Зона отдыха</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/b78e1363e8334149.jpeg" alt="Пасека Мицури и сад Шинобу"><div class="room-name">Пасека Мицури и сад Шинобу</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/2fbb47f07a2707cc.jpeg" alt="Могила Канаэ Кочо"><div class="room-name">Могила Канаэ Кочо</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/d90db68c4cd61172.jpeg" alt="Зона для игр/тренировок"><div class="room-name">Зона для игр/тренировок</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/f371c4932c48af6d.jpeg" alt="Лестница на 2 этаж"><div class="room-name">Лестница на 2 этаж</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/2923c42e41b2ae81.jpeg" alt="Подвал"><div class="room-name">Подвал</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/60a9836cd3408297.jpeg" alt="Лабораторная"><div class="room-name">Лабораторная</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/34b5861ca0565495.jpeg" alt="Операционная"><div class="room-name">Операционная</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/469592910ecb6a04.jpeg" alt="Лазарет"><div class="room-name">Лазарет</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/b4a91e8247ced854.jpeg" alt="Кухня"><div class="room-name">Кухня</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Гуншинрибу -->
+            <div id="gunshinrib-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Гуншинрибу</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="gunshinrib-menu">
+                            <div class="subpage-menu-item active" data-sub="general">Общее понятие</div>
+                            <div class="subpage-menu-item" data-sub="duty">Дежурство</div>
+                            <div class="subpage-menu-item" data-sub="cognitive">Виды когнитивных нарушений</div>
+                            <div class="subpage-menu-item" data-sub="ptsd">Посттравматическое стрессовое расстройство</div>
+                            <div class="subpage-menu-item" data-sub="operative">Памятка для оперативников</div>
+                            <div class="subpage-menu-item" data-sub="clinical">Памятка для клинических психологов</div>
+                            <div class="subpage-menu-item" data-sub="security">Формы допуска секретности</div>
+                            <div class="subpage-menu-item" data-sub="inspection">Осмотр учеников после отбора</div>
                         </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/54fb15952da81367.jpeg" alt="Зона ожидания">
-                            <div class="room-name">Зона ожидания</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/74564551395427ad.jpeg" alt="Комната Канао">
-                            <div class="room-name">Комната Канао</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/53e5f62a918163b1.jpeg" alt="Комната сестричек и Аой">
-                            <div class="room-name">Комната сестричек и Аой</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/d5e663867875ac74.jpeg" alt="Склад">
-                            <div class="room-name">Склад</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/ce39321ece78c644.jpeg" alt="Зона отдыха">
-                            <div class="room-name">Зона отдыха</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/b78e1363e8334149.jpeg" alt="Пасека Мицури и сад Шинобу">
-                            <div class="room-name">Пасека Мицури и сад Шинобу</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/2fbb47f07a2707cc.jpeg" alt="Могила Канаэ Кочо">
-                            <div class="room-name">Могила Канаэ Кочо</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/d90db68c4cd61172.jpeg" alt="Зона для игр/тренировок">
-                            <div class="room-name">Зона для игр/тренировок</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/f371c4932c48af6d.jpeg" alt="Лестница на 2 этаж">
-                            <div class="room-name">Лестница на 2 этаж</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/2923c42e41b2ae81.jpeg" alt="Подвал">
-                            <div class="room-name">Подвал</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/60a9836cd3408297.jpeg" alt="Лабораторная">
-                            <div class="room-name">Лабораторная</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/34b5861ca0565495.jpeg" alt="Операционная">
-                            <div class="room-name">Операционная</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/469592910ecb6a04.jpeg" alt="Лазарет">
-                            <div class="room-name">Лазарет</div>
-                        </div>
-                        <div class="room-card">
-                            <img src="https://storage.yandexcloud.net/new.fotora.ru/b4a91e8247ced854.jpeg" alt="Кухня">
-                            <div class="room-name">Кухня</div>
-                        </div>
+                        <div class="subpage-content" id="gunshinrib-content"></div>
                     </div>
                 </div>
             </div>
@@ -1009,7 +895,8 @@
             cooking: document.getElementById('cooking-page'),
             medicine: document.getElementById('medicine-page'),
             kakushi: document.getElementById('kakushi-page'),
-            rooms: document.getElementById('rooms-page')
+            rooms: document.getElementById('rooms-page'),
+            gunshinrib: document.getElementById('gunshinrib-page')
         };
         const navLinks = document.querySelectorAll('.nav-link');
 
@@ -1023,6 +910,7 @@
                 });
                 history.pushState({page: pageId}, '', `#${pageId}`);
 
+                // Активируем первый подраздел для страниц с подменю
                 if (pageId === 'treatment') {
                     const firstItem = document.querySelector('#treatment-menu .subpage-menu-item');
                     if (firstItem) {
@@ -1057,6 +945,13 @@
                         document.querySelectorAll('#kakushi-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
                         firstItem.classList.add('active');
                         updateSubpageContent('kakushi', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'gunshinrib') {
+                    const firstItem = document.querySelector('#gunshinrib-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#gunshinrib-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('gunshinrib', firstItem.dataset.sub);
                     }
                 }
             }
@@ -1137,6 +1032,21 @@
                     dresscode: 'Дресс-код',
                     promotion: 'Система повышения',
                     atarashi: 'Атараши'
+                }
+            },
+            {
+                page: 'gunshinrib',
+                menuId: 'gunshinrib-menu',
+                contentId: 'gunshinrib-content',
+                subpages: {
+                    general: 'Общее понятие',
+                    duty: 'Дежурство',
+                    cognitive: 'Виды когнитивных нарушений',
+                    ptsd: 'Посттравматическое стрессовое расстройство',
+                    operative: 'Памятка для оперативников',
+                    clinical: 'Памятка для клинических психологов',
+                    security: 'Формы допуска секретности',
+                    inspection: 'Осмотр учеников после отбора'
                 }
             }
         ];
@@ -1414,6 +1324,172 @@
                     <p class="note"><strong>Важно:</strong> Экзамены и лекции обязательны и их невозможно пропустить с помощью рекомендации.</p>
                 `;
             }
+            // Гуншинрибу - Общее понятие
+            else if (pageId === 'gunshinrib' && subKey === 'general') {
+                html = `
+                    <h4>Общее понятие</h4>
+                    <p><strong>Отдел военно-психологической поддержки "ぐんしんりぶ, Гуншинрибу"</strong></p>
+                    <p>Психология — это наука, изучающая закономерности возникновения, развития и функционирования психики, сознания и поведения человека.<br>
+                    Военно-психологическая поддержка включает экстренную помощь, реабилитацию и сопровождение истребителей и их семей, направленные на адаптацию к стрессу и повышение боеспособности.</p>
+                    
+                    <h5>Должности внутри отдела:</h5>
+                    
+                    <p><strong>Клинический военный психолог:</strong> Специализируется на работе с боевыми травмами, ПТСР и реабилитации. (Для поступления на должность требуется 2 форма допуска секретности, получаемая лично от главы отдела/Шинобу)</p>
+                    <p><em>Обязанности:</em></p>
+                    <ul>
+                        <li>Психологическая помощь истребителям после травмирующих событий, произошедших на миссии.</li>
+                        <li>Проверять учеников после прохождения финального отбора на предмет когнитивных нарушений и ПТСР.</li>
+                        <li>Дежурство на территории поместья бабочки.</li>
+                    </ul>
+                    
+                    <p><strong>Оперативный психолог:</strong> Обеспечивает психологическую поддержку непосредственно во время боевых действий или учений. (Для поступления на должность требуется 1 форма допуска секретности, получаемая лично от главы отдела/Шинобу)</p>
+                    <p><em>Обязанности:</em></p>
+                    <ul>
+                        <li>Непосредственное поддержание боевого духа во время общих событий.</li>
+                        <li>Контроль за поведением внутри коллектива.</li>
+                        <li>Направлять девиантных истребителей на обследование к клиническому военному психологу.</li>
+                        <li>Не допускать разлад внутри корпуса и помогать решать конфликтные ситуации.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - Дежурство
+            else if (pageId === 'gunshinrib' && subKey === 'duty') {
+                html = `
+                    <h4>Дежурство психологов</h4>
+                    <p>Дежурный психолог назначается из числа клинических военных психологов и, как исключение, из наиболее подготовленных оперативных психологов. Он отвечает за психологическое состояние других работников поместья; за обращения постояльцев; за чистоту на месте дежурства, а также за добросовестность других сотрудников отдела.<br>
+                    Во время дежурства действуют полномочия ответственного за отдел при отсутствии главы. Другие психологи обязаны выполнять поручения дежурного.</p>
+                    
+                    <h5>Обязанности:</h5>
+                    <ul>
+                        <li>Контроль состава психологов.</li>
+                        <li>Контроль психологического состояния работников поместья.</li>
+                        <li>Помощь нуждающимся в поддержке.</li>
+                        <li>Пресечение угнетения каких-либо членов организации.</li>
+                        <li>Содержание в чистоте территории несения дежурства (Поместье или отдельные выделенные зоны).</li>
+                        <li>При расквартировании отряда на территории задания также следить за состоянием истребителей.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - Виды когнитивных нарушений
+            else if (pageId === 'gunshinrib' && subKey === 'cognitive') {
+                html = `
+                    <h4>Когнитивные нарушения</h4>
+                    <p>Когнитивные нарушения — это снижение памяти, внимания, речи или мышления, классифицируемые по степени тяжести (легкие, умеренные, деменция), этиологии (первичные нейродегенеративные или вторичные сосудистые/метаболические) и характеру нарушений (амнестические или неамнестические). Ранняя диагностика критична для предотвращения прогрессирования в деменцию.</p>
+                    
+                    <h5>Классификация по степени тяжести:</h5>
+                    <ul>
+                        <li><strong>Легкие когнитивные нарушения (ЛКН):</strong> Субъективные жалобы (забывчивость, рассеянность), подтверждаемые тестами, но не влияющие на повседневную жизнь.</li>
+                        <li><strong>Умеренные когнитивные нарушения (УКН):</strong> Объективное снижение функций, заметное окружению, осложняющее выполнение сложных привычных задач (работа, быт), но без зависимости от посторонней помощи.</li>
+                        <li><strong>Тяжелые нарушения (деменция):</strong> Глубокий дефицит, требующий постоянного постороннего ухода; полная утрата самостоятельности, дезориентация.</li>
+                    </ul>
+                    
+                    <h5>Классификация по этиологии (причинам):</h5>
+                    <ul>
+                        <li><strong>Первичные:</strong> Обусловлены нейродегенеративными заболеваниями (болезнь Альцгеймера, деменция с тельцами Леви).</li>
+                        <li><strong>Вторичные:</strong> Следствие сосудистых заболеваний (инсульт, дисциркуляторная энцефалопатия), травм, дефицита витаминов (В1, В12), эндокринных нарушений (гипотиреоз), инфекций или интоксикаций.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - ПТСР
+            else if (pageId === 'gunshinrib' && subKey === 'ptsd') {
+                html = `
+                    <h4>Посттравматическое стрессовое расстройство (ПТСР)</h4>
+                    <p>ПТСР — это тяжелое психическое состояние, возникающее после переживания угрожающих жизни событий (война, насилие, катастрофы). Основные симптомы включают флешбэки (навязчивые воспоминания), ночные кошмары, избегание триггеров и высокую тревожность. ПТСР требует лечения (психотерапия, реже — медикаменты), если симптомы длятся более месяца.</p>
+                    
+                    <h5>Основные симптомы ПТСР:</h5>
+                    <ul>
+                        <li><strong>Переживание травмы:</strong> Навязчивые мысли, кошмары, флешбэки (ощущение, что событие происходит снова).</li>
+                        <li><strong>Избегание:</strong> Попытки избежать мыслей, мест, разговоров, напоминающих о травме.</li>
+                        <li><strong>Гипервозбудимость:</strong> Постоянное напряжение, раздражительность, вспышки гнева, вздрагивание от звуков (стартл-реакция).</li>
+                        <li><strong>Эмоциональные изменения:</strong> Эмоциональное оцепенение, потеря интереса к жизни, чувство вины, отстраненность.</li>
+                        <li><strong>Физические проявления:</strong> Бессонница, панические атаки, боли в теле.</li>
+                    </ul>
+                    
+                    <h5>Причины и факторы риска:</h5>
+                    <p>ПТСР развивается, если психика не справляется с экстремальным стрессом. Причинами могут быть: военные действия, физическое/сексуальное насилие, террористические акты, аварии, природные катастрофы или смерть близкого человека.</p>
+                    
+                    <h5>Виды ПТСР по времени появления:</h5>
+                    <ul>
+                        <li><strong>Острое:</strong> Симптомы длятся от 1 до 3 месяцев.</li>
+                        <li><strong>Хроническое:</strong> Симптомы наблюдаются более 3 месяцев.</li>
+                        <li><strong>Отсроченное:</strong> Симптомы появляются спустя 6 месяцев и более после события.</li>
+                        <li><strong>Комплексное (КПТСР):</strong> Развивается после длительных, повторяющихся травм, из которых трудно выбраться.</li>
+                    </ul>
+                    
+                    <h5>Диагностика и лечение:</h5>
+                    <p>Диагноз ставит врач-психиатр или психотерапевт. Самолечение опасно, так как ПТСР может привести к депрессии и зависимостям.</p>
+                    <ul>
+                        <li><strong>Психотерапия:</strong> Когнитивно-поведенческая терапия (КПТ), EMDR-терапия (десенсибилизация и переработка движением глаз).</li>
+                        <li><strong>Медикаментозное лечение:</strong> Антидепрессанты для снижения тревоги и депрессии.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - Памятка для оперативников
+            else if (pageId === 'gunshinrib' && subKey === 'operative') {
+                html = `
+                    <h4>Этика оперативного психолога</h4>
+                    <ol class="recipe-list">
+                        <li><strong>Принцип ''не навреди'':</strong> психолог действует в интересах истребителя и, принимая решения, обязательно ориентируется на этот принцип.</li>
+                        <li><strong>Принцип "соблюдения конфиденциальности":</strong> если проблема касается личной жизни истребителя или эмоционального стресса, его страхов, переживаний, связанных с выполняемой работой, то психолог не имеет права разглашать сведения третьим лицам.</li>
+                        <li><strong>Принцип уважения:</strong> запрет на проявлении в работе чувства превосходства, назидательности, директивности. Своими действиями психолог должен показывать, что он является человеком, которому истребитель доверяет и может положиться в решении определенных задач.</li>
+                        <li><strong>Принцип объективности:</strong> непредвзятое отношение, основанное на реальных данных. Психолог, анализируя полученную информацию, должен объективно оценить сложившуюся ситуацию или проблему, а затем дать ответ на поставленные ему вопросы.</li>
+                        <li><strong>Соблюдение профессиональной этики:</strong> существуют этические стандарты поведения, которые рекомендуют соблюдать осторожность в применении как положительных, так и отрицательных эмоций во взаимоотношении.</li>
+                        <li><strong>Принцип безопасности применяемых методик:</strong> психолог применяет только такие методики исследования, которые не являются опасными для здоровья испытуемого.</li>
+                        <li><strong>Принцип беспристрастности психолога:</strong> недопустимо предвзятое отношение к испытуемому, какое бы субъективное впечатление он не производил своим видом, юридическим и социальным положением.</li>
+                        <li><strong>Принцип адекватности методик:</strong> применяемые методики должны быть адекватны целям исследования, должна учитываться специфика профессиональной деятельности истребителя.</li>
+                    </ol>
+                `;
+            }
+            // Гуншинрибу - Памятка для клинических психологов
+            else if (pageId === 'gunshinrib' && subKey === 'clinical') {
+                html = `
+                    <h4>Этика клинического военного психолога</h4>
+                    <ol class="recipe-list">
+                        <li><strong>Принцип ''не навреди'':</strong> психолог действует в интересах истребителя и, принимая решения, обязательно ориентируется на этот принцип.</li>
+                        <li><strong>Принцип "соблюдения конфиденциальности":</strong> если проблема касается личной жизни истребителя или эмоционального стресса, его страхов, переживаний, связанных с выполняемой работой, то психолог не имеет права разглашать сведения третьим лицам.</li>
+                        <li><strong>Принцип уважения:</strong> запрет на проявлении в работе чувства превосходства, назидательности, директивности. Своими действиями психолог должен показывать, что он является человеком, которому истребитель доверяет и может положиться в решении определенных задач.</li>
+                        <li><strong>Принцип объективности:</strong> непредвзятое отношение, основанное на реальных данных. Психолог, анализируя полученную информацию, должен объективно оценить сложившуюся ситуацию или проблему, а затем дать ответ на поставленные ему вопросы.</li>
+                        <li><strong>Соблюдение профессиональной этики:</strong> существуют этические стандарты поведения, которые рекомендуют соблюдать осторожность в применении как положительных, так и отрицательных эмоций во взаимоотношении.</li>
+                        <li><strong>Принцип безопасности применяемых методик:</strong> психолог применяет только такие методики исследования, которые не являются опасными для здоровья испытуемого.</li>
+                        <li><strong>Принцип беспристрастности психолога:</strong> недопустимо предвзятое отношение к испытуемому, какое бы субъективное впечатление он не производил своим видом, юридическим и социальным положением.</li>
+                        <li><strong>Принцип адекватности методик:</strong> применяемые методики должны быть адекватны целям исследования, должна учитываться специфика профессиональной деятельности истребителя.</li>
+                    </ol>
+                `;
+            }
+            // Гуншинрибу - Формы допуска секретности
+            else if (pageId === 'gunshinrib' && subKey === 'security') {
+                html = `
+                    <h4>Формы допуска секретности</h4>
+                    <p>Существуют три формы допуска секретности:</p>
+                    <ul>
+                        <li><strong>1 форма допуска секретности:</strong> является стандартным доступом к документам поместья.</li>
+                        <li><strong>2 форма допуска секретности:</strong> открывает доступ к личным данным истребителей (анамнезы, документы с характеристиками, эмоциональными реакциями и психологическими процессами).</li>
+                        <li><strong>3 форма допуска секретности:</strong> открывает доступ к личным данным столпов и других важных стратегических лиц корпуса (анамнезы, документы с характеристиками, эмоциональными реакциями и психологическими процессами).</li>
+                    </ul>
+                    
+                    <h5>Ограничения и наказание за нарушение:</h5>
+                    <ul>
+                        <li><strong>1 форма:</strong> накладывает запрет на распространение информации, полученной во время беседы/работы с истребителями. Наказание: ЧС поместья (срок в зависимости от тяжести нарушения), запрет на вступление в отдел с правом на амнистию.</li>
+                        <li><strong>2 форма:</strong> накладывает запрет на распространение информации, полученной во время беседы/работы с истребителями, а также информации из документации. Наказание: ЧС поместья от 2-ух месяцев до ПЕРМ, и дальнейший запрет на вступление в отдел без права амнистии.</li>
+                        <li><strong>3 форма (Совершенно секретно):</strong> накладывает запрет на распространение информации, полученной во время беседы/работы с истребителями/столпами/иными стратегическими личностями. Полное сокрытие информации о взаимодействии с перечисленными лицами. Запрещено малейшее упоминание о наличии документации о столпах или иных важных стратегических личностях. Наказание: Суд столпов.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - Осмотр учеников после отбора
+            else if (pageId === 'gunshinrib' && subKey === 'inspection') {
+                html = `
+                    <h4>Осмотр учеников после отбора</h4>
+                    <p><strong>Порядок действий при осмотре ученика:</strong></p>
+                    <ol class="recipe-list">
+                        <li>Собрать анамнез (жалобы, обращаем внимание на питание и сон).</li>
+                        <li>Внешний осмотр во время общения (прямой зрительный контакт, язык тела, тремор и т.д.).</li>
+                        <li>После определение диагноза (при его наличии), дать рекомендации (диета, привычки, упражнения), или направить ученика на медикаментозное лечение.</li>
+                    </ol>
+                    
+                    <p><strong>Как это будет происходить?</strong></p>
+                    <p>Каждого из учеников, прошедших отбор, по одному вызывают в комнату на небольшую беседу, в ходе которой мы узнаем о состоянии и проблемах индивида (все жалобы и наблюдения идут под запись).</p>
+                `;
+            }
             // Остальные подразделы (стандартные)
             else {
                 let description = '';
@@ -1421,7 +1497,7 @@
                     if (subKey === 'poisoning') description = 'При отравлении — промыть желудок, дать абсорбенты, обратиться к медику.';
                     else if (subKey === 'frostbite') description = 'Обмороженные участки согревать постепенно, не растирать, наложить теплоизолирующую повязку.';
                 } else if (pageId === 'lectures') {
-                    // для firstaid и cpr уже обработаны выше, сюда они не попадут
+                    // остальные подразделы лекций уже обработаны выше
                 } else if (pageId === 'medicine') {
                     if (subKey === 'ointments') description = 'Заживляющие мази на основе трав и масел. Ускоряют регенерацию тканей.';
                     else if (subKey === 'tinctures') description = 'Настойки на спирту: валериана, пустырник, женьшень — для восстановления сил.';
