@@ -3,95 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Поместье Бабочки</title>
+    <title>Поместье</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== ПАСТЕЛЬНАЯ ПАЛИТРА С УЛУЧШЕННОЙ ТЁМНОЙ ТЕМОЙ ===== */
+        :root {
+            --bg: #f5edff;
+            --surface: #eadcff;
+            --surface-hover: #dfccff;
+            --text-primary: #3a2e4a;
+            --text-secondary: #5f4e77;
+            --accent: #b49ae8;
+            --accent-light: #d9c7ff;
+            --accent-dark: #8f72c4;
+            --border: #d1bee6;
+            --shadow: rgba(120, 80, 160, 0.2);
+            --card-bg: #faf4ff;
+            --footer-bg: #e0d0f0;
+            --glow: rgba(180, 154, 232, 0.4);
+            --secondary-accent: #a3b8e8;
+            --secondary-light: #c5d4ff;
+            --secondary-dark: #7a92c4;
+        }
+
+        [data-theme="dark"] {
+            --bg: #1a1527;
+            --surface: #2e2342;
+            --surface-hover: #3f3157;
+            --text-primary: #f2e9ff;
+            --text-secondary: #cbb7f0;
+            --accent: #b28aff;
+            --accent-light: #6b4f9e;
+            --accent-dark: #8f6ad3;
+            --border: #5b4a78;
+            --shadow: rgba(0, 0, 0, 0.7);
+            --card-bg: #2f2443;
+            --footer-bg: #1e1730;
+            --glow: rgba(178, 138, 255, 0.5);
+            --secondary-accent: #7b6bb3;
+            --secondary-light: #4a3f6b;
+            --secondary-dark: #3a2f57;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-light: #f8f0ff;
-            --bg-dark: #2a1f3a;
-            --surface-light: #f0e6ff;
-            --surface-dark: #3f3157;
-            --text-light: #2d1f3c;
-            --text-dark: #f5edff;
-            --accent-light: #c4b0ff;
-            --accent-dark: #b79ef0;
-            --border-light: #d9c7ff;
-            --border-dark: #7a5fa0;
-            --shadow-light: rgba(150, 120, 200, 0.2);
-            --shadow-dark: rgba(0, 0, 0, 0.5);
-        }
-
-        [data-theme="light"] {
-            --bg: var(--bg-light);
-            --surface: var(--surface-light);
-            --surface-hover: #e5d5ff;
-            --text-primary: var(--text-light);
-            --text-secondary: #5a4a75;
-            --accent: #a586e0;
-            --accent-light: #d2b9ff;
-            --accent-soft: #c9b1ff;
-            --border: var(--border-light);
-            --shadow: var(--shadow-light);
-            --card-bg: #ffffffb3;
-            --footer-bg: #e0d0f0;
-            --glow: #c4b0ff80;
-            --secondary-accent: #9f8ad9;
-            --secondary-light: #c5b2f0;
-        }
-
-        [data-theme="dark"] {
-            --bg: #1e162b;
-            --surface: #352b48;
-            --surface-hover: #4d3d64;
-            --text-primary: #f8f0ff;
-            --text-secondary: #e1d0ff;
-            --accent: #d2b3ff;
-            --accent-light: #b395ed;
-            --accent-soft: #aa8ee6;
-            --border: #7e65ad;
-            --shadow: var(--shadow-dark);
-            --card-bg: #3f3057e6;
-            --footer-bg: #2a1f38;
-            --glow: #b79ef066;
-            --secondary-accent: #c2abf0;
-            --secondary-light: #9f83d9;
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: var(--bg);
+            background: radial-gradient(circle at 20% 30%, var(--accent-light) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, var(--secondary-light) 0%, transparent 35%),
+                        var(--bg);
+            background-attachment: fixed;
             color: var(--text-primary);
+            line-height: 1.5;
+            transition: background-color 0.4s ease, color 0.3s ease;
+            position: relative;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: background-color 0.3s, color 0.2s;
+            font-size: 14px;
         }
 
-        /* Верхняя панель */
+        /* ===== ЧАСТИЦЫ ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(4px);
+            animation: float 20s infinite linear;
+            opacity: 0.6;
+        }
+
+        .particle.purple {
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .particle.lavender {
+            background: var(--secondary-accent);
+            box-shadow: 0 0 15px var(--secondary-accent);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% { opacity: 0.7; }
+            50% { opacity: 0.4; }
+            75% { opacity: 0.7; }
+            100% {
+                transform: translateY(-100vh) translateX(20vw) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        .particle:nth-child(1) { left: 2%; top: 5%; width: 16px; height: 16px; animation-duration: 28s; }
+        .particle:nth-child(2) { left: 12%; top: 60%; width: 12px; height: 12px; animation-duration: 32s; }
+        .particle:nth-child(3) { left: 22%; top: 30%; width: 14px; height: 14px; animation-duration: 24s; }
+        .particle:nth-child(4) { left: 32%; top: 75%; width: 10px; height: 10px; animation-duration: 30s; }
+        .particle:nth-child(5) { left: 42%; top: 15%; width: 18px; height: 18px; animation-duration: 26s; }
+        .particle:nth-child(6) { left: 52%; top: 50%; width: 14px; height: 14px; animation-duration: 34s; }
+        .particle:nth-child(7) { left: 62%; top: 25%; width: 16px; height: 16px; animation-duration: 22s; }
+        .particle:nth-child(8) { left: 72%; top: 85%; width: 12px; height: 12px; animation-duration: 36s; }
+        .particle:nth-child(9) { left: 82%; top: 10%; width: 14px; height: 14px; animation-duration: 30s; }
+        .particle:nth-child(10) { left: 92%; top: 40%; width: 12px; height: 12px; animation-duration: 28s; }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ===== ВЕРХНЕЕ МЕНЮ (ВСЕГДА ВИДИМОЕ) ===== */
         .top-bar {
             background: var(--surface);
             backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--accent-soft);
-            box-shadow: 0 4px 20px var(--shadow);
-            padding: 15px 30px;
+            border-bottom: 2px solid var(--accent-light);
+            box-shadow: 0 2px 20px var(--shadow);
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 10px 20px;
             flex-wrap: wrap;
-            gap: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            gap: 15px;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--accent), var(--secondary-accent));
             -webkit-background-clip: text;
@@ -100,73 +160,74 @@
             white-space: nowrap;
         }
 
-        /* Вкладки сверху */
-        .nav-tabs {
+        .nav-links {
             display: flex;
+            gap: 5px;
             flex-wrap: wrap;
-            gap: 8px;
             justify-content: center;
             flex: 1;
         }
 
-        .tab-btn {
-            background: transparent;
-            border: 2px solid var(--accent-soft);
-            padding: 12px 22px;
-            border-radius: 40px;
+        .nav-item {
+            list-style: none;
+        }
+
+        .nav-item > a {
+            display: inline-block;
+            padding: 8px 15px;
             font-weight: 600;
-            font-size: 1rem;
             color: var(--text-secondary);
-            cursor: pointer;
+            border-radius: 25px;
             transition: 0.2s;
+            font-size: 0.95rem;
             white-space: nowrap;
+        }
+
+        .nav-item > a:hover,
+        .nav-item > a.active {
+            background: var(--surface-hover);
+            color: var(--text-primary);
             box-shadow: 0 2px 8px var(--shadow);
         }
 
-        .tab-btn:hover {
-            background: var(--accent-light);
-            color: var(--text-primary);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-            box-shadow: 0 8px 16px var(--glow);
-        }
-
         .theme-toggle {
-            background: var(--surface-hover);
-            border: 2px solid var(--accent-soft);
-            border-radius: 40px;
-            padding: 12px 22px;
+            background: linear-gradient(145deg, var(--surface), var(--surface-hover));
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 10px var(--shadow);
             white-space: nowrap;
-            box-shadow: 0 2px 8px var(--shadow);
         }
 
         .theme-toggle:hover {
-            background: var(--accent-light);
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--glow);
         }
 
-        /* Основной контент */
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+        .main-content {
+            flex: 1;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
         main {
             flex: 1;
-            padding: 30px 25px;
+            padding: 20px 25px;
         }
 
         .page {
             display: none;
-            max-width: 1300px;
-            margin: 0 auto;
         }
 
         .page.active {
@@ -174,68 +235,36 @@
         }
 
         .section-title {
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             margin-bottom: 25px;
-            color: var(--accent);
-            border-left: 8px solid var(--accent);
-            padding-left: 20px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--secondary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
             font-weight: 700;
-            text-shadow: 0 2px 8px var(--glow);
         }
 
-        /* Содержимое страниц */
-        .content-grid {
-            background: var(--card-bg);
-            border-radius: 40px;
-            padding: 30px;
-            border: 2px solid var(--accent-soft);
-            box-shadow: 0 20px 40px var(--shadow);
-            backdrop-filter: blur(8px);
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary-accent));
+            border-radius: 4px;
+            box-shadow: 0 2px 10px var(--glow);
         }
 
-        /* Галерея */
-        .rooms-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .room-card {
-            background: var(--surface);
-            border-radius: 30px;
-            overflow: hidden;
-            border: 2px solid var(--accent-soft);
-            transition: 0.3s;
-            box-shadow: 0 8px 16px var(--shadow);
-        }
-
-        .room-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 16px 32px var(--glow);
-        }
-
-        .room-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 2px solid var(--accent-soft);
-        }
-
-        .room-name {
-            padding: 15px;
-            text-align: center;
-            font-weight: 600;
-            color: var(--accent);
-            font-size: 1.1rem;
-        }
-
-        /* Иерархия */
+        /* ===== ИЕРАРХИЯ ===== */
         .hierarchy-tree {
-            margin: 40px 0;
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            font-size: 1.3rem;
         }
 
         .tree-row {
@@ -247,410 +276,618 @@
         }
 
         .tree-node {
-            background: var(--surface);
-            border: 3px solid var(--accent);
-            border-radius: 60px;
-            padding: 15px 35px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--text-primary);
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            padding: 12px 30px;
             box-shadow: 0 10px 20px var(--shadow);
+            font-weight: 700;
+            color: var(--text-primary);
+            position: relative;
+            min-width: 180px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .tree-node.small {
+            font-size: 1rem;
+            padding: 8px 20px;
         }
 
         .tree-node .sub {
             font-size: 0.9rem;
-            color: var(--accent);
-            display: block;
-            margin-top: 5px;
+            color: var(--accent-dark);
+            font-weight: 500;
         }
 
         .tree-connector {
             font-size: 2rem;
             color: var(--accent);
-            margin: -10px 0;
+            margin: -5px 0;
         }
 
-        /* Подразделы (теперь тоже сверху) */
-        .subpage-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid var(--accent-soft);
-            padding-bottom: 15px;
-        }
-
-        .sub-tab {
-            background: transparent;
-            border: 2px solid var(--accent-soft);
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .sub-tab:hover {
-            background: var(--accent-light);
-            color: var(--text-primary);
-        }
-
-        .sub-tab.active {
+        .tree-line {
+            width: 2px;
+            height: 30px;
             background: var(--accent);
-            color: white;
-            border-color: var(--accent);
+            margin: 0 auto;
+        }
+
+        /* ===== ПОДРАЗДЕЛЫ ===== */
+        .subpage-layout {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .subpage-menu {
+            width: 200px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border-radius: 25px;
+            padding: 15px 0;
+            box-shadow: 0 8px 20px var(--shadow);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(4px);
+        }
+
+        .subpage-menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .subpage-menu-item:hover,
+        .subpage-menu-item.active {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            border-left-color: var(--accent);
         }
 
         .subpage-content {
-            background: var(--surface);
-            border-radius: 30px;
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: 25px;
             padding: 25px;
-            border: 2px solid var(--accent-soft);
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 1px solid var(--border);
             min-height: 300px;
         }
 
         .subpage-content h4 {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--accent-dark);
         }
 
         .subpage-content h5 {
-            font-size: 1.4rem;
-            color: var(--accent-light);
-            margin: 25px 0 15px;
-            border-left: 6px solid var(--accent);
-            padding-left: 15px;
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+            color: var(--accent);
+            border-left: 5px solid var(--accent);
+            padding-left: 10px;
         }
 
-        .subpage-content ul, .subpage-content ol {
-            margin-left: 25px;
-            margin-bottom: 20px;
+        .subpage-content ul {
+            list-style: disc;
+            margin-left: 20px;
             color: var(--text-secondary);
         }
 
         .subpage-content li {
-            margin-bottom: 10px;
-            line-height: 1.6;
+            margin-bottom: 8px;
         }
 
+        /* Стили для рецептов и инструкций */
         .recipe-block {
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px dashed var(--accent-soft);
+            border-bottom: 1px dashed var(--accent-light);
         }
-
+        .recipe-block:last-child {
+            border-bottom: none;
+        }
         .recipe-title {
-            font-size: 1.6rem;
-            color: var(--accent);
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-dark);
+            margin-bottom: 5px;
         }
-
-        .note {
+        .recipe-sub {
+            font-weight: 600;
             color: var(--accent);
-            font-style: italic;
-            margin-top: 15px;
-            padding: 10px;
-            background: var(--surface-hover);
-            border-radius: 20px;
+            margin-top: 10px;
+            margin-bottom: 5px;
         }
-
-        /* Футер */
-        footer {
-            background: var(--footer-bg);
-            border-top: 2px solid var(--accent-soft);
-            padding: 20px;
-            text-align: center;
+        .recipe-list {
+            list-style-type: decimal;
+            padding-left: 20px;
             color: var(--text-secondary);
-            margin-top: auto;
+        }
+        .recipe-list li {
+            margin-bottom: 6px;
+        }
+        .note {
+            font-style: italic;
+            color: var(--accent-dark);
+            margin-top: 10px;
+        }
+
+        /* ===== ГАЛЕРЕЯ ДЛЯ ПОМЕЩЕНИЙ ===== */
+        .rooms-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .room-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px var(--shadow);
+            border: 2px solid var(--accent-light);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--glow);
+        }
+
+        .room-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 2px solid var(--accent-light);
+        }
+
+        .room-card .room-name {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--accent-dark);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 900px) {
+            .rooms-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .rooms-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== ФУТЕР ===== */
+        footer {
+            background: linear-gradient(145deg, var(--footer-bg), var(--surface));
+            color: var(--text-primary);
+            text-align: center;
+            padding: 15px 0;
+            border-top: 2px solid var(--border);
+            box-shadow: 0 -5px 15px var(--shadow);
         }
 
         .footer-line {
-            font-size: 1.2rem;
+            font-size: 1rem;
+            margin-bottom: 4px;
             font-weight: 600;
-            margin-bottom: 5px;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--secondary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Плеер */
+        .footer-sub {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            color: var(--text-secondary);
+        }
+
+        /* ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР (СКРЫВАЮЩИЙСЯ) ===== */
         .music-player {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 20px;
             background: var(--surface);
-            border-radius: 60px;
-            padding: 15px 25px;
-            border: 2px solid var(--accent);
-            box-shadow: 0 8px 24px var(--shadow);
+            border-radius: 40px;
+            padding: 8px 15px;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--accent);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 20px;
-            backdrop-filter: blur(10px);
+            justify-content: center;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .music-player:hover {
+            width: 260px;
+            height: 120px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: default;
+        }
+
+        .music-player .player-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            width: 0;
+            transition: opacity 0.2s ease 0.1s;
+            pointer-events: none;
+        }
+
+        .music-player:hover .player-content {
+            opacity: 1;
+            width: 100%;
+            pointer-events: auto;
+        }
+
+        .music-player .compact-icon {
+            font-size: 1.8rem;
+            color: var(--accent);
+            transition: opacity 0.2s;
+        }
+
+        .music-player:hover .compact-icon {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            overflow: hidden;
         }
 
         .player-controls {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            justify-content: center;
         }
 
-        .player-controls button {
+        .music-player button {
             background: var(--accent);
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            color: white;
-            font-size: 1.2rem;
+            width: 34px;
+            height: 34px;
             cursor: pointer;
+            color: white;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: 0.2s;
+            box-shadow: 0 2px 8px var(--shadow);
         }
 
-        .player-controls button:hover {
+        .music-player button:hover {
             transform: scale(1.1);
-            background: var(--accent-light);
+            background: var(--accent-dark);
         }
 
         .track-info {
             font-weight: 600;
-            color: var(--accent);
-            min-width: 150px;
+            color: var(--accent-dark);
+            text-shadow: 0 0 5px var(--glow);
+            font-size: 0.8rem;
+            text-align: center;
         }
 
         .volume-control {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            width: 100%;
         }
 
-        .volume-control input {
-            width: 100px;
-            height: 6px;
-            border-radius: 10px;
-            background: var(--accent-soft);
-            -webkit-appearance: none;
+        .volume-control span {
+            font-size: 1rem;
         }
 
-        .volume-control input::-webkit-slider-thumb {
+        .volume-control input[type=range] {
+            flex: 1;
+            height: 5px;
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: var(--accent);
-            border-radius: 50%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary-accent));
+            border-radius: 5px;
+            outline: none;
             cursor: pointer;
         }
 
-        @media (max-width: 900px) {
+        .volume-control input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid var(--accent-dark);
+            box-shadow: 0 2px 6px var(--shadow);
+        }
+
+        .music-player audio {
+            display: none;
+        }
+
+        /* ===== АДАПТАЦИЯ ===== */
+        @media (max-width: 800px) {
             .top-bar {
                 flex-direction: column;
-                padding: 15px;
+                align-items: stretch;
             }
-            .nav-tabs {
-                width: 100%;
+            .nav-links {
+                justify-content: flex-start;
                 overflow-x: auto;
                 padding-bottom: 5px;
             }
-            .music-player {
+            .subpage-layout {
+                flex-direction: column;
+            }
+            .subpage-menu {
+                width: 100%;
+                display: flex;
                 flex-wrap: wrap;
-                width: 90%;
-                right: 5%;
-                bottom: 20px;
+                gap: 5px;
+                padding: 10px;
+            }
+            .subpage-menu-item {
+                padding: 8px 15px;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+            }
+            .subpage-menu-item:hover,
+            .subpage-menu-item.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--accent);
+            }
+            .music-player:hover {
+                width: 240px;
+                height: 110px;
             }
         }
     </style>
 </head>
 <body data-theme="light">
+    <div class="particles">
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+        <div class="particle purple"></div><div class="particle lavender"></div>
+    </div>
+
+    <!-- Верхняя панель навигации -->
     <div class="top-bar">
-        <div class="logo">🦋 Поместье Бабочки</div>
-        <div class="nav-tabs" id="mainTabs">
-            <button class="tab-btn active" data-page="home">🏠 Главная</button>
-            <button class="tab-btn" data-page="treatment">🩺 Лечение</button>
-            <button class="tab-btn" data-page="lectures">📚 Лекции</button>
-            <button class="tab-btn" data-page="cooking">🍳 Готовка</button>
-            <button class="tab-btn" data-page="medicine">💊 Лекарства</button>
-            <button class="tab-btn" data-page="kakushi">🥷 Какуши</button>
-            <button class="tab-btn" data-page="rooms">🏯 Помещения</button>
-            <button class="tab-btn" data-page="gunshinrib">🧠 Гуншинрибу</button>
-        </div>
-        <button class="theme-toggle" id="themeToggle">
+        <div class="logo">Поместье</div>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="#" data-page="home" class="nav-link"><span>Главная</span></a></li>
+            <li class="nav-item"><a href="#" data-page="treatment" class="nav-link"><span>Лечение</span></a></li>
+            <li class="nav-item"><a href="#" data-page="lectures" class="nav-link"><span>Лекции</span></a></li>
+            <li class="nav-item"><a href="#" data-page="cooking" class="nav-link"><span>Готовка</span></a></li>
+            <li class="nav-item"><a href="#" data-page="medicine" class="nav-link"><span>Лекарства</span></a></li>
+            <li class="nav-item"><a href="#" data-page="kakushi" class="nav-link"><span>Какуши</span></a></li>
+            <li class="nav-item"><a href="#" data-page="rooms" class="nav-link"><span>Помещения</span></a></li>
+            <li class="nav-item"><a href="#" data-page="gunshinrib" class="nav-link"><span>Гуншинрибу</span></a></li>
+        </ul>
+        <button id="themeToggle" class="theme-toggle">
             <span id="themeIcon">🌙</span>
             <span id="themeText">Тёмная</span>
         </button>
     </div>
 
-    <main>
-        <!-- Главная -->
-        <div id="home-page" class="page active">
-            <div class="content-grid">
-                <h2 class="section-title">Иерархия поместья</h2>
-                <div class="hierarchy-tree">
-                    <div class="tree-row"><div class="tree-node">Шинобу Кочо</div></div>
-                    <div class="tree-connector">↓</div>
-                    <div class="tree-row">
-                        <div class="tree-node">Мицури Канроджи</div>
-                        <div class="tree-node">Столп Света</div>
+    <!-- Основной контент -->
+    <div class="main-content" id="mainContent">
+        <main>
+            <!-- Главная -->
+            <div id="home-page" class="page active">
+                <div class="container">
+                    <h2 class="section-title">Иерархия поместья</h2>
+                    <div class="hierarchy-tree">
+                        <div class="tree-row"><div class="tree-node">Шинобу Кочо</div></div>
+                        <div class="tree-connector">↓</div>
+                        <div class="tree-row">
+                            <div class="tree-node">Мицури Канроджи</div>
+                            <div class="tree-node">Столп Света</div>
+                        </div>
+                        <div class="tree-connector">↓</div>
+                        <div class="tree-row">
+                            <div class="tree-node">Аой Канзаки</div>
+                            <div class="tree-node">Канао Цуюри</div>
+                            <div class="tree-node">ССП</div>
+                        </div>
+                        <div class="tree-connector">↓</div>
+                        <div class="tree-row"><div class="tree-node">Состав насекомого</div></div>
+                        <div class="tree-connector">↓</div>
+                        <div class="tree-row">
+                            <div class="tree-node">Состав любви</div>
+                            <div class="tree-node">Состав Света</div>
+                        </div>
+                        <div class="tree-connector">↓</div>
+                        <div class="tree-row">
+                            <div class="tree-node">Какуши</div>
+                            <div class="tree-node">Атараши</div>
+                        </div>
+                        <div class="tree-connector">↓</div>
+                        <div class="tree-row"><div class="tree-node">Чистильщики <span class="sub">(изменено)</span></div></div>
                     </div>
-                    <div class="tree-connector">↓</div>
-                    <div class="tree-row">
-                        <div class="tree-node">Аой Канзаки</div>
-                        <div class="tree-node">Канао Цуюри</div>
-                        <div class="tree-node">ССП</div>
+                </div>
+            </div>
+
+            <!-- Лечение -->
+            <div id="treatment-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Лечение</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="treatment-menu">
+                            <div class="subpage-menu-item active" data-sub="burns">Ожоги</div>
+                            <div class="subpage-menu-item" data-sub="fractures">Переломы</div>
+                            <div class="subpage-menu-item" data-sub="wounds">Раны</div>
+                            <div class="subpage-menu-item" data-sub="poisoning">Отравление</div>
+                            <div class="subpage-menu-item" data-sub="frostbite">Обморожение</div>
+                            <div class="subpage-menu-item" data-sub="instruments">Мед. инструменты</div>
+                        </div>
+                        <div class="subpage-content" id="treatment-content"></div>
                     </div>
-                    <div class="tree-connector">↓</div>
-                    <div class="tree-row"><div class="tree-node">Состав насекомого</div></div>
-                    <div class="tree-connector">↓</div>
-                    <div class="tree-row">
-                        <div class="tree-node">Состав любви</div>
-                        <div class="tree-node">Состав Света</div>
+                </div>
+            </div>
+
+            <!-- Лекции -->
+            <div id="lectures-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Лекции</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="lectures-menu">
+                            <div class="subpage-menu-item active" data-sub="firstaid">Первая мед. помощь</div>
+                            <div class="subpage-menu-item" data-sub="cpr">Сердечно-легочная реанимация</div>
+                            <div class="subpage-menu-item" data-sub="poisons">Яды</div>
+                            <div class="subpage-menu-item" data-sub="fracture_lecture">Переломы</div>
+                        </div>
+                        <div class="subpage-content" id="lectures-content"></div>
                     </div>
-                    <div class="tree-connector">↓</div>
-                    <div class="tree-row">
-                        <div class="tree-node">Какуши</div>
-                        <div class="tree-node">Атараши</div>
+                </div>
+            </div>
+
+            <!-- Готовка -->
+            <div id="cooking-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Готовка</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="cooking-menu">
+                            <div class="subpage-menu-item active" data-sub="fav">Любимые блюда столпов</div>
+                            <div class="subpage-menu-item" data-sub="snacks">Закуски и легкие блюда</div>
+                            <div class="subpage-menu-item" data-sub="soups">Супы и похлебки</div>
+                            <div class="subpage-menu-item" data-sub="sweets">Сладости</div>
+                            <div class="subpage-menu-item" data-sub="drinks">Напитки</div>
+                        </div>
+                        <div class="subpage-content" id="cooking-content"></div>
                     </div>
-                    <div class="tree-connector">↓</div>
-                    <div class="tree-row"><div class="tree-node">Чистильщики <span class="sub">(изменено)</span></div></div>
                 </div>
             </div>
-        </div>
 
-        <!-- Лечение -->
-        <div id="treatment-page" class="page">
-            <div class="content-grid">
-                <h2 class="section-title">Лечение</h2>
-                <div class="subpage-tabs" id="treatment-tabs">
-                    <button class="sub-tab active" data-sub="burns">Ожоги</button>
-                    <button class="sub-tab" data-sub="fractures">Переломы</button>
-                    <button class="sub-tab" data-sub="wounds">Раны</button>
-                    <button class="sub-tab" data-sub="poisoning">Отравление</button>
-                    <button class="sub-tab" data-sub="frostbite">Обморожение</button>
-                    <button class="sub-tab" data-sub="instruments">Инструменты</button>
-                </div>
-                <div class="subpage-content" id="treatment-content"></div>
-            </div>
-        </div>
-
-        <!-- Лекции -->
-        <div id="lectures-page" class="page">
-            <div class="content-grid">
-                <h2 class="section-title">Лекции</h2>
-                <div class="subpage-tabs" id="lectures-tabs">
-                    <button class="sub-tab active" data-sub="firstaid">Первая помощь</button>
-                    <button class="sub-tab" data-sub="cpr">СЛР</button>
-                    <button class="sub-tab" data-sub="poisons">Яды</button>
-                    <button class="sub-tab" data-sub="fracture_lecture">Переломы</button>
-                </div>
-                <div class="subpage-content" id="lectures-content"></div>
-            </div>
-        </div>
-
-        <!-- Готовка -->
-        <div id="cooking-page" class="page">
-            <div class="content-grid">
-                <h2 class="section-title">Готовка</h2>
-                <div class="subpage-tabs" id="cooking-tabs">
-                    <button class="sub-tab active" data-sub="fav">Любимые блюда</button>
-                    <button class="sub-tab" data-sub="snacks">Закуски</button>
-                    <button class="sub-tab" data-sub="soups">Супы</button>
-                    <button class="sub-tab" data-sub="sweets">Сладости</button>
-                    <button class="sub-tab" data-sub="drinks">Напитки</button>
-                </div>
-                <div class="subpage-content" id="cooking-content"></div>
-            </div>
-        </div>
-
-        <!-- Лекарства -->
-        <div id="medicine-page" class="page">
-            <div class="content-grid">
-                <h2 class="section-title">Лекарства</h2>
-                <div class="subpage-tabs" id="medicine-tabs">
-                    <button class="sub-tab active" data-sub="ointments">Мази</button>
-                    <button class="sub-tab" data-sub="tinctures">Настойки</button>
-                    <button class="sub-tab" data-sub="decoctions">Отвары</button>
-                    <button class="sub-tab" data-sub="poisons">Яды</button>
-                </div>
-                <div class="subpage-content" id="medicine-content"></div>
-            </div>
-        </div>
-
-        <!-- Какуши -->
-        <div id="kakushi-page" class="page">
-            <div class="content-grid">
-                <h2 class="section-title">Какуши</h2>
-                <div class="subpage-tabs" id="kakushi-tabs">
-                    <button class="sub-tab active" data-sub="dresscode">Дресс-код</button>
-                    <button class="sub-tab" data-sub="promotion">Система повышения</button>
-                    <button class="sub-tab" data-sub="atarashi">Атараши</button>
-                </div>
-                <div class="subpage-content" id="kakushi-content"></div>
-            </div>
-        </div>
-
-        <!-- Помещения -->
-        <div id="rooms-page" class="page">
-            <div class="content-grid">
-                <h2 class="section-title">Помещения поместья бабочки</h2>
-                <div class="rooms-gallery">
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/964f421c97450113.jpeg" alt="Поместье"><div class="room-name">Поместье</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/54fb15952da81367.jpeg" alt="Зона ожидания"><div class="room-name">Зона ожидания</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/74564551395427ad.jpeg" alt="Комната Канао"><div class="room-name">Комната Канао</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/53e5f62a918163b1.jpeg" alt="Комната сестричек и Аой"><div class="room-name">Комната сестричек и Аой</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/d5e663867875ac74.jpeg" alt="Склад"><div class="room-name">Склад</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/ce39321ece78c644.jpeg" alt="Зона отдыха"><div class="room-name">Зона отдыха</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/b78e1363e8334149.jpeg" alt="Пасека Мицури и сад Шинобу"><div class="room-name">Пасека и сад</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/2fbb47f07a2707cc.jpeg" alt="Могила Канаэ Кочо"><div class="room-name">Могила Канаэ</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/d90db68c4cd61172.jpeg" alt="Зона для игр/тренировок"><div class="room-name">Зона тренировок</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/f371c4932c48af6d.jpeg" alt="Лестница на 2 этаж"><div class="room-name">Лестница</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/2923c42e41b2ae81.jpeg" alt="Подвал"><div class="room-name">Подвал</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/60a9836cd3408297.jpeg" alt="Лабораторная"><div class="room-name">Лабораторная</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/34b5861ca0565495.jpeg" alt="Операционная"><div class="room-name">Операционная</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/469592910ecb6a04.jpeg" alt="Лазарет"><div class="room-name">Лазарет</div></div>
-                    <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/b4a91e8247ced854.jpeg" alt="Кухня"><div class="room-name">Кухня</div></div>
+            <!-- Лекарства -->
+            <div id="medicine-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Лекарства</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="medicine-menu">
+                            <div class="subpage-menu-item active" data-sub="ointments">Мази</div>
+                            <div class="subpage-menu-item" data-sub="tinctures">Настойки</div>
+                            <div class="subpage-menu-item" data-sub="decoctions">Отвары</div>
+                            <div class="subpage-menu-item" data-sub="poisons">Яды</div>
+                        </div>
+                        <div class="subpage-content" id="medicine-content"></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Гуншинрибу -->
-        <div id="gunshinrib-page" class="page">
-            <div class="content-grid">
-                <h2 class="section-title">Гуншинрибу</h2>
-                <div class="subpage-tabs" id="gunshinrib-tabs">
-                    <button class="sub-tab active" data-sub="general">Общее</button>
-                    <button class="sub-tab" data-sub="duty">Дежурство</button>
-                    <button class="sub-tab" data-sub="cognitive">Когнитивные нарушения</button>
-                    <button class="sub-tab" data-sub="ptsd">ПТСР</button>
-                    <button class="sub-tab" data-sub="operative">Оперативникам</button>
-                    <button class="sub-tab" data-sub="clinical">Клиническим</button>
-                    <button class="sub-tab" data-sub="security">Допуск</button>
-                    <button class="sub-tab" data-sub="inspection">Осмотр учеников</button>
+            <!-- Какуши -->
+            <div id="kakushi-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Какуши</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="kakushi-menu">
+                            <div class="subpage-menu-item active" data-sub="dresscode">Дресс-код</div>
+                            <div class="subpage-menu-item" data-sub="promotion">Система повышения</div>
+                            <div class="subpage-menu-item" data-sub="atarashi">Атараши</div>
+                        </div>
+                        <div class="subpage-content" id="kakushi-content"></div>
+                    </div>
                 </div>
-                <div class="subpage-content" id="gunshinrib-content"></div>
             </div>
-        </div>
-    </main>
 
-    <footer>
-        <div class="footer-line">rattru • HENHO • whiteprince</div>
-        <div>s5.yufu.su:27017 • 2026</div>
-    </footer>
+            <!-- Помещения поместья бабочки -->
+            <div id="rooms-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Помещения поместья бабочки</h2>
+                    <div class="rooms-gallery">
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/964f421c97450113.jpeg" alt="Поместье"><div class="room-name">Поместье</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/54fb15952da81367.jpeg" alt="Зона ожидания"><div class="room-name">Зона ожидания</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/74564551395427ad.jpeg" alt="Комната Канао"><div class="room-name">Комната Канао</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/53e5f62a918163b1.jpeg" alt="Комната сестричек и Аой"><div class="room-name">Комната сестричек и Аой</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/d5e663867875ac74.jpeg" alt="Склад"><div class="room-name">Склад</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/ce39321ece78c644.jpeg" alt="Зона отдыха"><div class="room-name">Зона отдыха</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/b78e1363e8334149.jpeg" alt="Пасека Мицури и сад Шинобу"><div class="room-name">Пасека Мицури и сад Шинобу</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/2fbb47f07a2707cc.jpeg" alt="Могила Канаэ Кочо"><div class="room-name">Могила Канаэ Кочо</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/d90db68c4cd61172.jpeg" alt="Зона для игр/тренировок"><div class="room-name">Зона для игр/тренировок</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/f371c4932c48af6d.jpeg" alt="Лестница на 2 этаж"><div class="room-name">Лестница на 2 этаж</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/2923c42e41b2ae81.jpeg" alt="Подвал"><div class="room-name">Подвал</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/60a9836cd3408297.jpeg" alt="Лабораторная"><div class="room-name">Лабораторная</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/34b5861ca0565495.jpeg" alt="Операционная"><div class="room-name">Операционная</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/469592910ecb6a04.jpeg" alt="Лазарет"><div class="room-name">Лазарет</div></div>
+                        <div class="room-card"><img src="https://storage.yandexcloud.net/new.fotora.ru/b4a91e8247ced854.jpeg" alt="Кухня"><div class="room-name">Кухня</div></div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="music-player">
-        <div class="player-controls">
-            <button id="prevBtn">⏮</button>
-            <button id="playPauseBtn">▶</button>
-            <button id="nextBtn">⏭</button>
+            <!-- Гуншинрибу -->
+            <div id="gunshinrib-page" class="page">
+                <div class="container">
+                    <h2 class="section-title">Гуншинрибу</h2>
+                    <div class="subpage-layout">
+                        <div class="subpage-menu" id="gunshinrib-menu">
+                            <div class="subpage-menu-item active" data-sub="general">Общее понятие</div>
+                            <div class="subpage-menu-item" data-sub="duty">Дежурство</div>
+                            <div class="subpage-menu-item" data-sub="cognitive">Виды когнитивных нарушений</div>
+                            <div class="subpage-menu-item" data-sub="ptsd">Посттравматическое стрессовое расстройство</div>
+                            <div class="subpage-menu-item" data-sub="operative">Памятка для оперативников</div>
+                            <div class="subpage-menu-item" data-sub="clinical">Памятка для клинических психологов</div>
+                            <div class="subpage-menu-item" data-sub="security">Формы допуска секретности</div>
+                            <div class="subpage-menu-item" data-sub="inspection">Осмотр учеников после отбора</div>
+                        </div>
+                        <div class="subpage-content" id="gunshinrib-content"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="footer-line">rattru • HENHO • whiteprince</div>
+                <div class="footer-sub">s5.yufu.su:27017 • 2026</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Музыкальный плеер -->
+    <div class="music-player" id="musicPlayer">
+        <div class="compact-icon">🔊</div>
+        <div class="player-content">
+            <div class="player-controls">
+                <button id="prevBtn" title="Предыдущий трек">⏮</button>
+                <button id="playPauseBtn">▶</button>
+                <button id="nextBtn" title="Следующий трек">⏭</button>
+            </div>
+            <div class="track-info" id="trackName">Трек 1 из 2</div>
+            <div class="volume-control">
+                <span>🔊</span>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+            </div>
+            <audio id="bgMusic" preload="none" loop></audio>
         </div>
-        <div class="track-info" id="trackName">Загрузка...</div>
-        <div class="volume-control">
-            <span>🔊</span>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
-        </div>
-        <audio id="bgMusic" loop></audio>
     </div>
 
     <script>
-        // Переключение основных вкладок
-        const mainTabs = document.querySelectorAll('.tab-btn');
+        // ===== Переключение страниц =====
         const pages = {
             home: document.getElementById('home-page'),
             treatment: document.getElementById('treatment-page'),
@@ -661,37 +898,90 @@
             rooms: document.getElementById('rooms-page'),
             gunshinrib: document.getElementById('gunshinrib-page')
         };
+        const navLinks = document.querySelectorAll('.nav-link');
 
-        function switchMainPage(pageId) {
+        function switchPage(pageId) {
             Object.values(pages).forEach(p => p.classList.remove('active'));
             if (pages[pageId]) {
                 pages[pageId].classList.add('active');
-                mainTabs.forEach(tab => {
-                    tab.classList.remove('active');
-                    if (tab.dataset.page === pageId) tab.classList.add('active');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.page === pageId) link.classList.add('active');
                 });
                 history.pushState({page: pageId}, '', `#${pageId}`);
-                
-                // Активируем первый подраздел для каждой страницы
-                if (pageId === 'treatment') activateSubTab('treatment', 'burns');
-                else if (pageId === 'lectures') activateSubTab('lectures', 'firstaid');
-                else if (pageId === 'cooking') activateSubTab('cooking', 'fav');
-                else if (pageId === 'medicine') activateSubTab('medicine', 'ointments');
-                else if (pageId === 'kakushi') activateSubTab('kakushi', 'dresscode');
-                else if (pageId === 'gunshinrib') activateSubTab('gunshinrib', 'general');
+
+                // Активируем первый подраздел для страниц с подменю
+                if (pageId === 'treatment') {
+                    const firstItem = document.querySelector('#treatment-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#treatment-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('treatment', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'lectures') {
+                    const firstItem = document.querySelector('#lectures-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#lectures-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('lectures', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'cooking') {
+                    const firstItem = document.querySelector('#cooking-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#cooking-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('cooking', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'medicine') {
+                    const firstItem = document.querySelector('#medicine-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#medicine-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('medicine', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'kakushi') {
+                    const firstItem = document.querySelector('#kakushi-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#kakushi-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('kakushi', firstItem.dataset.sub);
+                    }
+                } else if (pageId === 'gunshinrib') {
+                    const firstItem = document.querySelector('#gunshinrib-menu .subpage-menu-item');
+                    if (firstItem) {
+                        document.querySelectorAll('#gunshinrib-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
+                        firstItem.classList.add('active');
+                        updateSubpageContent('gunshinrib', firstItem.dataset.sub);
+                    }
+                }
             }
         }
 
-        mainTabs.forEach(tab => {
-            tab.addEventListener('click', () => switchMainPage(tab.dataset.page));
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchPage(this.dataset.page);
+            });
         });
 
-        // Подстраницы
-        const subpageConfigs = {
-            treatment: {
-                tabs: 'treatment-tabs',
-                content: 'treatment-content',
-                data: {
+        window.addEventListener('load', () => {
+            const hash = location.hash.substring(1);
+            if (hash && pages[hash]) switchPage(hash);
+            else switchPage('home');
+        });
+
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.page) switchPage(e.state.page);
+            else switchPage('home');
+        });
+
+        // ===== Конфигурация подстраниц =====
+        const subpageConfigs = [
+            {
+                page: 'treatment',
+                menuId: 'treatment-menu',
+                contentId: 'treatment-content',
+                subpages: {
                     burns: 'Ожоги',
                     fractures: 'Переломы',
                     wounds: 'Раны',
@@ -700,247 +990,626 @@
                     instruments: 'Медицинские инструменты'
                 }
             },
-            lectures: {
-                tabs: 'lectures-tabs',
-                content: 'lectures-content',
-                data: {
+            {
+                page: 'lectures',
+                menuId: 'lectures-menu',
+                contentId: 'lectures-content',
+                subpages: {
                     firstaid: 'Первая мед. помощь',
                     cpr: 'Сердечно-легочная реанимация',
                     poisons: 'Яды',
                     fracture_lecture: 'Переломы'
                 }
             },
-            cooking: {
-                tabs: 'cooking-tabs',
-                content: 'cooking-content',
-                data: {
+            {
+                page: 'cooking',
+                menuId: 'cooking-menu',
+                contentId: 'cooking-content',
+                subpages: {
                     fav: 'Любимые блюда столпов',
-                    snacks: 'Закуски',
-                    soups: 'Супы',
+                    snacks: 'Закуски и легкие блюда',
+                    soups: 'Супы и похлебки',
                     sweets: 'Сладости',
                     drinks: 'Напитки'
                 }
             },
-            medicine: {
-                tabs: 'medicine-tabs',
-                content: 'medicine-content',
-                data: {
+            {
+                page: 'medicine',
+                menuId: 'medicine-menu',
+                contentId: 'medicine-content',
+                subpages: {
                     ointments: 'Мази',
                     tinctures: 'Настойки',
                     decoctions: 'Отвары',
                     poisons: 'Яды'
                 }
             },
-            kakushi: {
-                tabs: 'kakushi-tabs',
-                content: 'kakushi-content',
-                data: {
+            {
+                page: 'kakushi',
+                menuId: 'kakushi-menu',
+                contentId: 'kakushi-content',
+                subpages: {
                     dresscode: 'Дресс-код',
                     promotion: 'Система повышения',
                     atarashi: 'Атараши'
                 }
             },
-            gunshinrib: {
-                tabs: 'gunshinrib-tabs',
-                content: 'gunshinrib-content',
-                data: {
+            {
+                page: 'gunshinrib',
+                menuId: 'gunshinrib-menu',
+                contentId: 'gunshinrib-content',
+                subpages: {
                     general: 'Общее понятие',
                     duty: 'Дежурство',
-                    cognitive: 'Когнитивные нарушения',
-                    ptsd: 'ПТСР',
-                    operative: 'Памятка оперативникам',
-                    clinical: 'Памятка клиническим',
-                    security: 'Формы допуска',
-                    inspection: 'Осмотр учеников'
+                    cognitive: 'Виды когнитивных нарушений',
+                    ptsd: 'Посттравматическое стрессовое расстройство',
+                    operative: 'Памятка для оперативников',
+                    clinical: 'Памятка для клинических психологов',
+                    security: 'Формы допуска секретности',
+                    inspection: 'Осмотр учеников после отбора'
                 }
             }
-        };
+        ];
 
-        function activateSubTab(page, subKey) {
-            const config = subpageConfigs[page];
+        function updateSubpageContent(pageId, subKey) {
+            const config = subpageConfigs.find(c => c.page === pageId);
             if (!config) return;
-            
-            const tabsContainer = document.getElementById(config.tabs);
-            if (!tabsContainer) return;
-            
-            const tabs = tabsContainer.querySelectorAll('.sub-tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            
-            const activeTab = Array.from(tabs).find(t => t.dataset.sub === subKey);
-            if (activeTab) activeTab.classList.add('active');
-            
-            updateSubContent(page, subKey);
-        }
+            const contentDiv = document.getElementById(config.contentId);
+            const subName = config.subpages[subKey] || subKey;
 
-        function updateSubContent(page, subKey) {
-            const config = subpageConfigs[page];
-            if (!config) return;
-            
-            const contentDiv = document.getElementById(config.content);
-            const subName = config.data[subKey] || subKey;
-            
             let html = `<h4>${subName}</h4>`;
 
-            // Содержимое для разных подразделов
-            if (page === 'treatment' && subKey === 'burns') {
+            // Лечение - ожоги
+            if (pageId === 'treatment' && subKey === 'burns') {
                 html = `
                     <h4>Виды ожогов и их лечение</h4>
-                    <div class="recipe-block">
-                        <div class="recipe-title">Химический ожог</div>
-                        <p>Повреждение тканей от кислот или щелочей.</p>
-                        <ul><li>Промыть водой 15-20 минут</li><li>Удалить остатки химиката</li><li>Наложить стерильную повязку</li></ul>
-                    </div>
-                    <div class="recipe-block">
-                        <div class="recipe-title">Термический ожог</div>
-                        <p>От огня, пара, горячих предметов.</p>
-                        <ul><li>Охладить под водой 15 минут</li><li>Обработать антисептиком</li><li>При волдырях - не вскрывать</li></ul>
-                    </div>
+                    <div class="recipe-block"><div class="recipe-title">Химический ожог</div><p>Химический ожог — это повреждение тканей организма (кожи, слизистых оболочек, глаз, пищевода), вызванное воздействием агрессивных химических веществ.</p><ul><li><strong>Кислоты</strong> вызывают коагуляционный некроз (сухой ожог). Они сворачивают белки, образуя плотный струп (корку), который препятствует дальнейшему проникновению вещества вглубь.</li><li><strong>Щелочи</strong> вызывают колликвационный некроз (влажный ожог). Они омыляют жиры и растворяют белки, не образуя плотной корки, и проникают очень глубоко в ткани, поэтому такие ожоги считаются более опасными.</li></ul><p><strong>Способ лечения при поражении плоти (кожи)</strong></p><ol class="recipe-list"><li>Осмотреть участок повреждения. Если он под одеждой, снять одежду, но не с места раны (она могла приклеиться).</li><li>Отрезать кусок ткани, если она срослась с кожей, стряхнуть химикат (если порошок), промыть кожу проточной водой около 10 раз.</li><li>Ввести обезболивающее, затем скальпелем срезать поврежденный участок вместе с одеждой, двигаясь от краёв к центру.</li><li>Обработать рану, наложить стерильную повязку.</li></ol><p><strong>При поражении слизистых</strong> — обильное промывание водой (от носа к виску), при порошках — сухое удаление, затем обезболивающие капли и сухая повязка.</p></div>
+                    <div class="recipe-block"><div class="recipe-title">Термический ожог</div><p>Термический ожог — это повреждение тканей, возникающее в результате воздействия высоких температур. Под воздействием высокой температуры происходит денатурация (свертывание) белков клеток, нарушение ферментативной активности и разрушение клеточных мембран. В зависимости от температуры и времени контакта повреждаются поверхностные или глубокие слои кожи. Горячие жидкости обычно вызывают поверхностные, но обширные ожоги, в то время как пламя и контакт с раскаленными предметами чаще приводят к глубоким поражениям.</p><p><strong>Способ лечения ожога 1-2 степени:</strong></p><ol class="recipe-list"><li>Поместить обожженную часть тела под прохладную проточную воду на 15–20 минут. Это снижает температуру раны, предотвращает углубление ожога и обезболивает. <em>Нельзя использовать лед — это вызывает спазм сосудов и усугубляет повреждение.</em></li><li>Аккуратно промыть рану мыльной водой или антисептиком (хлор-глюконат), чтобы удалить грязь.</li><li>Если есть волдырь с жидкостью (только 2 степень ожога!) необходимо подрезать аккуратно волдырь и дать вытечь жидкости. Наложить влажную стерильную повязку (можно смочить хлор-глюконат или просто водой), чтобы защитить от инфекции.</li><li>При необходимости дать человеку выпить обезболивающее.</li></ol><p><strong>Способ лечения ожога 3-4 степени:</strong></p><ol class="recipe-list"><li>Ввести дозу обезболивающего, после чего с помощью скальпеля срезать омертвевшие ткани (плотная корочка темного цвета).</li><li>Удаление нежизнеспособных тканей (под наркозом), чтобы рана начала заживать. <em>При обширных глубоких ожогах требуется пересадка кожи (аутодермопластика). До этого момента рану закрывают специальными покрытиями или мазями.</em></li><li>Подключить капельницы с физраствором и питательными веществами (при больших площадях поражения).</li><li><em>4 степень ожога подразумевает собой критическую рану, которую невозможно вылечить (в случае чего ампутация конечности).</em></li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Электрический ожог</div><p>Электрический ожог — это повреждение тканей, вызванное прохождением электрического тока через тело человека. Особенность в том, что поражение имеет две составляющие:</p><ul><li>Ток меняет состав клеток и нарушает биоэлектрические процессы (особенно опасно для нервной ткани и сердца).</li><li>При прохождении через ткани с высоким сопротивлением (кожа, кости, жир) ток выделяет огромное количество тепла. Это приводит к образованию глубоких ожогов в точках входа и выхода тока (так называемые «метки тока»). Эти раны могут быть небольшими снаружи, но очень глубокими внутри, вплоть до обугливания мышц и костей.</li></ul><p><strong>Способ лечения места поражения (Метки тока):</strong></p><ol class="recipe-list"><li>При небольших и неглубоких метках обработать рану антисептиками, удалить омертвевшие ткани и наложить асептическую (стерильную) повязку.</li><li>Поскольку ожог имеет сухой характер (коагуляционный некроз), под ним может скапливаться гной или отторгаться ткань, потому их требуется сначала вскрыть, а потом повторить действия из пункта 1.</li><li>Если поражение обширное (встречается редко, чаще при ударе током высокого напряжения), требуется пластика кожи (аутодермопластика) для закрытия дефекта.</li></ol><p><strong>Системное (общее) лечение:</strong></p><ol class="recipe-list"><li>Если ток прошел через мышцы, они разрушаются (рабдомиолиз). Продукты распада забивают почки. Чтобы этого избежать, вводят большие объемы жидкости и специальные растворы (соду, мочегонные), чтобы "вымыть" токсины.</li><li>Электрические ожоги могут быть очень болезненными, особенно при отторжении тканей. Ввести человеку обезболивающее.</li><li>Узнать какой степени ожог, после чего провести операцию согласно регламенту "термического ожога".</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Солнечный ожог</div><p>Солнечный ожог — это повреждение кожи ультрафиолетом. Обычно это ожог 1-й (покраснение) или 2-й (волдыри) степени. Лечение направлено на увлажнение, охлаждение, снятие боли и восстановление кожи.</p><p><strong>Способ лечения солнечного ожога:</strong></p><ol class="recipe-list"><li>Отправить человека принимать прохладный (не ледяной!) душ или ванну в течение 10–15 минут. Это снимет жар и успокоит жжение. Можно приложить чистую ткань, смоченную прохладной водой, на самые болезненные места.</li><li>После душа, промокнув кожу мягким полотенцем (не тереть!), нанесите увлажняющее средство (мази, кремы, спреи).</li><li>Пить чистую воду, чтобы восполнить потерю жидкости, можно выдать таблетку для понижения температуры тела и обезболивающее.</li><li>Если ожог 2 степени, то провести операцию согласно регламенту "термического ожога".</li></ol></div>
                 `;
-            } else if (page === 'treatment' && subKey === 'fractures') {
+            }
+            // Лечение - переломы
+            else if (pageId === 'treatment' && subKey === 'fractures') {
                 html = `
-                    <h4>Лечение переломов</h4>
-                    <h5>Закрытый перелом</h5>
-                    <ul><li>Обездвижить конечность шиной</li><li>Холод на место травмы</li><li>Транспортировка в лазарет</li></ul>
-                    <h5>Открытый перелом</h5>
-                    <ul><li>Остановить кровотечение</li><li>Наложить стерильную повязку</li><li>Зафиксировать шиной</li><li>Срочная операция</li></ul>
+                    <h4>Лечение переломов всех видов</h4>
+                    <h5>1. Первичный осмотр (Диагностика)</h5>
+                    <ol class="recipe-list"><li>Вам надо установить, какой вид перелома, после чего определить тактику лечения. Для этого осмотрите конечность и спросите у пострадавшего об обстоятельствах травмы.</li><li><strong>Закрытый перелом:</strong> Кожа не повреждена, но есть отек, гематома (синяк), деформация конечности, сильная боль при движении.</li><li><strong>Открытый перелом:</strong> Есть рана, в которой видна кость или ее осколки. Кровотечение. Высокий риск инфекции.</li><li><strong>Перелом со смещением:</strong> Конечность выглядит неестественно (укорочена, выгнута под неправильным углом). Кость сломана и разошлась.</li><li><strong>Трещина (перелом без смещения):</strong> Боль есть, отек небольшой, но двигать конечностью (с трудом) можно. Кость цела по структуре, но повреждена - нанести плотный бинт или гипс.</li></ol>
+                    <h5>2. Репозиция (Сопоставление отломков)</h5>
+                    <ol class="recipe-list"><li><strong>Без смещения (трещина):</strong> Репозиция не требуется.</li><li><strong>Со смещением:</strong> Требуется вправление кости (под наркозом/обезболиванием).</li><li><strong>Перелом с наличием осколков:</strong> Если кость раздроблена, требуется операция.</li></ol>
+                    <h5>3. Фиксация</h5>
+                    <ol class="recipe-list"><li><strong>Гипс:</strong> Накладывается на срок от 2 до 6 недель (30-60 минут реального времени). Вы должны развести воду и гипс в равных пропорциях, предварительно закрепив бинт, который будете облепливать гипсом.</li><li><strong>Хирургическая операция (Остеосинтез):</strong> При открытых или сложных переломах, Вам необходимо ввести человека в наркозный сон и обработать зону антисептиком, после чего разрезать продолговато ткань для доступа к костям, с помощью зажимов закрепить ткани так, чтоб не мешались. Если есть осколки, то с помощью пинцета удалить, если есть смещение, то необходимо вправить кость на место или уже с помощью титановых пластин и болтов свести кости, дабы зафиксировать в правильном положение для сращивания.</li><li>Вытереть участок, если было обильное кровотечение во время операции (зажимать сосуды необходимо), после чего зашить человека, обработать антисептиком вокруг шва (не шов!) и наложить стерильную повязку.</li></ol>
+                    <h5>4. Антибиотики (Только для открытых переломов)</h5><p>Назначается курс антибиотиков, чтобы не допустить заражения крови (остеомиелита).</p>
+                    <h5>5. Снятие гипса и внутренних пластин</h5>
+                    <ol class="recipe-list"><li>Если перелом внутренний со смещением, то необходимо проверить, как срослась кость (если не правильно, то ломать и проводить те же манипуляции). Если всё в порядке, то выполнить обратные действия и снять пластины, и болты, зашив человека обратно.</li><li>Снять гипс (обычный перелом) и проверить, как срослась кость (если не правильно, то ломать и проводить те же манипуляции).</li></ol>
                 `;
-            } else if (page === 'lectures' && subKey === 'firstaid') {
+            }
+            // Лечение - раны
+            else if (pageId === 'treatment' && subKey === 'wounds') {
                 html = `
-                    <h4>Первая медицинская помощь</h4>
-                    <p>Основные принципы: сохранить жизнь, не навредить, вызвать помощь.</p>
-                    <h5>Алгоритм действий:</h5>
-                    <ol><li>Оценка безопасности</li><li>Проверка сознания</li><li>Остановка кровотечения</li><li>Вызов квалифицированной помощи</li></ol>
+                    <h4>Раны и первая помощь</h4>
+                    <h5>Состав аптечки для ПМП</h5>
+                    <ul><li>Перчатки и маски</li><li>Антисептик - Йод, зелёнка, бутылёк со спиртом, дистиллированная вода</li><li>Жгут для фиксации сосудов при кровотечении</li><li>Средства для перевязки – вата, бинт стерильный и эластичный, пластырь, марля</li><li>Ножницы, пинцет, несколько шприцов, градусник</li><li>Пантенол (Противоожоговое/ранозаживляющее средство)</li><li>Обезболивающее/жаропонижающее средство</li><li>Спазмолитики</li><li>Средства от кишечных расстройств - активированный уголь</li><li>Капли в нос увлажняющие и сосудосуживающие</li><li>Бутылёк с сиропом алтеи и раствором календулы</li><li>Сильнодействующие обезболивающие</li><li>Сердечные препараты</li><li>Мазь календулы</li><li>Антигистаминные препараты при аллергии</li><li>Нашатырь</li></ul>
+                    <h5>Оказание первой помощи</h5><p>Перед тем, как начать оказание первой мед. помощи, нужно убедиться, что вам и раненому ничего не угрожает. Дабы обеспечить эту безопасность - нужно: взять истребителя на спину, используя каты, залезть на возвышенность, куда демон не сможет залезть. После этого вы можете начинать оказывать первую помощь. (Разрешается отыгрывать через голосовой)</p>
+                    <h5>Резаная рана (С кровотечением/без)</h5><ol class="recipe-list"><li>Надеть перчатки с маской</li><li>В зависимости от места ранения, снять с истребителя форму</li><li>Обработать рану бутыльком спирта. (Если рана незначительна, то можно покапать спиртом на вату и обработать ею)</li><li>После обработки раны - перебинтовать место раны</li><li>Отнести пациента в поместье</li></ol>
+                    <h5>Колотая рана (С кровотечением/без)</h5><p>Действия аналогичны резаной ране.</p>
+                    <h5>Артериальное кровотечение</h5><ol class="recipe-list"><li>Надеть перчатки с маской</li><li>В зависимости от места ранения, снять с истребителя форму</li><li>Обильно обработать рану спиртом</li><li>Наложить марлю</li><li>Отнести пациента в поместье</li></ol>
+                    <h5>Венозное кровотечение</h5><ol class="recipe-list"><li>Надеть перчатки с маской</li><li>В зависимости от места ранения, снять с истребителя форму</li><li>Обработать рану спиртом</li><li>Туго перебинтовать место</li><li>Отнести пациента в поместье</li></ol>
+                    <h5>Ожог</h5><ol class="recipe-list"><li>Надеть перчатки с маской</li><li>В зависимости от места поражения, оголить место</li><li>Нанести мазь на бинт и перебинтовать место ожога</li><li>Отнести пациента в поместье</li></ol>
+                    <h5>Огнестрельные раны</h5><ol class="recipe-list"><li>Надеть перчатки с маской</li><li>В зависимости от места поражения, оголить место</li><li>Используя бутылёк со спиртом, обработать рану</li><li>Используя бинт - перебинтовать рану</li><li>Наложить шину</li><li>Отнести пациента в поместье</li></ol>
+                    <h5>Перелом</h5><ol class="recipe-list"><li>Зафиксировать конечность</li><li>Отнести пациента в поместье</li></ol>
+                    <h5>Ушибы/Синяки</h5><ol class="recipe-list"><li>В зависимости от места ранения, снять с истребителя форму</li><li>Мазью обработать рану</li></ol>
                 `;
-            } else if (page === 'cooking' && subKey === 'fav') {
+            }
+            // Лечение - инструменты
+            else if (pageId === 'treatment' && subKey === 'instruments') {
+                html = `
+                    <h4>Медицинские инструменты</h4>
+                    <h5>Хирургические инструменты</h5><ul><li><strong>Скальпель</strong> – Основной инструмент для разрезов при операциях и вскрытии абсцессов.</li><li><strong>Хирургические ножницы</strong> – Используются для рассечения тканей, бинтов, нитей.</li><li><strong>Щипцы и пинцеты</strong> – Применяются для удержания тканей, удаления инородных тел и осколков.</li><li><strong>Иглы и держатели игл</strong> – Используются для наложения швов после операций и ранений.</li></ul>
+                    <h5>Диагностические инструменты</h5><ul><li><strong>Стетоскоп</strong> – Используется для выслушивания сердца и лёгких.</li><li><strong>Ртутный термометр</strong> – Применяется для измерения температуры тела при лихорадках, инфекциях и воспалениях.</li><li><strong>Тонометр</strong> – Используется для измерения артериального давления.</li><li><strong>Перкуссионный молоточек</strong> – Применяется для простукивания грудной клетки и проверки рефлексов.</li></ul>
+                    <h5>Перевязочные и вспомогательные инструменты</h5><ul><li><strong>Бинты и марля</strong> – Применяются для перевязки ран, остановки кровотечений и фиксации повязок.</li><li><strong>Стеклянные шприцы</strong> – Используются для инъекций лекарств, вакцин и обезболивающих средств.</li><li><strong>Металлические лотки и ёмкости</strong> – Служат для хранения и стерилизации инструментов.</li><li><strong>Антисептические растворы</strong> – Используются для обработки ран и инструментов (спирт, карболовая кислота).</li></ul>
+                `;
+            }
+            // Лекции - первая помощь
+            else if (pageId === 'lectures' && subKey === 'firstaid') {
+                html = `
+                    <h4>Первая медицинская помощь (ПМП)</h4>
+                    <p>Первая медицинская помощь — это немедленные действия, направленные на сохранение жизни пострадавшего до прибытия врача или доставки в безопасное место. Она не заменяет лечение, но часто решает, выживет ли человек.</p>
+                    
+                    <h5>Основные цели ПМП</h5>
+                    <ol class="recipe-list">
+                        <li>Сохранить жизнь.</li>
+                        <li>Предотвратить ухудшение состояния.</li>
+                        <li>Подготовить пострадавшего к дальнейшему лечению.</li>
+                    </ol>
+                    
+                    <h5>Общий порядок действий</h5>
+                    <ol class="recipe-list">
+                        <li><strong>Оценка обстановки</strong> — прежде всего убедитесь, что вам ничего не угрожает: поблизости нет демонов, огня, обрушений. Мёртвый спасатель помощи не окажет.</li>
+                        <li><strong>Оценка состояния пострадавшего</strong> — проверьте сознание, дыхание, наличие сильного кровотечения. Если человек не реагирует и не дышит — переходите к СЛР.</li>
+                        <li><strong>Остановка угрозы жизни</strong> — в первую очередь устраняется то, от чего человек может погибнуть быстрее всего: кровопотеря, удушье, остановка сердца.</li>
+                    </ol>
+                    
+                    <h5>Основные виды ПМП</h5>
+                    <ul>
+                        <li><strong>Кровотечение:</strong> Прижмите рану тканью или бинтом. Наложите давящую повязку. При сильном кровотечении — жгут выше раны, обязательно запомнить время.</li>
+                        <li><strong>Ранения:</strong> Очистить кожу вокруг раны. Наложить чистую повязку. Не извлекать застрявшие предметы — это может усилить кровопотерю.</li>
+                        <li><strong>Переломы:</strong> Обездвижить повреждённую часть тела. Зафиксировать суставы выше и ниже перелома. Не пытаться вправлять кость.</li>
+                        <li><strong>Ожоги:</strong> Прекратить воздействие огня или жара. Охладить место ожога прохладной водой. Наложить сухую стерильную повязку. Пузыри не вскрывать.</li>
+                        <li><strong>Потеря сознания:</strong> Уложить пострадавшего. Проверить дыхание. При отсутствии дыхания — немедленно приступить к СЛР.</li>
+                    </ul>
+                    
+                    <h5>Чего делать нельзя</h5>
+                    <ul>
+                        <li>Паниковать и метаться.</li>
+                        <li>Давать лекарства без назначения врача.</li>
+                        <li>Оставлять пострадавшего одного.</li>
+                        <li>Игнорировать даже «незначительные» раны.</li>
+                    </ul>
+                    <p class="note">От ваших действий зависят минуты, а иногда и вся жизнь человека.</p>
+                `;
+            }
+            // Лекции - СЛР
+            else if (pageId === 'lectures' && subKey === 'cpr') {
+                html = `
+                    <h4>Сердечно-лёгочная реанимация</h4>
+                    <p>Сердечно-лёгочная реанимация — это действия, направленные на возвращение дыхания и сердечной деятельности у человека, находящегося без сознания и без признаков жизни. Применяется в экстренных случаях до доставки пострадавшего к врачу.</p>
+                    
+                    <h5>Когда необходимо начинать</h5>
+                    <ol class="recipe-list">
+                        <li>Пострадавший не реагирует на обращение.</li>
+                        <li>Дыхание отсутствует или едва уловимо.</li>
+                        <li>Пульс не прощупывается, тело начинает холодеть.</li>
+                    </ol>
+                    <p><strong>Медлить нельзя — промедление ведёт к смерти.</strong></p>
+                    
+                    <h5>Порядок действий</h5>
+                    <ol class="recipe-list">
+                        <li><strong>Обеспечить безопасность</strong> — убедиться, что поблизости нет угроз (демоны, огонь, обрушения).</li>
+                        <li><strong>Проверка состояния</strong> — осторожно окликнуть и встряхнуть пострадавшего. Приложить ухо к груди, выслушать дыхание не более нескольких мгновений.</li>
+                        <li><strong>Подготовка</strong> — уложить пострадавшего на твёрдую поверхность. Освободить грудную клетку от одежды, запрокинуть голову для открытия дыхательных путей.</li>
+                        <li><strong>Надавливания на грудную клетку</strong> — ладони расположить в центре груди. Выполнять 30 сильных и ритмичных надавливаний подряд. Давить следует ровно, не сбиваясь с ритма, примерно два надавливания за одно дыхание спасателя. Продавливать грудь достаточно глубоко, чтобы запустить движение крови.</li>
+                        <li><strong>Искусственное дыхание</strong> — после надавливаний сделать 2 глубоких вдоха рот-ко-рту (допустимо через ткань или платок). Каждый вдох должен быть заметен по подъёму грудной клетки.</li>
+                        <li><strong>Повторение цикла</strong> — чередовать 30 надавливаний и 2 вдоха без остановки. Продолжать СЛР не менее 10–15 минут, либо до появления дыхания и пульса.</li>
+                    </ol>
+                    
+                    <h5>Когда прекращают СЛР</h5>
+                    <ol class="recipe-list">
+                        <li>Появилось самостоятельное дыхание.</li>
+                        <li>Возобновился пульс.</li>
+                        <li>Пострадавший пришёл в сознание.</li>
+                        <li>Его передали врачу или более опытному медику.</li>
+                    </ol>
+                    
+                    <h5>Важно помнить</h5>
+                    <p>Ритм и настойчивость важнее силы. Даже если руки устают, нельзя прекращать — именно постоянство даёт шанс вернуть человека к жизни.</p>
+                `;
+            }
+            // Лекции - яды
+            else if (pageId === 'lectures' && subKey === 'poisons') {
+                html = `<h4>Лекция о ядах</h4><p>Яды — вещества, вызывающие отравление организма. В поместье изучают как растительные, так и животные яды. Основные принципы:</p><ul><li>Распознавание симптомов отравления.</li><li>Методы детоксикации (промывание желудка, антидоты).</li><li>Хранение ядов только с разрешения столпа.</li></ul><p>Полный курс лекций проводит Шинобу Кочо или ССП. Обязателен для всех какуши.</p>`;
+            }
+            // Лекции - переломы (новая подстраница)
+            else if (pageId === 'lectures' && subKey === 'fracture_lecture') {
+                html = `
+                    <h4>Переломы</h4>
+                    <p>Перелом — это нарушение целостности кости вследствие удара, падения или боевого повреждения. Переломы опасны не только болью, но и кровопотерей, заражением и утратой подвижности.</p>
+                    
+                    <h5>Виды переломов</h5>
+                    <ul>
+                        <li><strong>Закрытый</strong> — кожа не повреждена</li>
+                        <li><strong>Открытый</strong> — кость или её обломки повреждают кожу</li>
+                        <li><strong>Со смещением</strong> — обломки кости сдвинуты</li>
+                        <li><strong>Множественный</strong> — повреждено несколько костей</li>
+                    </ul>
+                    
+                    <h5>Признаки перелома</h5>
+                    <ul>
+                        <li>резкая боль, усиливающаяся при движении</li>
+                        <li>деформация конечности</li>
+                        <li>отёк, кровоподтёки</li>
+                        <li>невозможность опоры или движения</li>
+                        <li>при открытом переломе — видимая кость и кровотечение</li>
+                    </ul>
+                    <p class="note">⚠️ Важно: отсутствие сильной боли не исключает перелом.</p>
+                    
+                    <h5>Первая помощь при переломах</h5>
+                    <ol class="recipe-list">
+                        <li><strong>Обеспечение покоя</strong> — уложить или усадить пострадавшего, исключить любые движения повреждённой части.</li>
+                        <li><strong>Остановка кровотечения (если есть)</strong> — наложить повязку, при сильном кровотечении — жгут выше раны.</li>
+                        <li><strong>Обездвиживание</strong> — зафиксировать повреждённую кость, обязательно захватить суставы выше и ниже перелома. Использовать шины, доски, ножны, ветки, плотную ткань.</li>
+                        <li><strong>При открытом переломе</strong> — не вправлять кость, накрыть рану стерильной повязкой, обездвижить конечность в том положении, в котором она находится.</li>
+                        <li><strong>Уменьшение боли</strong> — обеспечить тепло, успокоить пострадавшего. Не давать алкоголь.</li>
+                    </ol>
+                    
+                    <h5>Чего делать нельзя</h5>
+                    <ul>
+                        <li>Вправлять кость самостоятельно</li>
+                        <li>Резко выпрямлять конечность</li>
+                        <li>Перевозить пострадавшего без фиксации</li>
+                        <li>Игнорировать боль и отёк</li>
+                    </ul>
+                    
+                    <h5>Транспортировка</h5>
+                    <ul>
+                        <li>Перемещать пострадавшего только после фиксации</li>
+                        <li>При переломах позвоночника — переносить на жёсткой поверхности</li>
+                        <li>Следить за сознанием и дыханием</li>
+                    </ul>
+                `;
+            }
+            // Готовка - любимые блюда столпов
+            else if (pageId === 'cooking' && subKey === 'fav') {
                 html = `
                     <h4>Любимые блюда столпов</h4>
-                    <div class="recipe-block">
-                        <div class="recipe-title">Ренгоку: Сладкий картофельный суп</div>
-                        <p>Батат, мисо, имбирь, лук — варить до мягкости, превратить в крем.</p>
-                    </div>
-                    <div class="recipe-block">
-                        <div class="recipe-title">Кочо: Цукудани с имбирем</div>
-                        <p>Нори, имбирь, сакэ, соевый соус — варить до выпаривания жидкости.</p>
-                    </div>
+                    <div class="recipe-block"><div class="recipe-title">Кеджуро Ренгоку</div><div class="recipe-sub">Сладкий картофельный мисо-суп</div><ol class="recipe-list"><li>В кастрюле с толстым дном разогрейте масло. Добавьте мелко нарезанный лук и обжаривайте до мягкости. Затем добавьте измельченный чеснок и тертый имбирь, готовьте еще минуту.</li><li>Добавьте в кастрюлю очищенный и нарезанный кубиками батат. Залейте овощным бульоном так, чтобы он полностью покрывал овощи. Доведите до кипения, затем убавьте огонь и варите 15-20 минут, пока батат не станет мягким.</li><li>В отдельной маленькой миске смешайте пару ложек теплого бульона из кастрюли с пастой мисо до полного растворения комочков. Затем вылейте эту смесь обратно в суп.</li><li>С помощью венчика превратите суп в однородную кремовую массу.</li><li>Разлейте суп по тарелкам, украсьте зеленью.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Обанай Игуро</div><div class="recipe-sub">Тороро комбу</div><p class="note">Тороро комбу — это не основное блюдо, а добавка или приправа. Её можно добавить к готовому рису, лапше и т.д.</p></div>
+                    <div class="recipe-block"><div class="recipe-title">Гемей Химеджима</div><div class="recipe-sub">Такикоми-гохан</div><ol class="recipe-list"><li>Тщательно промойте рис в холодной воде, меняя воду несколько раз, пока она не станет прозрачной. Откиньте рис на сито и оставьте на 15–30 минут для просушки.</li><li>Нарежьте овощи и грибы мелкими кусочками примерно одного размера.</li><li>Обжарьте тофу абураагэ и промокните бумажным полотенцем, чтобы удалить лишнее масло, затем нарежьте соломкой. Так же обжарьте курицу.</li><li>Водоросль комбу и стружку тунца сварите в воде несколько минут и процедите бульон.</li><li>В мерном стакане смешайте готовый бульон, соевый соус, мирин, сакэ и соль.</li><li>В кастрюлю выложите рис и залейте его смесью бульона. Сверху на рис аккуратно выложите все остальные ингредиенты: овощи, грибы, тофу абураагэ, курицу. <strong>Важно: НЕ ПЕРЕМЕШИВАЙТЕ</strong>. Ингредиенты должны лежать слоем на рисе.</li><li>Накройте крышкой и включите средний огонь. Рис слегка подрумянивается снизу, образуя хрустящую корочку "окогэ".</li><li>Когда рис сварится, не открывайте крышку сразу. Дайте ему настояться под крышкой еще 10–15 минут.</li><li>Откройте крышку и аккуратно перемешайте содержимое лопаткой заворачивающими движениями. Подавайте горячим, украсив зеленым луком, кунжутом или свежим горошком.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Шинобу Кочо</div><div class="recipe-sub">Цукудани с имбирем</div><ol class="recipe-list"><li>Пластинки нори нарежьте тонкой соломкой. Имбирь очистите и натрите на мелкой терке (или очень тонко нарежьте соломкой).</li><li>В эмалированную кастрюлю влейте сакэ и соевый соус, добавьте сахар. Отправьте туда же нарезанные нори и имбирь. Хорошо перемешайте.</li><li>Поставьте кастрюлю на средний огонь. Когда смесь начнет закипать, увеличьте огонь до сильного. После закипания снова убавьте огонь до минимума и варите, периодически помешивая, до тех пор, пока водоросли не станут мягкими, а жидкость практически полностью не выпарится.</li><li>Готовую закуску переложите в небольшие пиалы. Традиционно цукудани подают как приправу к простому отварному рису.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Мицури Канроджи</div><div class="recipe-sub">Сакура моти и данго</div><p><strong>Сакура моти:</strong></p><ol class="recipe-list"><li>Маринованные листья сакуры аккуратно промойте от излишков соли и обсушите бумажным полотенцем.</li><li>В сотейнике вскипятите воду. Снимите с огня, сразу всыпьте рисовую муку и быстро перемешайте до однородности. Накройте крышкой и дайте постоять 5 минут.</li><li>Переложите тесто в миску или дуршлаг, застеленный влажной тканью, и установите над кастрюлей с кипящей водой. Готовьте на пару 20 минут.</li><li>Горячее тесто переложите в миску. Добавьте сахар и разведенный краситель. Тщательно вымешивайте деревянной лопаткой, пока сахар не растворится, а масса не станет эластичной и блестящей. Дайте тесту немного остыть.</li><li>Влажными руками сформируйте из пасты анко 8 шариков. Из рисового теста также сделайте 8 шариков, затем каждый расплющите в лепешку. В центр лепешки положите шарик анко и защипните края, формируя моти.</li><li>Каждый моти заверните в подготовленный лист сакуры (лицевой стороной листа наружу). Сакура моти готовы.</li></ol><p><strong>Данго:</strong></p><ol class="recipe-list"><li>В миске смешайте рисовую муку с сахаром. Постепенно вливайте воду, замешивая мягкое, эластичное тесто, не липнущее к рукам.</li><li>Скатайте тесто в шарики. Приготовьте шарики на пару 10-15 минут.</li><li>Когда шарики немного остынут, нанижите их на деревянные шпажки по 4-5 штук.</li><li>Смешайте в маленькой кастрюльке воду, соевый соус, сахар и крахмал. Тщательно размешайте. Поставьте на медленный огонь и, постоянно помешивая, варите до загустения. Соус должен стать прозрачным и густым.</li><li>Полейте готовые данго соусом и подавайте теплыми.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Муичиро Токито</div><div class="recipe-sub">Отварной редис с соусом</div><ol class="recipe-list"><li>Тщательно вымойте редис.</li><li>Налейте в кастрюлю немного воды (примерно на 1-2 пальца), добавьте соль и чайную ложку сахара. Доведите до кипения. Положите редис (целиком или крупные экземпляры можно разрезать пополам) и варите на среднем огне 7-8 минут.</li><li>Откиньте готовый редис на дуршлаг, дайте воде стечь. Переложите в блюдо, полейте растопленным сливочным маслом и обильно посыпьте мелко рубленым укропом.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Гию Томиока</div><div class="recipe-sub">Тушеный лосось с редисом</div><ol class="recipe-list"><li>Лук нарежьте мелким кубиком. Чеснок измельчите. Редис тщательно вымойте, обрежьте хвостики и нарежьте кружочками. Филе лосося нарежьте порционными кусками, посолите и поперчите.</li><li>В глубокой сковороде или сотейнике растопите сливочное масло на среднем огне. Обжарьте лук до мягкости. Добавьте чеснок и готовьте еще минуту.</li><li>Выложите в сковороду нарезанный редис. Готовьте, помешивая. Редис начнет светлеть и слегка карамелизоваться.</li><li>Влейте в сковороду сливки, доведите до слабого кипения. Аккуратно выложите кусочки лосося в сливочный соус. Убавьте огонь до минимума, накройте крышкой и тушите 10-15 минут.</li><li>Рыба должна стать непрозрачной и легко разделяться на волокна. Выключите огонь, при желании сбрызните лимонным соком. Дайте постоять под крышкой пару минут. Подавайте, щедро посыпав рубленой зеленью.</li></ol></div>
                 `;
-            } else if (page === 'kakushi' && subKey === 'promotion') {
+            }
+            // Готовка - закуски
+            else if (pageId === 'cooking' && subKey === 'snacks') {
+                html = `
+                    <h4>Закуски и легкие блюда</h4>
+                    <div class="recipe-block"><div class="recipe-title">Онигири</div><ol class="recipe-list"><li>Сварите короткозерный рис. Готовый рис немного остудите, чтобы не обжечь руки.</li><li>Смочите ладони водой и слегка посолите их (для вкуса и чтобы рис не лип). Возьмите горсть риса, в центр положите начинку (например, лосось, умэбоси или тунец с майонезом), накройте второй порцией риса.</li><li>Аккуратно сожмите рис в ладонях, формируя треугольник или шар. Сжимайте не слишком сильно — онигири должен держать форму, но оставаться нежным.</li><li>Положите на них полоску нори (сушеных водорослей), чтобы было удобно держать, или обваляйте в кунжуте.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Жареный тофу</div><ol class="recipe-list"><li>Тофу заверните в чистую льняную салфетку и положите под груз — пусть постоит 20 минут, избавляясь от лишней влаги. Нарежьте пластинами.</li><li>На сковороде разогрейте немного кунжутного масла. Выложите тофу и жарьте по 3-4 минуты с каждой стороны до хрустящей корочки.</li><li>Снимите с огня, сбрызните соевым соусом и посыпьте зеленым луком. Подавайте на простой тарелке.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Тайяки</div><ol class="recipe-list"><li>Смешайте муку, соль, сахар, разрыхлитель. В отдельной миске взбейте яйцо с молоком. Соедините жидкую и сухую смеси, перемешайте до однородности. Уберите тесто в холодное место на 30–60 минут — оно станет более эластичным.</li><li>Сильно разогрейте форму для тайяки на среднем огне, смажьте маслом.</li><li>Налейте тесто в формы, заполняя их примерно наполовину.</li><li>Выложите начинку в центр.</li><li>Залейте начинку сверху ещё небольшим количеством теста, чтобы полностью её закрыть.</li><li>Закройте форму и сразу переверните её, чтобы тесто равномерно распределилось по обеим сторонам.</li><li>Жарьте по 3-5 минут с каждой стороны до золотистого цвета.</li></ol></div>
+                `;
+            }
+            // Готовка - супы
+            else if (pageId === 'cooking' && subKey === 'soups') {
+                html = `
+                    <h4>Супы и похлебки</h4>
+                    <div class="recipe-block"><div class="recipe-title">Мисо-суп (традиционный)</div><p><strong>Ингредиенты:</strong></p><ul><li>Вода — 500 мл</li><li>Рыбный бульон «Даси» (гранулы или концентрат) — 1 ч. ложка (или 1 пакетик)</li><li>Паста мисо (светлая или темная) — 1.5–2 ст. ложки</li><li>Тофу (шелковый или обычный) — 100 г</li><li>Сушеные водоросли Вакамэ — 1 ст. ложка (или горсть)</li><li>Лук зеленый — 1 перышко</li></ul><p><strong>Этапы приготовления:</strong></p><ol class="recipe-list"><li>Нарежьте тофу небольшими кубиками (1 см). Мелко нарежьте зеленый лук. Если водоросли Вакамэ сухие и крупные, можно немного разломать их руками (но обычно они мелкие).</li><li>Налейте воду в кастрюлю и доведите до кипения. Добавьте гранулы Даси, перемешайте до полного растворения. Убавьте огонь до минимума.</li><li>Положите в бульон нарезанный тофу и сухие водоросли Вакамэ. Прогревайте на слабом огне 1–2 минуты. Водоросли должны увеличиться в размере.</li><li>Не кипятите суп после добавления мисо, так как паста потеряет аромат и полезные свойства. Налейте немного горячего бульона из кастрюли в отдельную миску или половник. Положите в этот бульон пасту мисо и тщательно размешайте венчиком или ложкой, чтобы разбить комочки, пока не получится однородная жижа. Вылейте разведенную пасту обратно в кастрюлю с супом. Перемешайте.</li><li>Сразу выключите огонь. Разлейте суп по пиалам. Посыпьте сверху зеленым луком. Подавайте горячим.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Суп с тофу и водорослями (прозрачный вариант, без мисо)</div><p><strong>Ингредиенты:</strong></p><ul><li>Вода — 500 мл</li><li>Рыбный бульон «Даси» — 1 ч. ложка</li><li>Соевый соус — 1 ст. ложка (для цвета и соли)</li><li>Мирин (сладкое рисовое вино) или щепотка сахара — 1 ч. ложка (по желанию)</li><li>Тофу — 100 г</li><li>Сушеные водоросли (Вакамэ или Комбу) — 1 ст. ложка</li><li>Зеленый лук</li></ul><p><strong>Этапы приготовления:</strong></p><ol class="recipe-list"><li>Тофу нарежьте кубиками. Лук измельчите.</li><li>Вскипятите воду в кастрюле. Добавьте Даси, перемешайте. Влейте соевый соус и мирин (если используете). Попробуйте бульон — он должен быть слегка соленым.</li><li>Положите в кипящий бульон кубики тофу. Добавьте сухие водоросли. Варите всё на медленном огне 2–3 минуты. Водоросли расправятся.</li><li>Выключите огонь. Разлейте суп по тарелкам. Украсьте зеленым луком.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Лапша удон в бульоне</div><p><strong>Ингредиенты:</strong></p><ul><li>Лапша Удон (свежая или сухая) — 1 порция (ок. 100 г)</li><li>Вода — 500 мл</li><li>Концентрат бульона для удона (или смесь: Даси + соевый соус + мирин) — по инструкции на пачке</li><li>Соевый соус — 1–2 ст. ложки (если используете свой бульон)</li><li>Тофу — 50 г (по желанию)</li><li>Зеленый лук — для подачи</li><li>Нори (лист сушеных водорослей) — для украшения</li></ul><p><strong>Этапы приготовления:</strong></p><ol class="recipe-list"><li>Вскипятите воду в большой кастрюле (воды должно быть много). Отварите лапшу удон согласно инструкции на упаковке (обычно 5–8 минут для свежей, 10–12 для сухой). Откиньте лапшу на дуршлаг, промойте холодной водой, чтобы остановить варку и смыть лишний крахмал. Отставьте в сторону.</li><li>В отдельной кастрюле вскипятите 500 мл воды. Добавьте основу для бульона: это может быть готовая смесь «Менцуй» (концентрированный суп для лапши) или самостоятельно: 1 ч.л. Даси, 2 ст.л. соевого соуса, 1 ст.л. мирина, щепотка соли. Если добавляете тофу, нарежьте его кубиком и положите в бульон. Прогрейте 2 минуты.</li><li>Прогретую лапшу удон положите в глубокую суповую миску. Залейте лапшу горячим бульоном с тофу так, чтобы лапша была слегка покрыта жидкостью.</li><li>Мелко нарежьте зеленый лук. Разломайте руками маленький кусочек нори (водоросли для суши) на тонкие полоски или квадратики. Посыпьте суп луком и водорослями нори сверху. Сразу подавайте.</li></ol><p class="note"><strong>Итог по времени:</strong> Мисо-суп и суп с водорослями готовятся очень быстро (5–7 минут). Удон потребует чуть больше времени из-за отдельной варки лапши.</p></div>
+                `;
+            }
+            // Готовка - сладости
+            else if (pageId === 'cooking' && subKey === 'sweets') {
+                html = `
+                    <h4>Сладости</h4>
+                    <div class="recipe-block"><div class="recipe-title">Данго (сладкие рисовые шарики на палочке)</div><p>Это, пожалуй, самая простая японская сладость. Чаще всего их подают с соусом из сои, сахара и мирина (митараси данго) или просто посыпают кунжутом и оборачивают листом нори.</p><p><strong>Ингредиенты (на 4 порции, около 8 шариков):</strong></p><ul><li>Для теста: 100 г рисовой муки (дзирусико или обычная клейкая рисовая мука — ширатамако/мотико), 80-90 мл теплой воды.</li><li>Для соуса митараси: 2 ст. ложки соевого соуса, 2 ст. ложки сахара, 1 ст. ложка мирина (или сладкого белого вина), 100 мл воды, 1 ч. ложка картофельного крахмала (кузу или кукурузный), разведенная в 1 ст. ложке воды.</li><li>Деревянные шпажки.</li></ul><p><strong>Приготовление:</strong></p><ol class="recipe-list"><li><strong>Замешиваем тесто:</strong> В миску насыпьте рисовую муку. Постепенно вливайте теплую воду, перемешивая рукой. Тесто должно получиться мягким, эластичным, как мочка уха, и не липнуть к рукам. Если крошится — добавьте воды, если липнет — муки.</li><li><strong>Формуем шарики:</strong> Разделите тесто на 8 равных частей. Скатайте из каждой влажными руками гладкие шарики.</li><li><strong>Варка:</strong> Вскипятите воду в кастрюле. Опустите шарики и варите, пока они не всплывут. После всплытия варите еще 2-3 минуты.</li><li><strong>Охлаждение:</strong> Выловите шарики шумовкой и сразу переложите в миску с ледяной водой на 1 минуту, чтобы они стали упругими.</li><li><strong>Насаживание:</strong> Достаньте шарики, обсушите бумажным полотенцем и нанижите по 3-4 штуки на шпажку.</li><li><strong>Соус:</strong> Смешайте в маленькой кастрюльке соевый соус, сахар, мирин и воду. Доведите до кипения. Влейте разведенный крахмал и, постоянно помешивая, варите до загустения (соус станет прозрачным и блестящим).</li><li><strong>Подача:</strong> Полейте шарики соусом или обмакните их в него. Можно слегка обжарить шарики на сухой сковороде или гриле перед подачей для легкого хруста.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Классический дайфуку с анко</div><p><strong>Ингредиенты (на 8–10 шт.):</strong></p><p><em>Для теста (моти):</em></p><ul><li>100 г рисовой муки (специальная для моти — ширатамако или мотико; если нет, можно взять клейкую рисовую муку).</li><li>80–100 мл воды (количество может немного варьироваться в зависимости от муки).</li><li>2–3 ст. ложки сахара.</li><li>1–2 ст. ложки кукурузного или картофельного крахмала (для подпыла, чтобы тесто не липло).</li></ul><p><em>Для начинки (анко):</em></p><ul><li>150–200 г готовой пасты из сладкой красной фасоли анко (можно купить готовую или приготовить заранее из бобов адзуки с сахаром).</li><li>(Для ичиго дайфуку: 8–10 небольших ягод клубники и немного белого шоколада или сливочного сыра для прослойки.)</li></ul><p><strong>Приготовление:</strong></p><ol class="recipe-list"><li><strong>Подготовка начинки:</strong> Разделите анко на 8–10 равных частей (примерно по 20 г). Скатайте из каждой шарик. Уберите в холодильник, чтобы они стали плотнее. Для ичиго дайфуку: клубнику вымыть, обсушить, удалить плодоножку. При желании обмакните ягоду в растопленный белый шоколад и дайте застыть. Затем оберните клубнику слоем анко, формируя шарик.</li><li><strong>Приготовление теста моти (способ в микроволновке):</strong><ol type="a"><li>В миску, пригодную для микроволновки, насыпьте рисовую муку и сахар, перемешайте. Постепенно влейте воду, тщательно размешивая венчиком или лопаткой, чтобы не было комочков. Масса должна получиться как жидкая сметана.</li><li>Накройте миску пищевой пленкой (сделайте пару проколов для выхода пара). Поставьте в микроволновку на 1–2 минуты при мощности 600–700 Вт.</li><li>Достаньте, перемешайте влажной силиконовой лопаткой. Масса станет тягучей и полупрозрачной. Если остались мучнистые участки, накройте снова и поставьте ещё на 30–60 секунд. Тесто готово, когда оно стало однородным, эластичным и блестящим.</li></ol></li><li><strong>Вымешивание теста:</strong> Обильно присыпьте рабочую поверхность крахмалом. Выложите горячее тесто на крахмал. Обваляйте тесто в крахмале и слегка вымесите его, складывая края к центру, чтобы оно стало более гладким и эластичным. Если тесто сильно липнет к рукам, добавьте ещё крахмала. Сформируйте из теста толстую колбаску и разрежьте ножом (тоже присыпанным крахмалом) на 8–10 равных частей.</li><li><strong>Формовка дайфуку:</strong> Возьмите один кусочек теста, обваляйте в крахмале. Руками или скалкой (присыпанной) раскатайте его в тонкий кружок диаметром примерно 8–10 см (края тоньше, серединка чуть толще). На центр положите шарик начинки. Аккуратно поднимите края теста и защипните их сверху, как мешочек. Место защипа слегка прижмите, чтобы получилась ровная лепешка, или оставьте «хвостиком» вниз (обычно дайфуку кладут швом вниз). Переложите готовый дайфуку на тарелку, присыпанную крахмалом.</li><li><strong>Подача и хранение:</strong> Готовые дайфуку можно слегка стряхнуть от лишнего крахмала (кисточкой). Есть их лучше в день приготовления, пока моти мягкое. При комнатной температуре в закрытом контейнере хранятся не более дня. Перед подачей можно посыпать сахарной пудрой или какао.</li></ol><p class="note"><strong>Важные советы:</strong> Нужна именно мука из клейкого риса (обычная рисовая не подойдёт). Для подпыла используйте крахмал, а не муку. Работайте с тёплым тестом. Начинка должна быть густой, не жидкой. Для варианта с фруктами съешьте сразу, чтобы тесто не размокло.</p></div>
+                    <div class="recipe-block"><div class="recipe-title">Сакура Моти (розовые лепешки с начинкой, завернутые в лист сакуры)</div><p>Традиционная весенняя сладость. Лист сакуры придает неповторимый солоновато-цветочный вкус. Рисовая оболочка готовится двумя способами: в Токио ее делают из жидкого теста (блинчики), а в Киото — из клейкой рисовой массы (моти). Рассмотрим популярный токийский вариант.</p><p><strong>Ингредиенты (на 6 штук):</strong></p><ul><li>Для теста: 100 г муки мотиго (или клейкой рисовой муки), 100 мл воды, 2 ст. ложки сахара, 1–2 капли красного пищевого красителя (или сок свеклы, или разведенная водой клубника/малина для розового цвета).</li><li>Для начинки: 150 г пасты анко (желательно более густой, «тsubuan» — с кусочками фасоли).</li><li>Для украшения: 6 соленых листьев сакуры (продаются в японских магазинах или на маркетплейсах, их нужно вымочить).</li><li>Декор: Сахарная глазурь в виде цветочков или просто кунжут.</li></ul><p><strong>Приготовление:</strong></p><ol class="recipe-list"><li><strong>Подготовка листьев:</strong> Аккуратно отделите соленые листья сакуры друг от друга и замочите в холодной воде на 10–15 минут, чтобы убрать лишнюю соль. Затем обсушите бумажным полотенцем.</li><li><strong>Начинка:</strong> Разделите пасту анко на 6 частей (примерно по 25 г) и скатайте из каждого шарик. Уберите в холодильник.</li><li><strong>Замес и цвет:</strong> Смешайте рисовую муку с сахаром. Добавьте 100 мл воды и краситель, тщательно перемешайте до однородности без комочков. Должна получиться жидкая масса, как на тонкие блинчики.</li><li><strong>Жарка блинчиков:</strong> Разогрейте сковороду с антипригарным покрытием на среднем огне (масло не нужно, если сковорода качественная). Налейте тонкий слой теста (как на блинчик, но чуть толще) и жарьте до появления пузырьков и схватывания верхнего слоя. Переворачивать не нужно!</li><li><strong>Снятие:</strong> Готовый блинчик аккуратно снимите лопаткой на тарелку швом вниз (поджаренной стороной вверх). Повторите со всем тестом. Блинчики должны быть полупрозрачными и эластичными.</li><li><strong>Сборка:</strong> На поджаренную сторону блинчика (она будет сверху) положите шарик анко. Заверните блинчик конвертиком, защипывая края, или просто скатайте рулетиком, пряча начинку внутрь.</li><li><strong>Украшение:</strong> Оберните готовый моти листом сакуры (глянцевой стороной наружу). Лист должен немного заходить один на другой. Влажный лист прилипнет к рису сам.</li><li><strong>Подача:</strong> Положите швом вниз. Сверху можно украсить маленьким цветочком из сахарной глазури.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Другие популярные японские сладости</div><p>Если вы освоите эти три, вам будет легко понять и другие:</p><ul><li><strong>Дораяки:</strong> Два пышных медовых бисквитных блинчика, склеенных анко. Тесто делается как для таяки, но выпекается в виде кружочков на сковороде.</li><li><strong>Моти со льдом (Вафуру Моти):</strong> Шарик ванильного мороженого, обернутый в тонкий слой мягкого рисового теста моти (похож на сакура моти, но с мороженым внутри).</li><li><strong>Имо-Кантро:</strong> Сладкий десерт из батата (сладкого картофеля) и анко.</li><li><strong>Кохан-дарума (Намагаси):</strong> Более сложные сезонные сладости, лепятся вручную из пасты бобов и риса в форме цветов, фруктов или птиц.</li></ul><p class="note"><strong>Совет для начинающих:</strong> Начните с Данго. Это очень быстро, весело и ингредиенты доступнее всего. Соус митарази — это любовь с первой ложки!</p></div>
+                `;
+            }
+            // Готовка - напитки
+            else if (pageId === 'cooking' && subKey === 'drinks') {
+                html = `
+                    <h4>Напитки</h4>
+                    <div class="recipe-block"><div class="recipe-title">Зеленый чай (правильное заваривание)</div><p>Зеленый чай бывает разный, и способ заваривания сильно влияет на вкус. Главное правило: зеленый чай нельзя заливать крутым кипятком, иначе он станет горьким и потеряет аромат.</p><p><strong>А. Сенча (самый популярный японский чай)</strong></p><ul><li>Температура воды: 70–80°C. (Если нет чайника с терморегулятором, вскипятите воду, откройте крышку и дайте ей постоять 5–7 минут, чтобы остыла).</li><li>Пропорции: 1 ч. ложка заварки на 150–200 мл воды.</li><li>Заваривание: Прогрейте заварочный чайник и чашки горячей водой (сливайте её перед завариванием). Насыпьте заварку в чайник. Залейте водой нужной температуры. Настаивайте 1–1.5 минуты. Не дольше! Разливайте по чашкам, стараясь вылить весь настой до капли, чтобы чай не перестоялся в чайнике.</li></ul><p><strong>Б. Гёкуро (элитный чай, "Жемчужная роса")</strong></p><ul><li>Температура воды: 50–60°C (почти теплая).</li><li>Пропорции: 2 ч. ложки на 100 мл воды.</li><li>Заваривание: Настаивать 2 минуты. Этот чай очень нежный и сладкий.</li></ul><p><strong>В. Ходзича (жареный зеленый чай)</strong></p><ul><li>Температура воды: 100°C (крутой кипяток).</li><li>Пропорции: 1 ст. ложка на 200 мл воды.</li><li>Заваривание: Настаивать 30-40 секунд. У него ореховый вкус и он менее терпкий.</li></ul><p><strong>Г. Матча (порошковый чай)</strong></p><p>Взбейте 1–2 ч. ложки порошка матча с 70 мл воды (80°C) специальным венчиком (часэн) до образования пенки.</p></div>
+                    <div class="recipe-block"><div class="recipe-title">Сливовое вино (Умэсю)</div><p>Классическая японская настойка на зеленых сливах (умэ). Сезон для ее закладки — май-июнь, когда появляются зеленые твердые сливы.</p><p><strong>Ингредиенты:</strong></p><ul><li>Зеленые сливы (умэ): 500 г. (можно заменить на любые твердые зеленые сливы или даже алычу).</li><li>Сахар (кристаллический): 250–500 г (в зависимости от желаемой сладости). Классическое соотношение 1:1 со сливами по весу, но многие кладут меньше сахара, например, 300 г на 500 г слив).</li><li>Алкогольная основа: 900 мл – 1 литр. Идеально: Японский сетю (shochu) крепостью 20–25%. Замена: Белая прозрачная водка, зерновой самогон без запаха или белый ром (для более тропических ноток).</li><li>Вам понадобится: Большая стеклянная банка (2-3 литра) со стерильной крышкой.</li></ul><p><strong>Приготовление:</strong></p><ol class="recipe-list"><li><strong>Подготовка слив:</strong> Тщательно вымойте сливы. Обязательно удалите плодоножки острой зубочисткой (черные "хвостики" могут дать горечь). Замочите сливы в воде на 2-3 часа (или на ночь), чтобы ушла легкая горечь. Обсушите сливы полностью бумажными полотенцами. На них не должно остаться ни капли воды! (Опционально) Чтобы сливы быстрее отдали сок и аромат, можно наколоть каждую вилкой в нескольких местах. Если оставить целыми, вино будет готово дольше, но сливы останутся красивыми.</li><li><strong>Закладка в банку:</strong> Простерилизуйте банку и крышку (обдайте кипятком и высушите). На дно банки насыпьте слой сахара, затем слой слив, чередуя, пока ингредиенты не закончатся. Верхним слоем должен быть сахар.</li><li><strong>Заливка:</strong> Залейте содержимое алкоголем так, чтобы он полностью покрывал сливы и сахар.</li><li><strong>Выдержка:</strong> Закройте банку крышкой, уберите в темное прохладное место (не в холодильник). Первый месяц раз в неделю аккуратно встряхивайте банку, чтобы сахар растворился.</li><li><strong>Срок готовности:</strong> Минимально — 3 месяца. Но настоящее умэсю раскрывается через 6–12 месяцев. Чем дольше стоит, тем вкуснее.</li><li><strong>Дегустация:</strong> Через полгода можно слить настойку в бутылки, отделив от слив (хотя многие оставляют сливы внутри). Подавать охлажденным, со льдом или как аперитив.</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Ягодные настойки (домашние ликеры)</div><p>Принцип тот же, что и с умэсю, но ягоды мягче, и процесс идет быстрее.</p><p><strong>База:</strong></p><ul><li>Ягоды: 500 г (вишня, смородина (красная/черная), клюква, малина, клубника, крыжовник).</li><li>Сахар: 200–300 г (или по вкусу).</li><li>Алкоголь: 700 мл – 1 л (водка, спирт 40–50%, самогон двойной перегонки).</li></ul><p><strong>Общий принцип:</strong></p><ol class="recipe-list"><li><strong>Подготовка:</strong> Ягоды перебрать, испорченные удалить. Вымыть и обязательно полностью высушить. У вишни косточку можно оставить (она даст миндальный привкус, но если передержать больше года, может дать горечь — тогда лучше удалить).</li><li><strong>Закладка:</strong> В стерильную банку засыпать ягоды, засыпать сахаром, слегка подавить (толкушкой или просто руками, чтобы пошел сок, но не в пюре).</li><li><strong>Заливка:</strong> Залить водкой. Она должна покрыть ягоды.</li><li><strong>Выдержка:</strong> Настаивать в темном месте при комнатной температуре. Срок: Для мягких ягод (малина, клубника) минимум 1 месяц, лучше 2-3. Для плотных (вишня, клюква) — от 2 до 4 месяцев. Первые 2 недели банку встряхивают раз в 2-3 дня.</li><li><strong>Фильтрация:</strong> Готовую настойку процедить через марлю и ватный фильтр, разлить по бутылкам. Ягоды можно использовать для десертов или выбросить (они отдали всё).</li></ol><p><strong>Популярные вариации:</strong></p><ul><li><strong>Вишневка:</strong> Классика. Косточки придают вкус "амаретто".</li><li><strong>Смородиновка:</strong> Черная смородина дает очень насыщенный цвет и аромат. Требует больше сахара, так как ягода кислая.</li><li><strong>Клюковка:</strong> Терпкая, слегка кисловатая, очень полезная.</li></ul><p class="note"><strong>Совет:</strong> Японцы часто делают настойку Юдзу-сю (на цитрусовых юдзу). Принцип тот же: цедра и сок юдзу (или помело/лимона/лайма) + сахар + сетю/водка. Получается очень ароматный ликер.</p></div><p class="note"><strong>Итоговый совет по всем трем напиткам:</strong> Зеленый чай — для удовольствия здесь и сейчас, а вот вино и настойки — это инвестиция в будущее. Сделайте их сейчас, и через полгода у вас будет отличный подарок себе или друзьям.</p>
+                `;
+            }
+            // Какуши - дресс-код
+            else if (pageId === 'kakushi' && subKey === 'dresscode') {
+                html = `
+                    <h4>Дресс-код</h4>
+                    <p>Свободная форма одежды, но с уважением к окружающим — не пересекай рамки приличия.</p>
+                    <p><strong>Выбор цвета кимоно (BodyGroups):</strong></p>
+                    <ul>
+                        <li>0 - камень</li>
+                        <li>1 - пламя</li>
+                        <li>2 - насекомое</li>
+                        <li>3 - туман</li>
+                        <li>4 - гром</li>
+                        <li>5 - туман</li>
+                        <li>6 - вода</li>
+                        <li>7 - змея</li>
+                        <li>8 - любовь</li>
+                        <li>9 - ветер</li>
+                    </ul>
+                `;
+            }
+            // Какуши - система повышения
+            else if (pageId === 'kakushi' && subKey === 'promotion') {
                 html = `
                     <h4>Система повышения Какуши</h4>
-                    <div class="recipe-block">
-                        <div class="recipe-title">Мидзуното → Мидзуное</div>
-                        <ul><li>Приготовить сухпайки для отбора</li><li>Осмотреть учеников перед отбором</li></ul>
-                    </div>
-                    <div class="recipe-block">
-                        <div class="recipe-title">Мидзуное → Каното</div>
-                        <ul><li>Сшить форму истребителю</li><li>Сопроводить группу на вылазку</li></ul>
-                    </div>
+                    <div class="recipe-block"><div class="recipe-title">Мидзуното → Мидзуное</div><ol class="recipe-list"><li>Приготовить сухпайки для отбора</li><li>Осмотреть учеников перед отбором</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Мидзуное → Каното</div><ol class="recipe-list"><li>Сшить форму истребителю</li><li>Сходить с группой истребителей на вылазку, обеспечив им мед.помощь в случае чего</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Каното → Каноэ</div><ol class="recipe-list"><li>Провести полное медицинское обследование любому истребителю</li><li>Создать мед.карту любому истребителю</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Каноэ → Тсучиното</div><ol class="recipe-list"><li>Приготовить отвары и настойки</li><li>Приготовить еду любому столпу</li><li>Прослушать лекцию про яды у Шинобу Кочо/ССП</li><li>Пополнить запасы трав на складе</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Тсучиното → Тсучиноэ</div><ol class="recipe-list"><li>Ассистировать в операции</li><li>Приготовить еду любым 3 истребителям</li><li>Послушать лекцию о ПМП от Шинобу Кочо/Заместители (Мицури/Лин)/ССП/Аой</li><li>Сдать экзамен на знание ядов у Шинобу Кочо</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Тсучиноэ → Хиното</div><ol class="recipe-list"><li>Провести полное медицинское обследование столпу</li><li>Подлотать хаори любому столпу</li><li>Сдать экзамен о знаний ПМП у Шинобу Кочо/Заместителей/ССП/Аой</li><li>Прослушать лекцию про ожоги у Шинобу Кочо/Заместителей/ССП/Аой</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Хиното → Хиноэ</div><ol class="recipe-list"><li>Сшить хаори любым 5 истребителям</li><li>Сдать экзамен на знание медицинских инструментов у Шинобу Кочо/Заместителей/ССП/Аой</li><li>Прослушать лекцию про переломы у Шинобу кочо/Заместителей/ССП/Аой</li><li>Получить одобрение на повышение от Канао и Аой</li><li>Прослушать лекцию от старшего хирурга</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Хиноэ → Киното</div><ol class="recipe-list"><li>Оказать мед.помощь истребителю, который был ранен высшей луной</li><li>Создать мед.карту 3 истребителям</li><li>Пройти экзамен у старшего хирурга</li><li>Прослушать лекцию от фармацевта</li><li>Пройти экзамен у фармацевта</li></ol></div>
+                    <div class="recipe-block"><div class="recipe-title">Киното → Киноэ</div><ol class="recipe-list"><li>Пройти экзаминацию по готовке у Мицури</li><li>Провести любую операцию</li><li>Создать 10 мед.карт истребителям</li><li>Провести полный мед.осмотр всем столпам</li><li>Получить одобрение на повышение у Мицури и Столпа света</li><li>Получить одобрение на повышение от семьи Убуяшики</li></ol></div>
+                    <p class="note"><strong>Важно:</strong> Экзамены и лекции обязательны и их невозможно пропустить с помощью рекомендации.</p>
                 `;
-            } else if (page === 'gunshinrib' && subKey === 'general') {
+            }
+            // Гуншинрибу - Общее понятие
+            else if (pageId === 'gunshinrib' && subKey === 'general') {
                 html = `
-                    <h4>Отдел военно-психологической поддержки</h4>
-                    <p><strong>Гуншинрибу</strong> занимается психологической помощью истребителям.</p>
-                    <h5>Должности:</h5>
-                    <ul><li>Клинический военный психолог</li><li>Оперативный психолог</li></ul>
+                    <h4>Общее понятие</h4>
+                    <p><strong>Отдел военно-психологической поддержки "ぐんしんりぶ, Гуншинрибу"</strong></p>
+                    <p>Психология — это наука, изучающая закономерности возникновения, развития и функционирования психики, сознания и поведения человека.<br>
+                    Военно-психологическая поддержка включает экстренную помощь, реабилитацию и сопровождение истребителей и их семей, направленные на адаптацию к стрессу и повышение боеспособности.</p>
+                    
+                    <h5>Должности внутри отдела:</h5>
+                    
+                    <p><strong>Клинический военный психолог:</strong> Специализируется на работе с боевыми травмами, ПТСР и реабилитации. (Для поступления на должность требуется 2 форма допуска секретности, получаемая лично от главы отдела/Шинобу)</p>
+                    <p><em>Обязанности:</em></p>
+                    <ul>
+                        <li>Психологическая помощь истребителям после травмирующих событий, произошедших на миссии.</li>
+                        <li>Проверять учеников после прохождения финального отбора на предмет когнитивных нарушений и ПТСР.</li>
+                        <li>Дежурство на территории поместья бабочки.</li>
+                    </ul>
+                    
+                    <p><strong>Оперативный психолог:</strong> Обеспечивает психологическую поддержку непосредственно во время боевых действий или учений. (Для поступления на должность требуется 1 форма допуска секретности, получаемая лично от главы отдела/Шинобу)</p>
+                    <p><em>Обязанности:</em></p>
+                    <ul>
+                        <li>Непосредственное поддержание боевого духа во время общих событий.</li>
+                        <li>Контроль за поведением внутри коллектива.</li>
+                        <li>Направлять девиантных истребителей на обследование к клиническому военному психологу.</li>
+                        <li>Не допускать разлад внутри корпуса и помогать решать конфликтные ситуации.</li>
+                    </ul>
                 `;
-            } else {
-                html += `<p>Раздел в разработке. Здесь будет подробная информация о ${subName}.</p>`;
+            }
+            // Гуншинрибу - Дежурство
+            else if (pageId === 'gunshinrib' && subKey === 'duty') {
+                html = `
+                    <h4>Дежурство психологов</h4>
+                    <p>Дежурный психолог назначается из числа клинических военных психологов и, как исключение, из наиболее подготовленных оперативных психологов. Он отвечает за психологическое состояние других работников поместья; за обращения постояльцев; за чистоту на месте дежурства, а также за добросовестность других сотрудников отдела.<br>
+                    Во время дежурства действуют полномочия ответственного за отдел при отсутствии главы. Другие психологи обязаны выполнять поручения дежурного.</p>
+                    
+                    <h5>Обязанности:</h5>
+                    <ul>
+                        <li>Контроль состава психологов.</li>
+                        <li>Контроль психологического состояния работников поместья.</li>
+                        <li>Помощь нуждающимся в поддержке.</li>
+                        <li>Пресечение угнетения каких-либо членов организации.</li>
+                        <li>Содержание в чистоте территории несения дежурства (Поместье или отдельные выделенные зоны).</li>
+                        <li>При расквартировании отряда на территории задания также следить за состоянием истребителей.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - Виды когнитивных нарушений
+            else if (pageId === 'gunshinrib' && subKey === 'cognitive') {
+                html = `
+                    <h4>Когнитивные нарушения</h4>
+                    <p>Когнитивные нарушения — это снижение памяти, внимания, речи или мышления, классифицируемые по степени тяжести (легкие, умеренные, деменция), этиологии (первичные нейродегенеративные или вторичные сосудистые/метаболические) и характеру нарушений (амнестические или неамнестические). Ранняя диагностика критична для предотвращения прогрессирования в деменцию.</p>
+                    
+                    <h5>Классификация по степени тяжести:</h5>
+                    <ul>
+                        <li><strong>Легкие когнитивные нарушения (ЛКН):</strong> Субъективные жалобы (забывчивость, рассеянность), подтверждаемые тестами, но не влияющие на повседневную жизнь.</li>
+                        <li><strong>Умеренные когнитивные нарушения (УКН):</strong> Объективное снижение функций, заметное окружению, осложняющее выполнение сложных привычных задач (работа, быт), но без зависимости от посторонней помощи.</li>
+                        <li><strong>Тяжелые нарушения (деменция):</strong> Глубокий дефицит, требующий постоянного постороннего ухода; полная утрата самостоятельности, дезориентация.</li>
+                    </ul>
+                    
+                    <h5>Классификация по этиологии (причинам):</h5>
+                    <ul>
+                        <li><strong>Первичные:</strong> Обусловлены нейродегенеративными заболеваниями (болезнь Альцгеймера, деменция с тельцами Леви).</li>
+                        <li><strong>Вторичные:</strong> Следствие сосудистых заболеваний (инсульт, дисциркуляторная энцефалопатия), травм, дефицита витаминов (В1, В12), эндокринных нарушений (гипотиреоз), инфекций или интоксикаций.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - ПТСР
+            else if (pageId === 'gunshinrib' && subKey === 'ptsd') {
+                html = `
+                    <h4>Посттравматическое стрессовое расстройство (ПТСР)</h4>
+                    <p>ПТСР — это тяжелое психическое состояние, возникающее после переживания угрожающих жизни событий (война, насилие, катастрофы). Основные симптомы включают флешбэки (навязчивые воспоминания), ночные кошмары, избегание триггеров и высокую тревожность. ПТСР требует лечения (психотерапия, реже — медикаменты), если симптомы длятся более месяца.</p>
+                    
+                    <h5>Основные симптомы ПТСР:</h5>
+                    <ul>
+                        <li><strong>Переживание травмы:</strong> Навязчивые мысли, кошмары, флешбэки (ощущение, что событие происходит снова).</li>
+                        <li><strong>Избегание:</strong> Попытки избежать мыслей, мест, разговоров, напоминающих о травме.</li>
+                        <li><strong>Гипервозбудимость:</strong> Постоянное напряжение, раздражительность, вспышки гнева, вздрагивание от звуков (стартл-реакция).</li>
+                        <li><strong>Эмоциональные изменения:</strong> Эмоциональное оцепенение, потеря интереса к жизни, чувство вины, отстраненность.</li>
+                        <li><strong>Физические проявления:</strong> Бессонница, панические атаки, боли в теле.</li>
+                    </ul>
+                    
+                    <h5>Причины и факторы риска:</h5>
+                    <p>ПТСР развивается, если психика не справляется с экстремальным стрессом. Причинами могут быть: военные действия, физическое/сексуальное насилие, террористические акты, аварии, природные катастрофы или смерть близкого человека.</p>
+                    
+                    <h5>Виды ПТСР по времени появления:</h5>
+                    <ul>
+                        <li><strong>Острое:</strong> Симптомы длятся от 1 до 3 месяцев.</li>
+                        <li><strong>Хроническое:</strong> Симптомы наблюдаются более 3 месяцев.</li>
+                        <li><strong>Отсроченное:</strong> Симптомы появляются спустя 6 месяцев и более после события.</li>
+                        <li><strong>Комплексное (КПТСР):</strong> Развивается после длительных, повторяющихся травм, из которых трудно выбраться.</li>
+                    </ul>
+                    
+                    <h5>Диагностика и лечение:</h5>
+                    <p>Диагноз ставит врач-психиатр или психотерапевт. Самолечение опасно, так как ПТСР может привести к депрессии и зависимостям.</p>
+                    <ul>
+                        <li><strong>Психотерапия:</strong> Когнитивно-поведенческая терапия (КПТ), EMDR-терапия (десенсибилизация и переработка движением глаз).</li>
+                        <li><strong>Медикаментозное лечение:</strong> Антидепрессанты для снижения тревоги и депрессии.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - Памятка для оперативников
+            else if (pageId === 'gunshinrib' && subKey === 'operative') {
+                html = `
+                    <h4>Этика оперативного психолога</h4>
+                    <ol class="recipe-list">
+                        <li><strong>Принцип ''не навреди'':</strong> психолог действует в интересах истребителя и, принимая решения, обязательно ориентируется на этот принцип.</li>
+                        <li><strong>Принцип "соблюдения конфиденциальности":</strong> если проблема касается личной жизни истребителя или эмоционального стресса, его страхов, переживаний, связанных с выполняемой работой, то психолог не имеет права разглашать сведения третьим лицам.</li>
+                        <li><strong>Принцип уважения:</strong> запрет на проявлении в работе чувства превосходства, назидательности, директивности. Своими действиями психолог должен показывать, что он является человеком, которому истребитель доверяет и может положиться в решении определенных задач.</li>
+                        <li><strong>Принцип объективности:</strong> непредвзятое отношение, основанное на реальных данных. Психолог, анализируя полученную информацию, должен объективно оценить сложившуюся ситуацию или проблему, а затем дать ответ на поставленные ему вопросы.</li>
+                        <li><strong>Соблюдение профессиональной этики:</strong> существуют этические стандарты поведения, которые рекомендуют соблюдать осторожность в применении как положительных, так и отрицательных эмоций во взаимоотношении.</li>
+                        <li><strong>Принцип безопасности применяемых методик:</strong> психолог применяет только такие методики исследования, которые не являются опасными для здоровья испытуемого.</li>
+                        <li><strong>Принцип беспристрастности психолога:</strong> недопустимо предвзятое отношение к испытуемому, какое бы субъективное впечатление он не производил своим видом, юридическим и социальным положением.</li>
+                        <li><strong>Принцип адекватности методик:</strong> применяемые методики должны быть адекватны целям исследования, должна учитываться специфика профессиональной деятельности истребителя.</li>
+                    </ol>
+                `;
+            }
+            // Гуншинрибу - Памятка для клинических психологов
+            else if (pageId === 'gunshinrib' && subKey === 'clinical') {
+                html = `
+                    <h4>Этика клинического военного психолога</h4>
+                    <ol class="recipe-list">
+                        <li><strong>Принцип ''не навреди'':</strong> психолог действует в интересах истребителя и, принимая решения, обязательно ориентируется на этот принцип.</li>
+                        <li><strong>Принцип "соблюдения конфиденциальности":</strong> если проблема касается личной жизни истребителя или эмоционального стресса, его страхов, переживаний, связанных с выполняемой работой, то психолог не имеет права разглашать сведения третьим лицам.</li>
+                        <li><strong>Принцип уважения:</strong> запрет на проявлении в работе чувства превосходства, назидательности, директивности. Своими действиями психолог должен показывать, что он является человеком, которому истребитель доверяет и может положиться в решении определенных задач.</li>
+                        <li><strong>Принцип объективности:</strong> непредвзятое отношение, основанное на реальных данных. Психолог, анализируя полученную информацию, должен объективно оценить сложившуюся ситуацию или проблему, а затем дать ответ на поставленные ему вопросы.</li>
+                        <li><strong>Соблюдение профессиональной этики:</strong> существуют этические стандарты поведения, которые рекомендуют соблюдать осторожность в применении как положительных, так и отрицательных эмоций во взаимоотношении.</li>
+                        <li><strong>Принцип безопасности применяемых методик:</strong> психолог применяет только такие методики исследования, которые не являются опасными для здоровья испытуемого.</li>
+                        <li><strong>Принцип беспристрастности психолога:</strong> недопустимо предвзятое отношение к испытуемому, какое бы субъективное впечатление он не производил своим видом, юридическим и социальным положением.</li>
+                        <li><strong>Принцип адекватности методик:</strong> применяемые методики должны быть адекватны целям исследования, должна учитываться специфика профессиональной деятельности истребителя.</li>
+                    </ol>
+                `;
+            }
+            // Гуншинрибу - Формы допуска секретности
+            else if (pageId === 'gunshinrib' && subKey === 'security') {
+                html = `
+                    <h4>Формы допуска секретности</h4>
+                    <p>Существуют три формы допуска секретности:</p>
+                    <ul>
+                        <li><strong>1 форма допуска секретности:</strong> является стандартным доступом к документам поместья.</li>
+                        <li><strong>2 форма допуска секретности:</strong> открывает доступ к личным данным истребителей (анамнезы, документы с характеристиками, эмоциональными реакциями и психологическими процессами).</li>
+                        <li><strong>3 форма допуска секретности:</strong> открывает доступ к личным данным столпов и других важных стратегических лиц корпуса (анамнезы, документы с характеристиками, эмоциональными реакциями и психологическими процессами).</li>
+                    </ul>
+                    
+                    <h5>Ограничения и наказание за нарушение:</h5>
+                    <ul>
+                        <li><strong>1 форма:</strong> накладывает запрет на распространение информации, полученной во время беседы/работы с истребителями. Наказание: ЧС поместья (срок в зависимости от тяжести нарушения), запрет на вступление в отдел с правом на амнистию.</li>
+                        <li><strong>2 форма:</strong> накладывает запрет на распространение информации, полученной во время беседы/работы с истребителями, а также информации из документации. Наказание: ЧС поместья от 2-ух месяцев до ПЕРМ, и дальнейший запрет на вступление в отдел без права амнистии.</li>
+                        <li><strong>3 форма (Совершенно секретно):</strong> накладывает запрет на распространение информации, полученной во время беседы/работы с истребителями/столпами/иными стратегическими личностями. Полное сокрытие информации о взаимодействии с перечисленными лицами. Запрещено малейшее упоминание о наличии документации о столпах или иных важных стратегических личностях. Наказание: Суд столпов.</li>
+                    </ul>
+                `;
+            }
+            // Гуншинрибу - Осмотр учеников после отбора
+            else if (pageId === 'gunshinrib' && subKey === 'inspection') {
+                html = `
+                    <h4>Осмотр учеников после отбора</h4>
+                    <p><strong>Порядок действий при осмотре ученика:</strong></p>
+                    <ol class="recipe-list">
+                        <li>Собрать анамнез (жалобы, обращаем внимание на питание и сон).</li>
+                        <li>Внешний осмотр во время общения (прямой зрительный контакт, язык тела, тремор и т.д.).</li>
+                        <li>После определение диагноза (при его наличии), дать рекомендации (диета, привычки, упражнения), или направить ученика на медикаментозное лечение.</li>
+                    </ol>
+                    
+                    <p><strong>Как это будет происходить?</strong></p>
+                    <p>Каждого из учеников, прошедших отбор, по одному вызывают в комнату на небольшую беседу, в ходе которой мы узнаем о состоянии и проблемах индивида (все жалобы и наблюдения идут под запись).</p>
+                `;
+            }
+            // Остальные подразделы (стандартные)
+            else {
+                let description = '';
+                if (pageId === 'treatment') {
+                    if (subKey === 'poisoning') description = 'При отравлении — промыть желудок, дать абсорбенты, обратиться к медику.';
+                    else if (subKey === 'frostbite') description = 'Обмороженные участки согревать постепенно, не растирать, наложить теплоизолирующую повязку.';
+                } else if (pageId === 'lectures') {
+                    // остальные подразделы лекций уже обработаны выше
+                } else if (pageId === 'medicine') {
+                    if (subKey === 'ointments') description = 'Заживляющие мази на основе трав и масел. Ускоряют регенерацию тканей.';
+                    else if (subKey === 'tinctures') description = 'Настойки на спирту: валериана, пустырник, женьшень — для восстановления сил.';
+                    else if (subKey === 'decoctions') description = 'Отвары из кореньев и трав: противовоспалительные, жаропонижающие.';
+                    else if (subKey === 'poisons') description = 'Яды растительного и животного происхождения: используются только с разрешения столпа.';
+                } else if (pageId === 'kakushi') {
+                    if (subKey === 'atarashi') description = 'Атараши — новые члены отряда какуши, проходят обучение.';
+                }
+                html += `<p>${description}</p>`;
             }
 
             contentDiv.innerHTML = html;
         }
 
-        // Обработчики для подтабов
-        Object.keys(subpageConfigs).forEach(page => {
-            const tabsContainer = document.getElementById(subpageConfigs[page].tabs);
-            if (!tabsContainer) return;
-            
-            tabsContainer.querySelectorAll('.sub-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const parentTabs = this.parentElement;
-                    parentTabs.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+        // Обработчики подменю
+        subpageConfigs.forEach(config => {
+            const menu = document.getElementById(config.menuId);
+            if (!menu) return;
+            const items = menu.querySelectorAll('.subpage-menu-item');
+            items.forEach(item => {
+                item.addEventListener('click', function() {
+                    items.forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
-                    
-                    let pageId = '';
-                    if (parentTabs.id === 'treatment-tabs') pageId = 'treatment';
-                    else if (parentTabs.id === 'lectures-tabs') pageId = 'lectures';
-                    else if (parentTabs.id === 'cooking-tabs') pageId = 'cooking';
-                    else if (parentTabs.id === 'medicine-tabs') pageId = 'medicine';
-                    else if (parentTabs.id === 'kakushi-tabs') pageId = 'kakushi';
-                    else if (parentTabs.id === 'gunshinrib-tabs') pageId = 'gunshinrib';
-                    
-                    updateSubContent(pageId, this.dataset.sub);
+                    updateSubpageContent(config.page, this.dataset.sub);
                 });
             });
         });
 
-        // Тема
+        // Тёмная тема
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const themeText = document.getElementById('themeText');
         const body = document.body;
-
         function setTheme(theme) {
             body.setAttribute('data-theme', theme);
             themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
             themeText.textContent = theme === 'dark' ? 'Светлая' : 'Тёмная';
-            localStorage.setItem('estateTheme', theme);
+            localStorage.setItem('loveTheme', theme);
         }
-
         themeToggle.addEventListener('click', () => {
             const current = body.getAttribute('data-theme');
             setTheme(current === 'light' ? 'dark' : 'light');
         });
+        const saved = localStorage.getItem('loveTheme') || 'light';
+        setTheme(saved);
 
-        const savedTheme = localStorage.getItem('estateTheme') || 'light';
-        setTheme(savedTheme);
-
-        // Плеер
+        // ========== ПЛЕЕР ==========
         const playlist = [
-            { title: "Ado - Odo", src: "https://files.catbox.moe/y37zqr.mp3" },
-            { title: "Cherry Blossoms", src: "https://files.catbox.moe/q3suhi.mp3" }
+            {
+                title: "Ado - Odo",
+                src: "https://files.catbox.moe/y37zqr.mp3"
+            },
+            {
+                title: "Cherry Blossoms",
+                src: "https://files.catbox.moe/q3suhi.mp3"
+            }
         ];
 
-        let currentTrack = 1;
+        let currentTrackIndex = 1; // Cherry Blossoms
         const audio = document.getElementById('bgMusic');
         const playBtn = document.getElementById('playPauseBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        const trackName = document.getElementById('trackName');
+        const trackNameSpan = document.getElementById('trackName');
         const volumeSlider = document.getElementById('volumeSlider');
+
+        audio.loop = true; // зацикливание текущего трека
 
         function loadTrack(index) {
             if (index < 0) index = playlist.length - 1;
             if (index >= playlist.length) index = 0;
-            currentTrack = index;
-            audio.src = playlist[currentTrack].src;
-            trackName.textContent = playlist[currentTrack].title;
-            if (playBtn.textContent === '⏸') audio.play().catch(() => playBtn.textContent = '▶');
+            currentTrackIndex = index;
+            audio.src = playlist[currentTrackIndex].src;
+            trackNameSpan.textContent = `${playlist[currentTrackIndex].title} (${currentTrackIndex+1}/${playlist.length})`;
+            audio.load();
+            if (playBtn.textContent === '⏸') {
+                audio.play().catch(() => {
+                    playBtn.textContent = '▶';
+                });
+            }
         }
 
         loadTrack(1);
 
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
-                audio.play().then(() => playBtn.textContent = '⏸').catch(() => {});
+                audio.play().catch(() => {
+                    alert('Не удалось воспроизвести. Возможно, ссылка устарела.');
+                });
+                playBtn.textContent = '⏸';
             } else {
                 audio.pause();
                 playBtn.textContent = '▶';
             }
         });
 
-        prevBtn.addEventListener('click', () => loadTrack(currentTrack - 1));
-        nextBtn.addEventListener('click', () => loadTrack(currentTrack + 1));
-        volumeSlider.addEventListener('input', (e) => audio.volume = e.target.value);
-
-        // Инициализация
-        window.addEventListener('load', () => {
-            const hash = location.hash.substring(1);
-            if (hash && pages[hash]) switchMainPage(hash);
-            else switchMainPage('home');
+        prevBtn.addEventListener('click', () => {
+            loadTrack(currentTrackIndex - 1);
         });
 
-        window.addEventListener('popstate', (e) => {
-            if (e.state?.page) switchMainPage(e.state.page);
+        nextBtn.addEventListener('click', () => {
+            loadTrack(currentTrackIndex + 1);
+        });
+
+        audio.volume = volumeSlider.value;
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+
+        audio.addEventListener('error', () => {
+            playBtn.textContent = '▶';
+            trackNameSpan.textContent += ' (ошибка)';
         });
     </script>
 </body>
