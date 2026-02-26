@@ -27,22 +27,22 @@
         }
 
         [data-theme="dark"] {
-            --bg: #1a1527;
-            --surface: #2e2342;
-            --surface-hover: #3f3157;
-            --text-primary: #f2e9ff;
-            --text-secondary: #cbb7f0;
-            --accent: #b28aff;
-            --accent-light: #6b4f9e;
-            --accent-dark: #8f6ad3;
-            --border: #5b4a78;
+            --bg: #1f1a2b;
+            --surface: #352d47;
+            --surface-hover: #4a3f60;
+            --text-primary: #f5edff;
+            --text-secondary: #e0d0ff;
+            --accent: #d9c0ff;
+            --accent-light: #c2a8f5;
+            --accent-dark: #a78be0;
+            --border: #7e6aa3;
             --shadow: rgba(0, 0, 0, 0.7);
-            --card-bg: #2f2443;
-            --footer-bg: #1e1730;
-            --glow: rgba(178, 138, 255, 0.5);
-            --secondary-accent: #7b6bb3;
-            --secondary-light: #4a3f6b;
-            --secondary-dark: #3a2f57;
+            --card-bg: #3f3657;
+            --footer-bg: #2a233b;
+            --glow: rgba(217, 192, 255, 0.5);
+            --secondary-accent: #b7a8f0;
+            --secondary-light: #9f8cd9;
+            --secondary-dark: #8a78c2;
         }
 
         * {
@@ -313,42 +313,45 @@
             margin: 0 auto;
         }
 
-        /* ===== ПОДРАЗДЕЛЫ ===== */
-        .subpage-layout {
+        /* ===== ПОДРАЗДЕЛЫ ТЕПЕРЬ СВЕРХУ ===== */
+        .subpage-tabs {
             display: flex;
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .subpage-menu {
-            width: 200px;
-            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
             background: var(--surface);
-            border-radius: 25px;
-            padding: 15px 0;
-            box-shadow: 0 8px 20px var(--shadow);
+            padding: 15px;
+            border-radius: 50px;
             border: 1px solid var(--border);
-            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 20px var(--shadow);
         }
 
-        .subpage-menu-item {
-            padding: 12px 20px;
-            cursor: pointer;
+        .subpage-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--accent-light);
+            border-radius: 40px;
+            font-weight: 600;
             color: var(--text-secondary);
-            font-weight: 500;
+            cursor: pointer;
             transition: 0.2s;
-            border-left: 4px solid transparent;
+            white-space: nowrap;
+            font-size: 0.95rem;
         }
 
-        .subpage-menu-item:hover,
-        .subpage-menu-item.active {
+        .subpage-tab:hover {
             background: var(--surface-hover);
             color: var(--text-primary);
-            border-left-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .subpage-tab.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
         }
 
         .subpage-content {
-            flex: 1;
             background: var(--card-bg);
             border-radius: 25px;
             padding: 25px;
@@ -635,25 +638,10 @@
                 overflow-x: auto;
                 padding-bottom: 5px;
             }
-            .subpage-layout {
-                flex-direction: column;
-            }
-            .subpage-menu {
-                width: 100%;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 5px;
-                padding: 10px;
-            }
-            .subpage-menu-item {
-                padding: 8px 15px;
-                border-left: none;
-                border-bottom: 2px solid transparent;
-            }
-            .subpage-menu-item:hover,
-            .subpage-menu-item.active {
-                border-left-color: transparent;
-                border-bottom-color: var(--accent);
+            .subpage-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
             }
             .music-player:hover {
                 width: 240px;
@@ -737,17 +725,15 @@
             <div id="treatment-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Лечение</h2>
-                    <div class="subpage-layout">
-                        <div class="subpage-menu" id="treatment-menu">
-                            <div class="subpage-menu-item active" data-sub="burns">Ожоги</div>
-                            <div class="subpage-menu-item" data-sub="fractures">Переломы</div>
-                            <div class="subpage-menu-item" data-sub="wounds">Раны</div>
-                            <div class="subpage-menu-item" data-sub="poisoning">Отравление</div>
-                            <div class="subpage-menu-item" data-sub="frostbite">Обморожение</div>
-                            <div class="subpage-menu-item" data-sub="instruments">Мед. инструменты</div>
-                        </div>
-                        <div class="subpage-content" id="treatment-content"></div>
+                    <div class="subpage-tabs" id="treatment-tabs">
+                        <div class="subpage-tab active" data-sub="burns">Ожоги</div>
+                        <div class="subpage-tab" data-sub="fractures">Переломы</div>
+                        <div class="subpage-tab" data-sub="wounds">Раны</div>
+                        <div class="subpage-tab" data-sub="poisoning">Отравление</div>
+                        <div class="subpage-tab" data-sub="frostbite">Обморожение</div>
+                        <div class="subpage-tab" data-sub="instruments">Мед. инструменты</div>
                     </div>
+                    <div class="subpage-content" id="treatment-content"></div>
                 </div>
             </div>
 
@@ -755,15 +741,13 @@
             <div id="lectures-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Лекции</h2>
-                    <div class="subpage-layout">
-                        <div class="subpage-menu" id="lectures-menu">
-                            <div class="subpage-menu-item active" data-sub="firstaid">Первая мед. помощь</div>
-                            <div class="subpage-menu-item" data-sub="cpr">Сердечно-легочная реанимация</div>
-                            <div class="subpage-menu-item" data-sub="poisons">Яды</div>
-                            <div class="subpage-menu-item" data-sub="fracture_lecture">Переломы</div>
-                        </div>
-                        <div class="subpage-content" id="lectures-content"></div>
+                    <div class="subpage-tabs" id="lectures-tabs">
+                        <div class="subpage-tab active" data-sub="firstaid">Первая мед. помощь</div>
+                        <div class="subpage-tab" data-sub="cpr">Сердечно-легочная реанимация</div>
+                        <div class="subpage-tab" data-sub="poisons">Яды</div>
+                        <div class="subpage-tab" data-sub="fracture_lecture">Переломы</div>
                     </div>
+                    <div class="subpage-content" id="lectures-content"></div>
                 </div>
             </div>
 
@@ -771,16 +755,14 @@
             <div id="cooking-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Готовка</h2>
-                    <div class="subpage-layout">
-                        <div class="subpage-menu" id="cooking-menu">
-                            <div class="subpage-menu-item active" data-sub="fav">Любимые блюда столпов</div>
-                            <div class="subpage-menu-item" data-sub="snacks">Закуски и легкие блюда</div>
-                            <div class="subpage-menu-item" data-sub="soups">Супы и похлебки</div>
-                            <div class="subpage-menu-item" data-sub="sweets">Сладости</div>
-                            <div class="subpage-menu-item" data-sub="drinks">Напитки</div>
-                        </div>
-                        <div class="subpage-content" id="cooking-content"></div>
+                    <div class="subpage-tabs" id="cooking-tabs">
+                        <div class="subpage-tab active" data-sub="fav">Любимые блюда столпов</div>
+                        <div class="subpage-tab" data-sub="snacks">Закуски и легкие блюда</div>
+                        <div class="subpage-tab" data-sub="soups">Супы и похлебки</div>
+                        <div class="subpage-tab" data-sub="sweets">Сладости</div>
+                        <div class="subpage-tab" data-sub="drinks">Напитки</div>
                     </div>
+                    <div class="subpage-content" id="cooking-content"></div>
                 </div>
             </div>
 
@@ -788,15 +770,13 @@
             <div id="medicine-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Лекарства</h2>
-                    <div class="subpage-layout">
-                        <div class="subpage-menu" id="medicine-menu">
-                            <div class="subpage-menu-item active" data-sub="ointments">Мази</div>
-                            <div class="subpage-menu-item" data-sub="tinctures">Настойки</div>
-                            <div class="subpage-menu-item" data-sub="decoctions">Отвары</div>
-                            <div class="subpage-menu-item" data-sub="poisons">Яды</div>
-                        </div>
-                        <div class="subpage-content" id="medicine-content"></div>
+                    <div class="subpage-tabs" id="medicine-tabs">
+                        <div class="subpage-tab active" data-sub="ointments">Мази</div>
+                        <div class="subpage-tab" data-sub="tinctures">Настойки</div>
+                        <div class="subpage-tab" data-sub="decoctions">Отвары</div>
+                        <div class="subpage-tab" data-sub="poisons">Яды</div>
                     </div>
+                    <div class="subpage-content" id="medicine-content"></div>
                 </div>
             </div>
 
@@ -804,14 +784,12 @@
             <div id="kakushi-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Какуши</h2>
-                    <div class="subpage-layout">
-                        <div class="subpage-menu" id="kakushi-menu">
-                            <div class="subpage-menu-item active" data-sub="dresscode">Дресс-код</div>
-                            <div class="subpage-menu-item" data-sub="promotion">Система повышения</div>
-                            <div class="subpage-menu-item" data-sub="atarashi">Атараши</div>
-                        </div>
-                        <div class="subpage-content" id="kakushi-content"></div>
+                    <div class="subpage-tabs" id="kakushi-tabs">
+                        <div class="subpage-tab active" data-sub="dresscode">Дресс-код</div>
+                        <div class="subpage-tab" data-sub="promotion">Система повышения</div>
+                        <div class="subpage-tab" data-sub="atarashi">Атараши</div>
                     </div>
+                    <div class="subpage-content" id="kakushi-content"></div>
                 </div>
             </div>
 
@@ -843,19 +821,17 @@
             <div id="gunshinrib-page" class="page">
                 <div class="container">
                     <h2 class="section-title">Гуншинрибу</h2>
-                    <div class="subpage-layout">
-                        <div class="subpage-menu" id="gunshinrib-menu">
-                            <div class="subpage-menu-item active" data-sub="general">Общее понятие</div>
-                            <div class="subpage-menu-item" data-sub="duty">Дежурство</div>
-                            <div class="subpage-menu-item" data-sub="cognitive">Виды когнитивных нарушений</div>
-                            <div class="subpage-menu-item" data-sub="ptsd">Посттравматическое стрессовое расстройство</div>
-                            <div class="subpage-menu-item" data-sub="operative">Памятка для оперативников</div>
-                            <div class="subpage-menu-item" data-sub="clinical">Памятка для клинических психологов</div>
-                            <div class="subpage-menu-item" data-sub="security">Формы допуска секретности</div>
-                            <div class="subpage-menu-item" data-sub="inspection">Осмотр учеников после отбора</div>
-                        </div>
-                        <div class="subpage-content" id="gunshinrib-content"></div>
+                    <div class="subpage-tabs" id="gunshinrib-tabs">
+                        <div class="subpage-tab active" data-sub="general">Общее понятие</div>
+                        <div class="subpage-tab" data-sub="duty">Дежурство</div>
+                        <div class="subpage-tab" data-sub="cognitive">Виды когнитивных нарушений</div>
+                        <div class="subpage-tab" data-sub="ptsd">Посттравматическое стрессовое расстройство</div>
+                        <div class="subpage-tab" data-sub="operative">Памятка для оперативников</div>
+                        <div class="subpage-tab" data-sub="clinical">Памятка для клинических психологов</div>
+                        <div class="subpage-tab" data-sub="security">Формы допуска секретности</div>
+                        <div class="subpage-tab" data-sub="inspection">Осмотр учеников после отбора</div>
                     </div>
+                    <div class="subpage-content" id="gunshinrib-content"></div>
                 </div>
             </div>
         </main>
@@ -910,48 +886,48 @@
                 });
                 history.pushState({page: pageId}, '', `#${pageId}`);
 
-                // Активируем первый подраздел для страниц с подменю
+                // Активируем первый подраздел для страниц с подтабами
                 if (pageId === 'treatment') {
-                    const firstItem = document.querySelector('#treatment-menu .subpage-menu-item');
-                    if (firstItem) {
-                        document.querySelectorAll('#treatment-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
-                        firstItem.classList.add('active');
-                        updateSubpageContent('treatment', firstItem.dataset.sub);
+                    const firstTab = document.querySelector('#treatment-tabs .subpage-tab');
+                    if (firstTab) {
+                        document.querySelectorAll('#treatment-tabs .subpage-tab').forEach(t => t.classList.remove('active'));
+                        firstTab.classList.add('active');
+                        updateSubpageContent('treatment', firstTab.dataset.sub);
                     }
                 } else if (pageId === 'lectures') {
-                    const firstItem = document.querySelector('#lectures-menu .subpage-menu-item');
-                    if (firstItem) {
-                        document.querySelectorAll('#lectures-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
-                        firstItem.classList.add('active');
-                        updateSubpageContent('lectures', firstItem.dataset.sub);
+                    const firstTab = document.querySelector('#lectures-tabs .subpage-tab');
+                    if (firstTab) {
+                        document.querySelectorAll('#lectures-tabs .subpage-tab').forEach(t => t.classList.remove('active'));
+                        firstTab.classList.add('active');
+                        updateSubpageContent('lectures', firstTab.dataset.sub);
                     }
                 } else if (pageId === 'cooking') {
-                    const firstItem = document.querySelector('#cooking-menu .subpage-menu-item');
-                    if (firstItem) {
-                        document.querySelectorAll('#cooking-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
-                        firstItem.classList.add('active');
-                        updateSubpageContent('cooking', firstItem.dataset.sub);
+                    const firstTab = document.querySelector('#cooking-tabs .subpage-tab');
+                    if (firstTab) {
+                        document.querySelectorAll('#cooking-tabs .subpage-tab').forEach(t => t.classList.remove('active'));
+                        firstTab.classList.add('active');
+                        updateSubpageContent('cooking', firstTab.dataset.sub);
                     }
                 } else if (pageId === 'medicine') {
-                    const firstItem = document.querySelector('#medicine-menu .subpage-menu-item');
-                    if (firstItem) {
-                        document.querySelectorAll('#medicine-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
-                        firstItem.classList.add('active');
-                        updateSubpageContent('medicine', firstItem.dataset.sub);
+                    const firstTab = document.querySelector('#medicine-tabs .subpage-tab');
+                    if (firstTab) {
+                        document.querySelectorAll('#medicine-tabs .subpage-tab').forEach(t => t.classList.remove('active'));
+                        firstTab.classList.add('active');
+                        updateSubpageContent('medicine', firstTab.dataset.sub);
                     }
                 } else if (pageId === 'kakushi') {
-                    const firstItem = document.querySelector('#kakushi-menu .subpage-menu-item');
-                    if (firstItem) {
-                        document.querySelectorAll('#kakushi-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
-                        firstItem.classList.add('active');
-                        updateSubpageContent('kakushi', firstItem.dataset.sub);
+                    const firstTab = document.querySelector('#kakushi-tabs .subpage-tab');
+                    if (firstTab) {
+                        document.querySelectorAll('#kakushi-tabs .subpage-tab').forEach(t => t.classList.remove('active'));
+                        firstTab.classList.add('active');
+                        updateSubpageContent('kakushi', firstTab.dataset.sub);
                     }
                 } else if (pageId === 'gunshinrib') {
-                    const firstItem = document.querySelector('#gunshinrib-menu .subpage-menu-item');
-                    if (firstItem) {
-                        document.querySelectorAll('#gunshinrib-menu .subpage-menu-item').forEach(i => i.classList.remove('active'));
-                        firstItem.classList.add('active');
-                        updateSubpageContent('gunshinrib', firstItem.dataset.sub);
+                    const firstTab = document.querySelector('#gunshinrib-tabs .subpage-tab');
+                    if (firstTab) {
+                        document.querySelectorAll('#gunshinrib-tabs .subpage-tab').forEach(t => t.classList.remove('active'));
+                        firstTab.classList.add('active');
+                        updateSubpageContent('gunshinrib', firstTab.dataset.sub);
                     }
                 }
             }
@@ -975,11 +951,11 @@
             else switchPage('home');
         });
 
-        // ===== Конфигурация подстраниц =====
+        // ===== Конфигурация подстраниц (полностью сохранена) =====
         const subpageConfigs = [
             {
                 page: 'treatment',
-                menuId: 'treatment-menu',
+                tabsId: 'treatment-tabs',
                 contentId: 'treatment-content',
                 subpages: {
                     burns: 'Ожоги',
@@ -992,7 +968,7 @@
             },
             {
                 page: 'lectures',
-                menuId: 'lectures-menu',
+                tabsId: 'lectures-tabs',
                 contentId: 'lectures-content',
                 subpages: {
                     firstaid: 'Первая мед. помощь',
@@ -1003,7 +979,7 @@
             },
             {
                 page: 'cooking',
-                menuId: 'cooking-menu',
+                tabsId: 'cooking-tabs',
                 contentId: 'cooking-content',
                 subpages: {
                     fav: 'Любимые блюда столпов',
@@ -1015,7 +991,7 @@
             },
             {
                 page: 'medicine',
-                menuId: 'medicine-menu',
+                tabsId: 'medicine-tabs',
                 contentId: 'medicine-content',
                 subpages: {
                     ointments: 'Мази',
@@ -1026,7 +1002,7 @@
             },
             {
                 page: 'kakushi',
-                menuId: 'kakushi-menu',
+                tabsId: 'kakushi-tabs',
                 contentId: 'kakushi-content',
                 subpages: {
                     dresscode: 'Дресс-код',
@@ -1036,7 +1012,7 @@
             },
             {
                 page: 'gunshinrib',
-                menuId: 'gunshinrib-menu',
+                tabsId: 'gunshinrib-tabs',
                 contentId: 'gunshinrib-content',
                 subpages: {
                     general: 'Общее понятие',
@@ -1512,14 +1488,14 @@
             contentDiv.innerHTML = html;
         }
 
-        // Обработчики подменю
+        // Обработчики подтабов
         subpageConfigs.forEach(config => {
-            const menu = document.getElementById(config.menuId);
-            if (!menu) return;
-            const items = menu.querySelectorAll('.subpage-menu-item');
-            items.forEach(item => {
-                item.addEventListener('click', function() {
-                    items.forEach(i => i.classList.remove('active'));
+            const tabsContainer = document.getElementById(config.tabsId);
+            if (!tabsContainer) return;
+            const tabs = tabsContainer.querySelectorAll('.subpage-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     updateSubpageContent(config.page, this.dataset.sub);
                 });
